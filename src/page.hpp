@@ -1,11 +1,13 @@
 #pragma once
 #include <string>
+#include <vector>
+#include <memory>
 
 class Page {
   public:
     Page(int block_size);
     Page(std::shared_ptr<std::vector<char>>& byte_buffer);
-    int getInt(int offset);
+    int getInt(int offset) const;
     void setInt(int offset, int n);
     std::vector<char> getBytes(int offset);
     void setBytes(int offset, std::vector<char>& byte_buffer);
