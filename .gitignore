@@ -1,0 +1,4 @@
+filetest/*
+*.o
+*.d
+simpledb

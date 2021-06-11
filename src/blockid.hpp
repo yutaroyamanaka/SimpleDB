@@ -2,6 +2,7 @@
 
 #include <string>
 
+namespace file {
 class BlockId {
   public:
     BlockId(std::string file_name, int block_num);
@@ -14,3 +15,4 @@ class BlockId {
     std::string file_name_;
     int block_num_;
 };
+}
