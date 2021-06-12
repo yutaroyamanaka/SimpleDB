@@ -1,10 +1,9 @@
+#include <gtest/gtest.h>
 #include <blockid.hpp>
 #include <page.hpp>
 #include <filemanager.hpp>
-#include <filesystem>
-#include <iostream>
 
-int main(int argc, char** argv) {
+TEST(FileTest, WriteRead) {
   std::string file_name = "filetest";
   int block_size = 400;
   auto path = std::filesystem::current_path() / file_name;
@@ -26,9 +25,6 @@ int main(int argc, char** argv) {
   auto page2 = std::make_shared<file::Page>(file_manager.blockSize());
   file_manager.read(block_id, *page2);
 
-  std::cout << "offset " << pos2 << std::endl;
-  std::cout << " contains " << page2->getInt(pos2) << std::endl; // shoule be 345
-  std::cout << "offset " << pos1 << std::endl; 
-  std::cout << " contains " << page2->getString(pos1) << std::endl;  // shoule be abcdefghijklm
-  return 0;
+  EXPECT_EQ(345, page2->getInt(pos2));
+  EXPECT_EQ("abcdefghijklm", page2->getString(pos1));
 }

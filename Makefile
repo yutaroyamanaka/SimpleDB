@@ -1,18 +1,34 @@
-SRCS = src/*.cpp
+SRCDIR = src
+SRCS = $(wildcard ${SRCDIR}/*.cpp)
 OBJS = $(SRCS:.cpp=.o)
-CC = g++
-CFLAGS = -std=c++17 
+
+TESTDIR = test
+TESTSRCS = $(wildcard ${TESTDIR}/*.cpp)
+TESTEXE = $(TESTSRCS:.cpp=)
+TESTOBJS = $(TESTSRCS:.cpp=.o)
+
+CXX = g++
+CXXFLAGS = -std=c++17
+LDFLAGS = -lgtest -lgtest_main -pthread
 TARGET = simpledb
-DEPENDS = $(OBJS:.o=.d)
+LIBS = -L/usr/local/lib
 INCLUDES = -I./src
 
-$(TARGET): $(OBJS)
-	$(CC) -o $@ $^
+.PHONY: all
+all: $(OBJS)
 
-$(OBJS): $(SRCS)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $(SRCS)
-	mv *.o src/
+$(SRCDIR)/%.o: $(SRCDIR)/%.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
-all: clean $(OBJS) $(TARGET)
-clean:
-	-rm -f $(OBJS) $(TARGET)
+$(TESTDIR)/%.o: $(TESTDIR)/%.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+
+$(TESTEXE): $(OBJS)
+	$(CXX) $(CXXFLAGS) $(OBJS) $(TESTOBJS) $(LDFLAGS) $(LIBS) -o $@
+
+.PHONY: clean
+clean: 
+	-$(RM) $(OBJS) $(TESTOBJS) $(TESTEXE)
+
+.PHONY: test
+test: clean $(TESTOBJS) $(TESTEXE)

@@ -1,4 +1,4 @@
 filetest/*
 *.o
 *.d
-simpledb
+*_test
