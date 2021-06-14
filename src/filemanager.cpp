@@ -59,7 +59,7 @@ void FileManager::read(BlockId& block_id, Page& page) {
   }
 }
 
-BlockId FileManager::append(const std::string file_name) {
+BlockId FileManager::append(const std::string& file_name) {
   std::unique_lock<std::mutex> lock(mutex_);
   std::shared_ptr<std::fstream> fileIO = getFile(file_name);
 
@@ -77,7 +77,7 @@ BlockId FileManager::append(const std::string file_name) {
   return block_id;
 }
 
-std::shared_ptr<std::fstream> FileManager::getFile(const std::string file_name) {
+std::shared_ptr<std::fstream> FileManager::getFile(const std::string& file_name) {
   auto fileIO = std::make_shared<std::fstream>();
   std::filesystem::path path = db_directory_ / file_name;
 
@@ -104,7 +104,7 @@ std::shared_ptr<std::fstream> FileManager::getFile(const std::string file_name) 
   return fileIO;
 }
 
-int FileManager::length(const std::string file_name) {
+int FileManager::length(const std::string& file_name) {
   std::filesystem::path path = db_directory_ / file_name;
   int size;
   try {

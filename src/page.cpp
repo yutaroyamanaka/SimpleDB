@@ -41,7 +41,7 @@ std::vector<char> Page::getBytes(int offset) {
 }
 
 void Page::setBytes(int offset, std::vector<char>& byte_buffer) {
-  int len = byte_buffer.size();
+  uint32_t len = byte_buffer.size();
   if(offset + sizeof(uint32_t) + len > (*byte_buffer_).size()) {
     exit(1);
   }

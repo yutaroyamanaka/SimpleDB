@@ -1,7 +1,10 @@
 #include "blockid.hpp"
 
 namespace file {
-BlockId::BlockId(std::string file_name, int block_num) : file_name_(file_name), block_num_(block_num) {
+BlockId::BlockId() {
+}
+
+BlockId::BlockId(const std::string& file_name, int block_num) : file_name_(file_name), block_num_(block_num) {
 }
 
 std::string BlockId::fileName() {

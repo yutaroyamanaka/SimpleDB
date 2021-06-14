@@ -5,7 +5,8 @@
 namespace file {
 class BlockId {
   public:
-    BlockId(std::string file_name, int block_num);
+    BlockId();
+    BlockId(const std::string& file_name, int block_num);
     std::string fileName();
     int number();
     bool equals(BlockId& bi);
