@@ -16,6 +16,7 @@ class LogManager {
     void flush(int lsn);
     LogIterator iterator();
     int append(std::vector<char>& logrec);
+    int getLastSavedLSN() { return last_saved_lsn_; }
   private:
     file::FileManager* file_manager_;
     std::string logfile_;

@@ -6,7 +6,7 @@
 #include "logmanager.hpp"
 
 void printLogRecord(log::LogManager& log_manager, std::string msg) {
-  std::cout << msg << std::endl;
+  //std::cout << msg << std::endl;
   log::LogIterator iter = log_manager.iterator();
 
   while(iter.hasNext()) {
@@ -15,9 +15,9 @@ void printLogRecord(log::LogManager& log_manager, std::string msg) {
     std::string s = page.getString(0);
     int npos = file::Page::maxLength(s.size());
     int val = page.getInt(npos);
-    std::cout << "[" << s << ", " << val << "]" << std::endl;
+    //std::cout << "[" << s << ", " << val << "]" << std::endl;
   }
-  std::cout << std::endl;
+  //std::cout << std::endl;
 }
 
 void createRecords(log::LogManager& log_manager, int start, int end) {
@@ -30,9 +30,7 @@ void createRecords(log::LogManager& log_manager, int start, int end) {
     page.setString(0, s);
     page.setInt(npos, i+100);
     int lsn = log_manager.append(*rec);
-    std::cout << lsn << " ";
   }
-  std::cout << std::endl;
 }
 
 TEST(LogTest, WriteRead) {
@@ -45,13 +43,17 @@ TEST(LogTest, WriteRead) {
   file::FileManager file_manager(path, block_size);
 
   log::LogManager lm(&file_manager, log_file_name);
+
   createRecords(lm, 1, 35);
+  EXPECT_EQ(20, lm.getLastSavedLSN());
+
   std::string msg = "The log file now has these records:";
   printLogRecord(lm, msg);
-  std::cout << "done" << std::endl;
 
   createRecords(lm, 36, 70);
   lm.flush(65);
+  EXPECT_EQ(70, lm.getLastSavedLSN());
+
   std::string msg2 = "The log file now has these records:";
   printLogRecord(lm, msg2);
 }

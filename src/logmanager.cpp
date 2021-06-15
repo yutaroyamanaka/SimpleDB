@@ -38,7 +38,7 @@ namespace log {
     int bytesneeded = recsize + sizeof(uint32_t);
     if(boundary - bytesneeded < static_cast<int>(sizeof(uint32_t))) {
       flush();
-      current_block_ = appendNewBlock();
+      current_block_ = appendNewBlock(); // the page is dirty here
       boundary = logpage_->getInt(0);
     }
     int recpos = boundary - bytesneeded;
