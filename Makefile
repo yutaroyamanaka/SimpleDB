@@ -4,7 +4,7 @@ OBJS = $(SRCS:.cpp=.o)
 
 TESTDIR = test
 TESTSRCS = $(wildcard ${TESTDIR}/*.cpp)
-TESTEXE = $(TESTSRCS:.cpp=)
+TESTEXE = test/main_test
 TESTOBJS = $(TESTSRCS:.cpp=.o)
 
 CXX = g++
