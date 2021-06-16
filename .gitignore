@@ -2,3 +2,7 @@ filetest/*
 *.o
 *.d
 *_test
+buffertest/
+buffermanagertest/
+filetest/
+logtest/

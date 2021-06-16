@@ -3,7 +3,7 @@
 #include "page.hpp"
 #include "filemanager.hpp"
 
-TEST(FileTest, WriteRead) {
+TEST(FileTest, Main) {
   std::string file_name = "filetest";
   int block_size = 400;
   auto path = std::filesystem::current_path() / file_name;

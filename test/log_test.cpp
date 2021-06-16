@@ -33,7 +33,7 @@ void createRecords(log::LogManager& log_manager, int start, int end) {
   }
 }
 
-TEST(LogTest, WriteRead) {
+TEST(LogTest, Main) {
   std::string file_name = "logtest";
   std::string log_file_name = "simpledb.log";
 
