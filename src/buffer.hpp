@@ -19,7 +19,7 @@ class Buffer {
     void setModified(int txnum, int lsn);
     bool isPinned();
     int modifyingTx();
-    void assignToBlock(file::BlockId& block_id);
+    void assignToBlock(const file::BlockId& block_id);
     void flush();
     void pin();
     void unpin();

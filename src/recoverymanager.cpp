@@ -1,30 +1,32 @@
-#pragma once
 #include "recoverymanager.hpp"
+#include <algorithm>
+#include "transaction.hpp"
 #include "logrecord.hpp"
+#include <iostream>
 
 namespace tx {
-  RecoveryManager::RecoveryManager(Transaction* tx, int txnum, log::LogManager* lm, buffer::BufferManager* bm) : tx_(tx), txnum_(txnum), lm_(lm), bm_(bm) {
+  RecoveryManager::RecoveryManager(Transaction* trx, int txnum, log::LogManager* lm, buffer::BufferManager* bm) : tx_(trx), txnum_(txnum), lm_(lm), bm_(bm) {
     StartRecord::writeToLog(lm, txnum_);
   }
 
   void RecoveryManager::commit() {
-    bm_->flushAll();
-    int lsn = CommitRecord::writeToLog(lm, txnum_);
-    lm->flush(lsn);
+    bm_->flushAll(txnum_);
+    int lsn = CommitRecord::writeToLog(lm_, txnum_);
+    lm_->flush(lsn);
   }
   
   void RecoveryManager::rollback() {
     doRollback();
-    bm->flushAll(txnum_);
-    int lsn = RollbackRecord::writeToLog(lm, txnum_);
-    lm->flush(lsn);
+    bm_->flushAll(txnum_);
+    int lsn = RollbackRecord::writeToLog(lm_, txnum_);
+    lm_->flush(lsn);
   }
 
   void RecoveryManager::recover() {
     doRecover();
-    bm->flushAll(txnum_);
-    int lsn = CheckpointRecord::writeToLog(lm);
-    lm->flush(lsn);
+    bm_->flushAll(txnum_);
+    int lsn = CheckpointRecord::writeToLog(lm_);
+    lm_->flush(lsn);
   }
 
   int RecoveryManager::setInt(buffer::Buffer* buff, int offset, int newval) {
@@ -33,7 +35,7 @@ namespace tx {
     return SetIntRecord::writeToLog(lm_, txnum_, blk, offset, oldval);
   }
 
-  int RecoveryManager::setString(buffer::Buffer* buff, int offset, std::string newval) {
+  int RecoveryManager::setString(buffer::Buffer* buff, int offset, const std::string& newval) {
     std::string oldval = buff->contents()->getString(offset);
     file::BlockId blk = buff->block();
     return SetStringRecord::writeToLog(lm_, txnum_, blk, offset, oldval);

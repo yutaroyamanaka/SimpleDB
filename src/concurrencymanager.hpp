@@ -9,12 +9,12 @@ namespace tx {
   class ConcurrencyManager {
     public:
       ConcurrencyManager();
-      void sLock(file::BlockId& block_id);
-      void xLock(file::BlockId& block_id);
+      void sLock(const file::BlockId& block_id);
+      void xLock(const file::BlockId& block_id);
       void release();
     private:
       std::map<file::BlockId, std::string> locks_;
       static LockTable lock_table_;
-      bool hasXLock(file::BlockId& block_id);
+      bool hasXLock(const file::BlockId& block_id);
   };
 }

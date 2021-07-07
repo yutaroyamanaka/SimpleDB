@@ -23,7 +23,7 @@ namespace buffer {
     return txnum_;
   }
 
-  void Buffer::assignToBlock(file::BlockId& block_id) {
+  void Buffer::assignToBlock(const file::BlockId& block_id) {
     flush();
     block_id_ = block_id;
     file_manager_->read(block_id_, *contents_);

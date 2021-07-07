@@ -1,18 +1,20 @@
 #include "concurrencymanager.hpp"
 
 namespace tx {
+  LockTable ConcurrencyManager::lock_table_;
+
   ConcurrencyManager::ConcurrencyManager() {
 
   }
 
-  void ConcurrencyManager::sLock(file::BlockId& block_id) {
+  void ConcurrencyManager::sLock(const file::BlockId& block_id) {
     if(auto itr = locks_.find(block_id); itr == locks_.end()) {
       lock_table_.sLock(block_id);
       locks_[block_id] = "S";
     }
   }
 
-  void ConcurrencyManager::xLock(file::BlockId& block_id) {
+  void ConcurrencyManager::xLock(const file::BlockId& block_id) {
     if(!hasXLock(block_id)) {
       sLock(block_id);
       lock_table_.xLock(block_id);
@@ -21,16 +23,16 @@ namespace tx {
   }
 
   void ConcurrencyManager::release() {
-    for(auto itr = lock_table_.begin(); itr != lock_table_.end(); itr++) {
-      lock_table_.unlock(block_id);
+    for(auto& item: locks_) {
+      lock_table_.unlock(item.first);
     }
     locks_.clear();
   }
 
-  bool ConcurrencyManager::hasXLock(file::BlockId& block_id) {
+  bool ConcurrencyManager::hasXLock(const file::BlockId& block_id) {
     auto itr = locks_.find(block_id);
     if(itr == locks_.end()) return false;
     std::string lock_type = locks_[block_id];
-    return lock_type.compare("X");
+    return lock_type == "X";
   }
 }

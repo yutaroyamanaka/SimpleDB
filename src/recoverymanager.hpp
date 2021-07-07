@@ -9,9 +9,11 @@
 #include "buffer.hpp"
 
 namespace tx {
+class Transaction;
+
 class RecoveryManager {
   public:
-    BufferManager(Transaction* tx, int txnum, log::LogManager* lm, buffer::BufferManager* bm);
+    RecoveryManager(Transaction* trx, int txnum, log::LogManager* lm, buffer::BufferManager* bm);
     void commit();
     void rollback();
     void recover();

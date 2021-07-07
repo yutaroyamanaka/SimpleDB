@@ -1,19 +1,16 @@
 #include "locktable.hpp"
+#include <algorithm>
 
 namespace tx {
   LockTable::LockTable() {
   }
 
-  void LockTable::sLock(file::BlockId& block_id) {
+  void LockTable::sLock(const file::BlockId& block_id) {
     std::unique_lock<std::mutex> lock(mutex_);
-    auto now = std::chrono::system_clock::now();
-    auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>(now);
-    auto epoch = now_ms.time_since_epoch();
-    auto value = std::chrono::duration_cast<std::chrono::milliseconds>(epoch);
-    long time_stamp = value.count();
+    auto start = std::chrono::high_resolution_clock::now();
 
-    while(hasXlock(block_id) && !waitTooLong(time_stamp)) {
-      std::this_thread::sleep_for(std::chrono::milliseconds(MAX_TIME_));
+    while(hasXlock(block_id) && !waitTooLong(start)) {
+      condition_var_.wait_for(lock, std::chrono::milliseconds(MAX_TIME));
     }
 
     if(hasXlock(block_id)) {
@@ -24,26 +21,22 @@ namespace tx {
     locks_[block_id] = val + 1;
   }
 
-  void LockTable::xLock(file::BlockId& block_id) {
+  void LockTable::xLock(const file::BlockId& block_id) {
     std::unique_lock<std::mutex> lock(mutex_);
-    auto now = std::chrono::system_clock::now();
-    auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>(now);
-    auto epoch = now_ms.time_since_epoch();
-    auto value = std::chrono::duration_cast<std::chrono::milliseconds>(epoch);
-    long time_stamp = value.count();
+    auto start = std::chrono::high_resolution_clock::now();
 
-    while(hasOtherSlocks(block_id) && !waitTooLong(time_stamp)) {
-      std::this_thread::sleep_for(std::chrono::milliseconds(MAX_TIME_));
+    while(hasOtherSlocks(block_id) && !waitTooLong(start)) {
+      condition_var_.wait_for(lock, std::chrono::milliseconds(MAX_TIME));
     }
 
-    if(haxOtherSlocks(block_id)) {
+    if(hasOtherSlocks(block_id)) {
       throw std::runtime_error("new lock abort exception");
     }
 
     locks_[block_id] = -1;
   }
 
-  void LockTable::unlock(file::BlockId& block_id) {
+  void LockTable::unlock(const file::BlockId& block_id) {
     std::unique_lock<std::mutex> lock(mutex_);
     int val = getLockVal(block_id);
     if(val > 1) {
@@ -54,25 +47,22 @@ namespace tx {
     }
   }
 
-  bool LockTable::hasXlock(file::BlockId& block_id) {
+  bool LockTable::hasXlock(const file::BlockId& block_id) {
     return getLockVal(block_id) < 0;
   }
 
-  bool LockTable::hasOtherSlocks(file::BlockId& block_id) {
+  bool LockTable::hasOtherSlocks(const file::BlockId& block_id) {
     return getLockVal(block_id) > 1;
   }
 
-  bool LockTable::waitTooLong(long start_time) {
-    auto now = std::chrono::system_clock::now();
-    auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>(now);
-    auto epoch = now_ms.time_since_epoch();
-    auto value = std::chrono::duration_cast<std::chrono::milliseconds>(epoch);
-    long time_stamp = value.count();
-    return time_stamp - start_time > MAX_TIME_;
+  bool LockTable::waitTooLong(std::chrono::time_point<std::chrono::high_resolution_clock> start_time) {
+    auto end = std::chrono::high_resolution_clock::now();
+    double elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start_time).count();
+    return elapsed > MAX_TIME;
   }
 
-  int LockTable::getLockVal(file::BlockId& block_id) {
-    auto itr = locks_.find(block_id;)
+  int LockTable::getLockVal(const file::BlockId& block_id) {
+    auto itr = locks_.find(block_id);
     if(itr == locks_.end()) return 0;
     return locks_[block_id];
   }
