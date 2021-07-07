@@ -39,39 +39,27 @@ namespace buffer {
     }
   }
 
-  Buffer* BufferManager::pin(file::BlockId& block_id) {
+  Buffer* BufferManager::pin(const file::BlockId& block_id) {
     std::unique_lock<std::mutex> lock(mutex_);
-    auto now = std::chrono::system_clock::now();
-    auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>(now);
-    auto epoch = now_ms.time_since_epoch();
-    auto value = std::chrono::duration_cast<std::chrono::milliseconds>(epoch);
-    long time_stamp = value.count();
-    
-    try {
-      Buffer* buff = tryToPin(block_id);
-      while(!buff && !waitingTooLong(time_stamp)) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(MAX_TIME_));
-        buff = tryToPin(block_id);
-      }
-      if(!buff) {
-        throw std::runtime_error("buffer abort exception");
-      }
-      return buff;
-    } catch (std::exception& e) {
-      throw std::runtime_error("buffer abort exception");
+    auto start = std::chrono::high_resolution_clock::now();
+
+    Buffer* buff = tryToPin(block_id);
+    while(!buff && !waitingTooLong(start)) {
+      condition_var_.wait_for(lock, std::chrono::milliseconds(MAX_TIME));
     }
+    if(!buff) {
+      throw std::runtime_error("buffer abort exeception");
+    }
+    return buff;
   }
 
-  bool BufferManager::waitingTooLong(long start_time) {
-    auto now = std::chrono::system_clock::now();
-    auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>(now);
-    auto epoch = now_ms.time_since_epoch();
-    auto value = std::chrono::duration_cast<std::chrono::milliseconds>(epoch);
-    long time_stamp = value.count();
-    return time_stamp - start_time > MAX_TIME_;
+  bool BufferManager::waitingTooLong(std::chrono::time_point<std::chrono::high_resolution_clock> start_time) {
+    auto end = std::chrono::high_resolution_clock::now();
+    double elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start_time).count();
+    return elapsed > MAX_TIME;
   }
 
-  Buffer* BufferManager::tryToPin(file::BlockId& block_id) {
+  Buffer* BufferManager::tryToPin(const file::BlockId& block_id) {
     Buffer* buff = findExistingBuffer(block_id);
     if(!buff) {
       buff = chooseUpinnedBuffer();
@@ -87,7 +75,7 @@ namespace buffer {
     return buff;
   }
 
-  Buffer* BufferManager::findExistingBuffer(file::BlockId& block_id) {
+  Buffer* BufferManager::findExistingBuffer(const file::BlockId& block_id) {
     for(auto&& buff: buffer_pool_) {
       file::BlockId b = buff->block();
       if(!b.isNull() && b.equals(block_id)) {

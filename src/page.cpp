@@ -8,7 +8,6 @@ Page::Page(int block_size) {
 }
 
 Page::Page(std::shared_ptr<std::vector<char>>& byte_buffer) : byte_buffer_(byte_buffer) {
-
 }
 
 int Page::getInt(int offset) const {
