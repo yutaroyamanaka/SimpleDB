@@ -31,7 +31,6 @@ namespace tx {
   }
 
   CheckpointRecord::CheckpointRecord() {
-
   }
 
   int CheckpointRecord::writeToLog(log::LogManager* lm) {
@@ -111,10 +110,10 @@ namespace tx {
   }
 
   int SetIntRecord::writeToLog(log::LogManager* lm, int txnum, 
-      file::BlockId& blk, int offset, int val) {
+      file::BlockId& block_id, int offset, int val) {
     int tpos = sizeof(uint32_t);
     int fpos = tpos + sizeof(uint32_t);
-    int bpos = fpos + file::Page::maxLength(blk.fileName().size());
+    int bpos = fpos + file::Page::maxLength(block_id.fileName().size());
     int opos = bpos + sizeof(uint32_t);
     int vpos = opos + sizeof(uint32_t);
     int reclen = vpos + sizeof(uint32_t);
@@ -122,8 +121,8 @@ namespace tx {
     file::Page p(bytes);
     p.setInt(0, SETINT);
     p.setInt(tpos, txnum);
-    p.setString(fpos, blk.fileName());
-    p.setInt(bpos, blk.number());
+    p.setString(fpos, block_id.fileName());
+    p.setInt(bpos, block_id.number());
     p.setInt(opos, offset);
     p.setInt(vpos, val);
     return lm->append(*bytes);
@@ -136,7 +135,7 @@ namespace tx {
     std::string filename = p->getString(fpos);
     int bpos = fpos + file::Page::maxLength(filename.size());
     int blknum = p->getInt(bpos);
-    blk_ = file::BlockId(filename, blknum);
+    block_id_ = file::BlockId(filename, blknum);
     int opos = bpos + sizeof(uint32_t);
     offset_ = p->getInt(opos);
     int vpos = opos + sizeof(uint32_t);
@@ -144,19 +143,19 @@ namespace tx {
   }
 
   std::string SetStringRecord::toString() {
-    return "<SETSTRING" + std::to_string(txnum_) + ", "  + blk_.toString() + ", " + std::to_string(offset_) + ", " + val_ + ">";
+    return "<SETSTRING " + std::to_string(txnum_) + ", "  + block_id_.toString() + ", " + std::to_string(offset_) + ", " + val_ + ">";
   }
 
   void SetStringRecord::undo(Transaction* tx) {
-    tx->pin(blk_);
-    tx->setString(blk_, offset_, val_, false); // don't log the undo
-    tx->unpin(blk_);
+    tx->pin(block_id_);
+    tx->setString(block_id_, offset_, val_, false); // don't log the undo
+    tx->unpin(block_id_);
   }
 
-  int SetStringRecord::writeToLog(log::LogManager* lm, int txnum, file::BlockId& blk, int offset, std::string val) {
+  int SetStringRecord::writeToLog(log::LogManager* lm, int txnum, file::BlockId& block_id, int offset, std::string val) {
     int tpos = sizeof(uint32_t);
     int fpos = tpos + sizeof(uint32_t);
-    int bpos = fpos + file::Page::maxLength(blk.fileName().size());
+    int bpos = fpos + file::Page::maxLength(block_id.fileName().size());
     int opos = bpos + sizeof(uint32_t);
     int vpos = opos + sizeof(uint32_t);
     int reclen = vpos + file::Page::maxLength(val.size());
@@ -164,7 +163,8 @@ namespace tx {
     file::Page p(rec);
     p.setInt(0, SETSTRING);
     p.setInt(tpos, txnum);
-    p.setString(fpos, blk.fileName());
+    p.setString(fpos, block_id.fileName());
+    p.setInt(bpos, block_id.number());
     p.setInt(opos, offset);
     p.setString(vpos, val);
     return lm->append(*rec);

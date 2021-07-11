@@ -5,6 +5,7 @@
 #include <memory>
 #include <chrono>
 #include <thread>
+#include <iostream>
 
 namespace buffer {
   BufferManager::BufferManager(file::FileManager* file_manager, log::LogManager* log_manager, int numbuffs) {

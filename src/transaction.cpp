@@ -16,19 +16,19 @@ namespace tx {
     rm_->commit();
     cm_->release();
     my_buffers_->unpinAll();
-    std::cout << "transaction " << std::to_string(txnum_) << " commited" << std::endl;
   }
 
   void Transaction::rollback() {
     rm_->rollback();
     cm_->release();
     my_buffers_->unpinAll();
-    std::cout << "transaction " << std::to_string(txnum_) << " roll back" << std::endl;
   }
 
-  void Transaction::recover() {
+  void Transaction::recover() { 
     bm_->flushAll(txnum_);
     rm_->recover();
+    cm_->release();
+    my_buffers_->unpinAll();
   }
 
   void Transaction::pin(file::BlockId& block_id) {
@@ -78,13 +78,13 @@ namespace tx {
   }
 
   int Transaction::size(std::string filename) {
-    file::BlockId dummyblk(filename, ENF_OF_FILE);
+    file::BlockId dummyblk(filename, END_OF_FILE);
     cm_->sLock(dummyblk);
     return fm_->length(filename);
   }
 
   file::BlockId Transaction::append(std::string filename) {
-    file::BlockId dummyblk(filename, ENF_OF_FILE);
+    file::BlockId dummyblk(filename, END_OF_FILE);
     cm_->xLock(dummyblk);
     return fm_->append(filename);
   }
@@ -97,10 +97,14 @@ namespace tx {
     return bm_->available();
   }
 
+  void Transaction::forceCMClear() {
+    cm_->release();
+    my_buffers_->unpinAll();
+  }
+
   int Transaction::nextTxNumber() {
     std::unique_lock<std::mutex> lock(mutex_);
     nextTxNum_++;
-    std::cout << "new transaction: " << std::to_string(nextTxNum_) << std::endl;
     return nextTxNum_;
   }
 }

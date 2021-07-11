@@ -30,9 +30,11 @@ class Transaction {
     file::BlockId append(std::string filename);
     int blockSize();
     int availableBuffs();
+    int getTransactionNum() { return txnum_; }
+    void forceCMClear();
   private:
     static int nextTxNum_;
-    static const int ENF_OF_FILE = -1;
+    static const int END_OF_FILE = -1;
     std::unique_ptr<RecoveryManager> rm_;
     std::unique_ptr<ConcurrencyManager> cm_;
     buffer::BufferManager* bm_;
