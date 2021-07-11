@@ -38,7 +38,7 @@ void runB(file::FileManager& fm, log::LogManager& lm, buffer::BufferManager& bm)
     txB.pin(blk1);
     txB.pin(blk2);
     std::cout << "Tx B: request xlock 2" << std::endl;
-    txB.setInt(blk2, 0, 0, false);
+    txB.setInt(blk2, 0, 10, true);
     std::cout << "Tx B: receive xlock 2" << std::endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
     std::cout << "Tx B: request slock 1" << std::endl;
@@ -59,7 +59,7 @@ void runC(file::FileManager& fm, log::LogManager& lm, buffer::BufferManager& bm)
     txC.pin(blk1);
     txC.pin(blk2);
     std::cout << "Tx C: request xlock 1" << std::endl;
-    txC.setInt(blk1, 0, 0, false);
+    txC.setInt(blk1, 0, 2, true);
     std::cout << "Tx C: receive xlock 1" << std::endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
     std::cout << "Tx C: request slock 2" << std::endl;

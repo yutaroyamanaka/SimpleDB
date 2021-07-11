@@ -37,7 +37,7 @@ class StartRecord : public LogRecord {
     StartRecord(file::Page* page);
     int op() override { return START; }
     int txNumber() override { return txnum_; }
-    std::string toString() override { return "<START," + std::to_string(txnum_) + ">"; }
+    std::string toString() override { return "<START, " + std::to_string(txnum_) + ">"; }
     void undo(Transaction* trx) override { return; }
     static int writeToLog(log::LogManager* lm, int txnum);
   private:
@@ -61,7 +61,7 @@ class RollbackRecord : public LogRecord {
     RollbackRecord(file::Page* p);
     int op() override { return ROLLBACK; }
     int txNumber() override { return txnum_; }
-    std::string toString() override { return "<COMMIT, >" + std::to_string(txnum_) + ">"; }
+    std::string toString() override { return "<COMMIT, " + std::to_string(txnum_) + ">"; }
     void undo(Transaction* trx) override { return; }
     static int writeToLog(log::LogManager* lm, int txnum);
   private:
@@ -95,6 +95,6 @@ class SetStringRecord : public LogRecord {
     int txnum_;
     int offset_;
     std::string val_;
-    file::BlockId blk_;
+    file::BlockId block_id_;
 };
 }

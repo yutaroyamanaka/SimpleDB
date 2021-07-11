@@ -14,7 +14,7 @@ namespace tx {
     }
 
     if(hasXlock(block_id)) {
-      throw std::runtime_error("new lock abort exception");
+      throw std::runtime_error(" new slock abort exception");
     }
 
     int val = getLockVal(block_id);
@@ -30,7 +30,7 @@ namespace tx {
     }
 
     if(hasOtherSlocks(block_id)) {
-      throw std::runtime_error("new lock abort exception");
+      throw std::runtime_error(" new xlock abort exception");
     }
 
     locks_[block_id] = -1;
