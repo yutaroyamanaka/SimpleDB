@@ -33,7 +33,7 @@ namespace record {
   }
 
   void Schema::addAll(const Schema& sch) {
-    for(auto& fldname : sch.fields()) {
+    for(const auto& fldname : sch.fields()) {
       add(fldname, sch);
     }
   }

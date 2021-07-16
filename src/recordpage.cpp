@@ -37,15 +37,15 @@ namespace record {
     while(isValidSlot(slot)) {
       tx_->setInt(block_id_, offset(slot), EMPTY, false);
       Schema sch = layout_.schema();
-      for(auto& fldname: sch.fields()) {
+      for(const auto& fldname: sch.fields()) {
         int fldpos = offset(slot) + layout_.offset(fldname);
         if(sch.type(fldname) == Schema::INTEGER) {
           tx_->setInt(block_id_, fldpos, 0, false);
         } else {
           tx_->setString(block_id_, fldpos, "", false);
         }
-        slot++;
       }
+      slot++;
     }
   }
 

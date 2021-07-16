@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include <string>
-//#include <random>
 #include "blockid.hpp"
 #include "filemanager.hpp"
 #include "logmanager.hpp"
@@ -39,16 +38,15 @@ TEST(RecordTest, Main) {
   rp.format();
   std::cout << "Filling the page with random records." << std::endl;
   int slot = rp.insertAfter(-1);
-  //std::random_device rnd;
-  //std::mt19937 gen(rnd());
-  //std::uniform_real_distribution<double> d(0, 1);
 
+  int i = 0;
   while(slot >= 0) {
-    int n = 3;
+    int n = 23 + i;
     rp.setInt(slot, "A", n);
-    rp.setString(slot, "B", "rec" + n);
+    rp.setString(slot, "B", "rec" + std::to_string(n));
     std::cout << "inserting into slot " << slot << ": {" << n << ", rec" << n << "}" << std::endl;
     slot = rp.insertAfter(slot);
+    i++;
   }
 
   std::cout << "Deleted these records with A-values < 25." << std::endl;

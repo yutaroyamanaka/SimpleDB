@@ -10,9 +10,10 @@ namespace record {
       Layout();
       Layout(const Schema& schema);
       Layout(const Schema& schema, std::map<std::string, int>& offsets, int slotsize);
-      Schema schema();
+      Layout &operator=(const Layout& layout);
+      Schema schema() const;
       int offset(const std::string& fldname);
-      int slotSize();
+      int slotSize() const;
     private:
       Schema schema_;
       std::map<std::string, int> offsets_;

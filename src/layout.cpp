@@ -8,8 +8,8 @@ namespace record {
   }
 
   Layout::Layout(const Schema& schema) : schema_(schema) {
-    int pos = sizeof(uint32_t);
-    for(auto& fldname: schema_.fields()) {
+    int pos = static_cast<int>(sizeof(uint32_t));
+    for(const auto& fldname: schema_.fields()) {
       offsets_[fldname] = pos;
       pos += lengthInBytes(fldname);
     }
@@ -20,15 +20,27 @@ namespace record {
 
   }
 
-  Schema Layout::schema() {
+  Layout &Layout::operator=(const Layout& layout) {
+    if(this != &layout) {
+      schema_ = layout.schema_;
+      offsets_ = layout.offsets_;
+      slotsize_ = layout.slotsize_;
+    }
+    return *this;
+  }
+
+  Schema Layout::schema() const {
     return schema_;
   }
 
   int Layout::offset(const std::string& fldname) {
+    if(offsets_.find(fldname) == offsets_.end()) {
+      throw std::runtime_error("filed name" + fldname + " not found");
+    }
     return offsets_[fldname];
   }
 
-  int Layout::slotSize() {
+  int Layout::slotSize() const {
     return slotsize_;
   }
 
@@ -36,8 +48,10 @@ namespace record {
     int fldtype = schema_.type(fldname);
     if(fldtype == Schema::INTEGER) {
       return static_cast<int>(sizeof(uint32_t));
-    } else {
+    } else if(fldtype == Schema::VARCHAR){
       return file::Page::maxLength(schema_.length(fldname));
     }
+
+    throw std::runtime_error("filed type not defined");
   }
 }
