@@ -31,27 +31,27 @@ namespace tx {
     my_buffers_->unpinAll();
   }
 
-  void Transaction::pin(file::BlockId& block_id) {
+  void Transaction::pin(const file::BlockId& block_id) {
     my_buffers_->pin(block_id);
   }
 
-  void Transaction::unpin(file::BlockId& block_id) {
+  void Transaction::unpin(const file::BlockId& block_id) {
     my_buffers_->unpin(block_id);
   }
 
-  int Transaction::getInt(file::BlockId& block_id, int offset) {
+  int Transaction::getInt(const file::BlockId& block_id, int offset) {
     cm_->sLock(block_id);
     buffer::Buffer* buff = my_buffers_->getBuffer(block_id);
     return buff->contents()->getInt(offset);
   }
 
-  std::string Transaction::getString(file::BlockId& block_id, int offset) {
+  std::string Transaction::getString(const file::BlockId& block_id, int offset) {
     cm_->sLock(block_id);
     buffer::Buffer* buff = my_buffers_->getBuffer(block_id);
     return buff->contents()->getString(offset);
   }
 
-  void Transaction::setInt(file::BlockId& block_id, int offset,
+  void Transaction::setInt(const file::BlockId& block_id, int offset,
       int val, bool okToLog) {
     cm_->xLock(block_id);
     buffer::Buffer* buff = my_buffers_->getBuffer(block_id);
@@ -65,7 +65,7 @@ namespace tx {
     buff->setModified(txnum_, lsn);
   }
 
-  void Transaction::setString(file::BlockId& block_id, int offset, std::string val, bool okToLog) {
+  void Transaction::setString(const file::BlockId& block_id, int offset, const std::string& val, bool okToLog) {
     cm_->xLock(block_id);
     buffer::Buffer* buff = my_buffers_->getBuffer(block_id);
     int lsn = -1;
@@ -77,13 +77,13 @@ namespace tx {
     buff->setModified(txnum_, lsn);
   }
 
-  int Transaction::size(std::string filename) {
+  int Transaction::size(const std::string& filename) {
     file::BlockId dummyblk(filename, END_OF_FILE);
     cm_->sLock(dummyblk);
     return fm_->length(filename);
   }
 
-  file::BlockId Transaction::append(std::string filename) {
+  file::BlockId Transaction::append(const std::string& filename) {
     file::BlockId dummyblk(filename, END_OF_FILE);
     cm_->xLock(dummyblk);
     return fm_->append(filename);

@@ -18,16 +18,16 @@ class Transaction {
     void commit();
     void rollback();
     void recover();
-    void pin(file::BlockId& block_id);
-    void unpin(file::BlockId& block_id);
-    int getInt(file::BlockId& block_id, int offset);
-    std::string getString(file::BlockId& block_id, int offset);
-    void setInt(file::BlockId& block_id, int offset, int val,
+    void pin(const file::BlockId& block_id);
+    void unpin(const file::BlockId& block_id);
+    int getInt(const file::BlockId& block_id, int offset);
+    std::string getString(const file::BlockId& block_id, int offset);
+    void setInt(const file::BlockId& block_id, int offset, int val,
         bool okToLog);
-    void setString(file::BlockId& block_id, int offset,
-        std::string val, bool okToLog);
-    int size(std::string filename);
-    file::BlockId append(std::string filename);
+    void setString(const file::BlockId& block_id, int offset,
+        const std::string& val, bool okToLog);
+    int size(const std::string& filename);
+    file::BlockId append(const std::string& filename);
     int blockSize();
     int availableBuffs();
     int getTransactionNum() { return txnum_; }
