@@ -5,17 +5,17 @@ namespace tx {
 
   }
 
-  buffer::Buffer* BufferList::getBuffer(file::BlockId& block_id) {
+  buffer::Buffer* BufferList::getBuffer(const file::BlockId& block_id) {
     return buffers_[block_id];
   }
 
-  void BufferList::pin(file::BlockId& block_id) {
+  void BufferList::pin(const file::BlockId& block_id) {
     buffer::Buffer* buff = bm_->pin(block_id);
     buffers_[block_id] = buff;
     pins_.emplace_back(block_id);
   }
 
-  void BufferList::unpin(file::BlockId& block_id) {
+  void BufferList::unpin(const file::BlockId& block_id) {
     buffer::Buffer* buff = buffers_[block_id];
     bm_->unpin(buff);
 

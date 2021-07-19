@@ -10,8 +10,8 @@ namespace record {
   class RecordPage {
     public:
       RecordPage(tx::Transaction* transaction, const file::BlockId& block_id, const Layout& layout);
-      int getInt(int slot, const std::string& fldname);
-      std::string getString(int slot, const std::string& fldname);
+      int getInt(int slot, const std::string& fldname) const;
+      std::string getString(int slot, const std::string& fldname) const;
       void setInt(int slot, const std::string& fldname, int val);
       void setString(int slot, const std::string& fldname, const std::string& val);
       void remove(int slot);
@@ -27,7 +27,7 @@ namespace record {
 
       void setFlag(int slot, int flag);
       int searchAfter(int slot, int flag);
-      bool isValidSlot(int slot);
-      int offset(int slot);
+      bool isValidSlot(int slot) const;
+      int offset(int slot) const;
   };
 }

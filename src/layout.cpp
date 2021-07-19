@@ -33,11 +33,11 @@ namespace record {
     return schema_;
   }
 
-  int Layout::offset(const std::string& fldname) {
+  int Layout::offset(const std::string& fldname) const {
     if(offsets_.find(fldname) == offsets_.end()) {
       throw std::runtime_error("filed name" + fldname + " not found");
     }
-    return offsets_[fldname];
+    return offsets_.at(fldname);
   }
 
   int Layout::slotSize() const {

@@ -12,7 +12,7 @@ namespace record {
       Layout(const Schema& schema, std::map<std::string, int>& offsets, int slotsize);
       Layout &operator=(const Layout& layout);
       Schema schema() const;
-      int offset(const std::string& fldname);
+      int offset(const std::string& fldname) const;
       int slotSize() const;
     private:
       Schema schema_;

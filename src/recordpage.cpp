@@ -8,12 +8,12 @@ namespace record {
     tx_->pin(block_id_);
   }
 
-  int RecordPage::getInt(int slot, const std::string& fldname) {
+  int RecordPage::getInt(int slot, const std::string& fldname) const {
     int fldpos = offset(slot) + layout_.offset(fldname);
     return tx_->getInt(block_id_, fldpos);
   }
 
-  std::string RecordPage::getString(int slot, const std::string& fldname) {
+  std::string RecordPage::getString(int slot, const std::string& fldname) const {
     int fldpos = offset(slot) + layout_.offset(fldname);
     return tx_->getString(block_id_, fldpos);
   }
@@ -80,11 +80,11 @@ namespace record {
     return -1;
   }
 
-  bool RecordPage::isValidSlot(int slot) {
+  bool RecordPage::isValidSlot(int slot) const {
     return offset(slot+1) <= tx_->blockSize();
   }
 
-  int RecordPage::offset(int slot) {
+  int RecordPage::offset(int slot) const {
     return slot * layout_.slotSize();
   }
 }
