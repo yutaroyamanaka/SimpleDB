@@ -70,10 +70,10 @@ namespace meta {
     record::Schema sch;
     sch.addIntField("block");
     sch.addIntField("id");
-    if(layout_.schema().type(fldname_) == record::Schema::INTEGER) {
+    if(schema_.type(fldname_) == record::Schema::INTEGER) {
       sch.addIntField("dataval");
     } else {
-      int fldlen = layout_.schema().length(fldname_);
+      int fldlen = schema_.length(fldname_);
       sch.addStringField("dataval", fldlen);
     }
     record::Layout layout(sch);

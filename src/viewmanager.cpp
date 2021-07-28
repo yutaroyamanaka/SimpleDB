@@ -13,6 +13,7 @@ namespace meta {
   void ViewManager::createView(const std::string& vname, const std::string& vdef, tx::Transaction* transaction) {
     record::Layout layout = table_manager_->getLayout("viewcat", transaction);
     record::TableScan ts(transaction, "viewcat", layout);
+    ts.insert();
     ts.setString("viewname", vname);
     ts.setString("viewdef", vdef);
     ts.close();
