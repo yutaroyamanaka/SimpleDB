@@ -2,7 +2,7 @@
 #include "layout.hpp"
 
 namespace record {
-  TableScan::TableScan() {
+  TableScan::~TableScan() {
 
   }
 
@@ -43,6 +43,14 @@ namespace record {
     return record_page_->getString(current_slot_, fldname);
   }
 
+  scan::Constant TableScan::getVal(const std::string& fldname) {
+    if(layout_.schema().type(fldname) == Schema::INTEGER) {
+      return scan::Constant(getInt(fldname));
+    } else {
+      return scan::Constant(getString(fldname));
+    }
+  }
+
   bool TableScan::hasField(const std::string& fldname) {
     return layout_.schema().hasField(fldname);
   }
@@ -53,6 +61,14 @@ namespace record {
 
   void TableScan::setString(const std::string& fldname, const std::string& val) {
     record_page_->setString(current_slot_, fldname, val);
+  }
+
+  void TableScan::setVal(const std::string& fldname, const scan::Constant& val) {
+    if(layout_.schema().type(fldname) == Schema::INTEGER) {
+      setInt(fldname, val.asInt());
+    } else {
+      setString(fldname, val.asString());
+    }
   }
 
   void TableScan::insert() {

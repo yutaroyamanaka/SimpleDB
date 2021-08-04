@@ -13,7 +13,7 @@
 namespace tx {
 class LogRecord {
   public:
-    virtual ~LogRecord();
+    virtual ~LogRecord() = default;
     virtual int op() = 0;
     virtual int txNumber() = 0;
     virtual std::string toString() = 0;

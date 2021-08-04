@@ -4,10 +4,6 @@
 #include <iostream>
 
 namespace tx {
-  LogRecord::~LogRecord() {
-
-  }
-
   std::unique_ptr<LogRecord> LogRecord::createLogRecord(const std::vector<char>& bytes) {
     auto share_bytes = std::make_shared<std::vector<char>>(bytes);
     file::Page p(share_bytes);
