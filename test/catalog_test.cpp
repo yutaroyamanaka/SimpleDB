@@ -43,14 +43,14 @@ TEST(CatalogTest, Main) {
 
   std::cout << "All fields and their offsets:" << std::endl;
   layout = tm.getLayout("fldcat", &tx);
-  ts = record::TableScan(&tx, "fldcat", layout);
+  record::TableScan ts2(&tx, "fldcat", layout);
 
-  while(ts.next()) {
-    std::string tname = ts.getString("tblname");
-    std::string fname = ts.getString("fldname");
-    int offset = ts.getInt("offset");
+  while(ts2.next()) {
+    std::string tname = ts2.getString("tblname");
+    std::string fname = ts2.getString("fldname");
+    int offset = ts2.getInt("offset");
     std::cout << tname << " " << fname << " " << offset << std::endl;
   }
-  ts.close();
+  ts2.close();
   tx.commit();
 }

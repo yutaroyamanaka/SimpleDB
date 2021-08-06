@@ -7,7 +7,7 @@ namespace meta {
   }
 
   StatInfo StatManager::getStatInfo(const std::string& tblname, const record::Layout& layout, tx::Transaction* transaction) {
-    std::unique_lock<std::mutex> lock(mutex_);
+    std::unique_lock<std::recursive_mutex> lock(mutex_);
     num_calls_++;
     if(num_calls_ > 100) {
       refreshStatistics(transaction);
@@ -25,12 +25,13 @@ namespace meta {
   }
 
   void StatManager::refreshStatistics(tx::Transaction* transaction) {
-    std::unique_lock<std::mutex> lock(mutex_);
+    std::unique_lock<std::recursive_mutex> lock(mutex_);
     table_stats_.clear();
     record::Layout tcatlayout = table_manager_->getLayout("tblcat", transaction);
     record::TableScan tcat(transaction, "tblcat", tcatlayout);
     while(tcat.next()) {
       std::string tblname = tcat.getString("tblname");
+      std::cout << tblname << std::endl;
       record::Layout layout = table_manager_->getLayout(tblname, transaction);
       StatInfo si = calcTableStats(tblname, layout, transaction);
       table_stats_[tblname] = si;
@@ -39,6 +40,7 @@ namespace meta {
   }
 
   StatInfo StatManager::calcTableStats(const std::string& tblname, const record::Layout& layout, tx::Transaction* transaction) {
+    std::unique_lock<std::recursive_mutex> lock(mutex_);
     int num_recs = 0;
     int num_blocks = 0;
     record::TableScan ts(transaction, tblname, layout);
