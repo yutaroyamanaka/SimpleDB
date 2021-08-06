@@ -2,9 +2,7 @@
 
 namespace scan {
   bool operator==(const Constant& lhs, const Constant& rhs) {
-    if(!lhs.ival_ || !rhs.ival_) return false;
-    if(!lhs.sval_ || !rhs.sval_) return false;
-    return (*(lhs.ival_) == *(rhs.ival_) && *(lhs.sval_) == *(rhs.sval_));
+    return lhs.ival_ ? *(lhs.ival_) == *(rhs.ival_) : *(lhs.sval_) == *(rhs.sval_); 
   }
 
   bool operator!=(const Constant& lhs, const Constant& rhs) {
@@ -12,19 +10,19 @@ namespace scan {
   }
 
   bool operator<(const Constant& lhs, const Constant& rhs) {
-    return (*(lhs.ival_) < *(rhs.ival_));
+    return lhs.ival_ ? *(lhs.ival_) < *(rhs.ival_) : *(lhs.sval_) < *(rhs.sval_);
   }
 
   bool operator>(const Constant& lhs, const Constant& rhs) {
-    return (*(lhs.ival_) > *(rhs.ival_));
+    return lhs.ival_ ? *(lhs.ival_) > *(rhs.ival_) : *(lhs.sval_) > *(rhs.sval_);
   }
 
   bool operator<=(const Constant& lhs, const Constant& rhs) {
-    return (*(lhs.ival_) <= *(rhs.ival_));
+    return !(lhs > rhs);
   }
 
   bool operator>=(const Constant& lhs, const Constant& rhs) {
-    return (*(lhs.ival_) >= *(rhs.ival_));
+    return !(lhs < rhs);
   }
 
   Constant::Constant() {

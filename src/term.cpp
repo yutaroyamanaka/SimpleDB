@@ -12,7 +12,7 @@ namespace scan {
   bool Term::isSatisfied(Scan* s) const {
     Constant lhsval = lhs_.evaluate(s);
     Constant rhsval = rhs_.evaluate(s);
-    return rhsval == rhsval;
+    return lhsval == rhsval;
   }
 
   bool Term::appliesTo(const record::Schema& sch) const {

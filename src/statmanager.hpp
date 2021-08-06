@@ -27,6 +27,6 @@ namespace meta {
       TableManager* table_manager_;
       std::map<std::string, StatInfo> table_stats_;
       int num_calls_;
-      std::mutex mutex_;
+      std::recursive_mutex mutex_;
   };
 }

@@ -1,4 +1,5 @@
 #include "metadatamanager.hpp"
+#include <iostream>
 
 namespace meta {
   std::unique_ptr<TableManager> MetaDataManager::table_manager_;
