@@ -1,0 +1,93 @@
+#include "lexer.hpp"
+
+namespace parse {
+  Lexer::Lexer() {
+
+  }
+
+  Lexer::Lexer(const std::string& s) {
+    initKeywords();
+    char delimiter = '.';
+    tokenizer_ = std::make_unique<StreamTokenizer>(s, delimiter);
+  }
+
+  bool Lexer::matchDelm(const char* d) const {
+    return d == tokenizer_->ttype();
+  }
+
+  bool Lexer::matchIntConstant() const {
+    return tokenizer_->ttype() == StreamTokenizer::TT_NUMBER;
+  }
+
+  bool Lexer::matchStringConstant() const {
+    return "\'" == tokenizer_->ttype();
+  }
+
+  bool Lexer::matchKeyword(const std::string& w) const {
+    return tokenizer_->ttype() == StreamTokenizer::TT_WORD &&
+      tokenizer_->sval() == w;
+  }
+
+  bool Lexer::matchId() const {
+    if(tokenizer_->ttype() != StreamTokenizer::TT_WORD) return false;
+    auto itr = std::find(keywords_.begin(), keywords_.end(), tokenizer_->sval());
+    return itr != keywords_.end();
+  }
+
+  void Lexer::eatDelim(const char& d) {
+    if(!matchDelm(&d)) throw std::runtime_error("bad syntax exception");
+    nextToken();
+  }
+
+  int Lexer::eatIntConstant() const {
+    if(!matchIntConstant()) throw std::runtime_error("bad syntax exception");
+    int i = tokenizer_->nval();
+    nextToken();
+    return i;
+  }
+
+  std::string Lexer::eatStringConstant() const {
+    if(!matchStringConstant()) throw std::runtime_error("bad syntax exception");
+    std::string s = tokenizer_->sval();
+    nextToken();
+    return s;
+  }
+
+  void Lexer::eatKeyword(const std::string& w) {
+    if(!matchKeyword(w)) throw std::runtime_error("bad syntax exception");
+    nextToken();
+  }
+
+  std::string Lexer::eatId() const {
+    if(!matchId()) throw std::runtime_error("bad syntax exception");
+    std::string s = tokenizer_->sval();
+    nextToken();
+    return s;
+  }
+
+  void Lexer::nextToken() const {
+    tokenizer_->nextToken();
+  }
+
+  void Lexer::initKeywords() {
+    keywords_ = std::vector<std::string>{
+      "select",
+      "from",
+      "where",
+      "and",
+      "insert",
+      "values",
+      "delete",
+      "update",
+      "set",
+      "create",
+      "table",
+      "varchar",
+      "int",
+      "view",
+      "as",
+      "index",
+      "on"
+    };
+  }
+}
