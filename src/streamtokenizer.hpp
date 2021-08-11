@@ -10,7 +10,7 @@ namespace parse {
   class StreamTokenizer {
     public:
       StreamTokenizer();
-      StreamTokenizer(const std::string& s, const char& delimiter);
+      StreamTokenizer(const std::string& s);
       std::string ttype() const;
       double nval() const;
       std::string sval() const;
@@ -19,6 +19,7 @@ namespace parse {
       static const std::string TT_EOF;
       static const std::string TT_WORD;
       static const std::string TT_NUMBER;
+      static const char QUOTATION;
    private:
       std::unique_ptr<tokenizer> tokenizer_;
       tokenizer::iterator itr_;

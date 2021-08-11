@@ -7,8 +7,7 @@ namespace parse {
 
   Lexer::Lexer(const std::string& s) {
     initKeywords();
-    char delimiter = '.';
-    tokenizer_ = std::make_unique<StreamTokenizer>(s, delimiter);
+    tokenizer_ = std::make_unique<StreamTokenizer>(s);
   }
 
   bool Lexer::matchDelm(const char* d) const {
@@ -20,7 +19,7 @@ namespace parse {
   }
 
   bool Lexer::matchStringConstant() const {
-    return "\'" == tokenizer_->ttype();
+    return StreamTokenizer::QUOTATION == tokenizer_->ttype()[0];
   }
 
   bool Lexer::matchKeyword(const std::string& w) const {
