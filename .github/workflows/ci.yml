@@ -18,14 +18,5 @@ jobs:
       run: sudo apt update && sudo apt install -yq libboost-dev
     - name: gtest
       run: git clone https://github.com/google/googletest.git && cd googletest && mkdir build && cd build && sudo cmake .. && sudo make install
-    - name: make test
-      run: make test
-  test:
-    runs-on: ubuntu-latest
-    env:
-      CC: gcc-9
-      CXX: g++-9
-    steps:
-    - uses: actions/checkout@v2
     - name: test run
-      run: ./test/main_test
+      run: make test && ./test/main_test
