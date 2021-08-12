@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "indexmanager.hpp"
 
 namespace meta {

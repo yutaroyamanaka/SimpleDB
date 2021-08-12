@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "layout.hpp"
 #include "schema.hpp"
 #include "page.hpp"

@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "tablemanager.hpp"
 #include "tablescan.hpp"
 #include "schema.hpp"

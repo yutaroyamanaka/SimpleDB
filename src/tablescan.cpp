@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "tablescan.hpp"
 #include "layout.hpp"
 

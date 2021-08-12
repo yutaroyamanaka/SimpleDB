@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "statmanager.hpp"
 
 namespace meta {

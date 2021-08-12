@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "logrecord.hpp"
 #include "page.hpp"
 #include <memory.h>
