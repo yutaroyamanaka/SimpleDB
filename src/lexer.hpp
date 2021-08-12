@@ -9,7 +9,7 @@ namespace parse {
     public:
       Lexer();
       Lexer(const std::string& s);
-      bool matchDelm(const char* d) const;
+      bool matchDelm(const char& d) const;
       bool matchIntConstant() const;
       bool matchStringConstant() const;
       bool matchKeyword(const std::string& w) const;
