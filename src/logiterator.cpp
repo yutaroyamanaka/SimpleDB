@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "logmanager.hpp"
 #include "logiterator.hpp"
 #include <memory>

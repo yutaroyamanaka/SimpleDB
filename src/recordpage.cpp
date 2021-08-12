@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "recordpage.hpp"
 #include "transaction.hpp"
 #include "schema.hpp"

@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "buffer.hpp"
 #include "filemanager.hpp"
 #include "logmanager.hpp"

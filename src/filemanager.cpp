@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "filemanager.hpp"
 #include <fstream>
 #include <filesystem>

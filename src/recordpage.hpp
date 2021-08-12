@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #pragma once
 #include "transaction.hpp"
 #include "blockid.hpp"

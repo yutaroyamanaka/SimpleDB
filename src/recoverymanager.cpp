@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "recoverymanager.hpp"
 #include <algorithm>
 #include "transaction.hpp"

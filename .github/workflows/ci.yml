@@ -1,0 +1,22 @@
+name: C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      CC: gcc-9
+      CXX: g++-9
+    steps:
+    - uses: actions/checkout@v2
+    - name: boost
+      run: sudo apt update && sudo apt install -yq libboost-dev
+    - name: gtest
+      run: git clone https://github.com/google/googletest.git && cd googletest && mkdir build && cd build && sudo cmake .. && sudo make install
+    - name: test run
+      run: make test && ./test/main_test
