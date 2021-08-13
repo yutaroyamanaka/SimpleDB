@@ -2,14 +2,14 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include <string>
-#include "blockid.hpp"
-#include "filemanager.hpp"
-#include "logmanager.hpp"
-#include "buffermanager.hpp"
-#include "transaction.hpp"
-#include "recordpage.hpp"
-#include "schema.hpp"
-#include "layout.hpp"
+#include "file/blockid.hpp"
+#include "file/filemanager.hpp"
+#include "log/logmanager.hpp"
+#include "buffer/buffermanager.hpp"
+#include "tx/transaction.hpp"
+#include "record/recordpage.hpp"
+#include "record/schema.hpp"
+#include "record/layout.hpp"
 
 TEST(RecordTest, Main) {
   std::string file_name = "recordtest";

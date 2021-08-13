@@ -2,12 +2,12 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include <vector>
-#include "blockid.hpp"
-#include "page.hpp"
-#include "filemanager.hpp"
-#include "logmanager.hpp"
-#include "buffer.hpp"
-#include "buffermanager.hpp"
+#include "file/blockid.hpp"
+#include "file/page.hpp"
+#include "file/filemanager.hpp"
+#include "log/logmanager.hpp"
+#include "buffer/buffer.hpp"
+#include "buffer/buffermanager.hpp"
 
 TEST(BufferManagerTest, Main) {
   std::string file_name = "buffermanagertest";

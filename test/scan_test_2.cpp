@@ -3,18 +3,18 @@
 #include <iostream>
 #include <memory>
 #include <string>
-#include "transaction.hpp"
-#include "schema.hpp"
-#include "layout.hpp"
-#include "tablescan.hpp"
-#include "simpledb.hpp"
-#include "projectscan.hpp"
-#include "productscan.hpp"
-#include "selectscan.hpp"
+#include "tx/transaction.hpp"
+#include "record/schema.hpp"
+#include "record/layout.hpp"
+#include "record/tablescan.hpp"
+#include "app/simpledb.hpp"
+#include "scan/projectscan.hpp"
+#include "scan/productscan.hpp"
+#include "scan/selectscan.hpp"
 
 TEST(ScanTest2, Main) {
   std::string file_name = "scantest2";
-  simpledb::SimpleDB db(file_name, 400, 8);
+  app::SimpleDB db(file_name, 400, 8);
   auto transaction = db.getNewTx();
 
   record::Schema sch1;

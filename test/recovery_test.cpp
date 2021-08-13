@@ -3,12 +3,12 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
-#include "blockid.hpp"
-#include "page.hpp"
-#include "filemanager.hpp"
-#include "logmanager.hpp"
-#include "buffermanager.hpp"
-#include "transaction.hpp"
+#include "file/blockid.hpp"
+#include "file/page.hpp"
+#include "file/filemanager.hpp"
+#include "log/logmanager.hpp"
+#include "buffer/buffermanager.hpp"
+#include "tx/transaction.hpp"
 
 TEST(RecoveryTest, Main) {
   std::string file_name = "recoverytest";

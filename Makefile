@@ -1,5 +1,5 @@
 SRCDIR = src
-SRCS = $(wildcard ${SRCDIR}/*.cpp)
+SRCS = $(wildcard ${SRCDIR}/*/*.cpp)
 OBJS = $(SRCS:.cpp=.o)
 
 TESTDIR = test
