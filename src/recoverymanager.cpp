@@ -1,9 +1,5 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #include "recoverymanager.hpp"
-#include <algorithm>
-#include "transaction.hpp"
-#include "logrecord.hpp"
-#include <iostream>
 
 namespace tx {
   RecoveryManager::RecoveryManager(Transaction* trx, int txnum, log::LogManager* lm, buffer::BufferManager* bm) : tx_(trx), txnum_(txnum), lm_(lm), bm_(bm) {
@@ -15,7 +11,7 @@ namespace tx {
     int lsn = CommitRecord::writeToLog(lm_, txnum_);
     lm_->flush(lsn);
   }
-  
+
   void RecoveryManager::rollback() {
     doRollback();
     bm_->flushAll(txnum_);
@@ -44,11 +40,11 @@ namespace tx {
 
   void RecoveryManager::doRollback() {
     auto iter = lm_->iterator();
-    while(iter.hasNext()) {
+    while (iter.hasNext()) {
       auto bytes = iter.next();
       auto rec = LogRecord::createLogRecord(bytes);
-      if(rec->txNumber() == txnum_) {
-        if(rec->op() == LogRecord::START) return;
+      if (rec->txNumber() == txnum_) {
+        if (rec->op() == LogRecord::START) return;
         rec->undo(tx_);
       }
     }
@@ -57,17 +53,17 @@ namespace tx {
   void RecoveryManager::doRecover() {
     std::vector<int> finishd_txs;
     auto iter = lm_->iterator();
-    while(iter.hasNext()) {
+    while (iter.hasNext()) {
       auto bytes = iter.next();
       auto rec = LogRecord::createLogRecord(bytes);
-      if(rec->op() == LogRecord::CHECKPOINT) {
+      if (rec->op() == LogRecord::CHECKPOINT) {
         return;
       }
-      if(rec->op() == LogRecord::COMMIT || rec->op() == LogRecord::ROLLBACK) {
+      if (rec->op() == LogRecord::COMMIT || rec->op() == LogRecord::ROLLBACK) {
         finishd_txs.emplace_back(rec->txNumber());
-      } else if(std::find(finishd_txs.begin(), finishd_txs.end(), rec->txNumber()) == finishd_txs.end())  {
+      } else if (std::find(finishd_txs.begin(), finishd_txs.end(), rec->txNumber()) == finishd_txs.end())  {
         rec->undo(tx_);
       }
     }
   }
-}
+}  // namespace tx

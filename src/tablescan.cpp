@@ -4,12 +4,11 @@
 
 namespace record {
   TableScan::~TableScan() {
-
   }
 
   TableScan::TableScan(tx::Transaction* transaction, const std::string& tblname, const Layout& layout) : tx_(transaction), layout_(layout) {
     filename_ = tblname + ".tbl";
-    if(tx_->size(filename_) == 0) {
+    if (tx_->size(filename_) == 0) {
       moveToNewBlock();
     } else {
       moveToBlock(0);
@@ -17,7 +16,7 @@ namespace record {
   }
 
   void TableScan::close() {
-    if(record_page_) {
+    if (record_page_) {
       tx_->unpin(record_page_->block());
     }
   }
@@ -28,8 +27,8 @@ namespace record {
 
   bool TableScan::next() {
     current_slot_ = record_page_->nextAfter(current_slot_);
-    while(current_slot_ < 0) {
-      if(atLastBlock()) return false;
+    while (current_slot_ < 0) {
+      if (atLastBlock()) return false;
       moveToBlock(record_page_->block().number() + 1);
       current_slot_ = record_page_->nextAfter(current_slot_);
     }
@@ -45,7 +44,7 @@ namespace record {
   }
 
   scan::Constant TableScan::getVal(const std::string& fldname) {
-    if(layout_.schema().type(fldname) == Schema::INTEGER) {
+    if (layout_.schema().type(fldname) == Schema::INTEGER) {
       return scan::Constant(getInt(fldname));
     } else {
       return scan::Constant(getString(fldname));
@@ -65,7 +64,7 @@ namespace record {
   }
 
   void TableScan::setVal(const std::string& fldname, const scan::Constant& val) {
-    if(layout_.schema().type(fldname) == Schema::INTEGER) {
+    if (layout_.schema().type(fldname) == Schema::INTEGER) {
       setInt(fldname, val.asInt());
     } else {
       setString(fldname, val.asString());
@@ -74,8 +73,8 @@ namespace record {
 
   void TableScan::insert() {
     current_slot_ = record_page_->insertAfter(current_slot_);
-    while(current_slot_ < 0) {
-      if(atLastBlock()) {
+    while (current_slot_ < 0) {
+      if (atLastBlock()) {
         moveToNewBlock();
       } else {
         moveToBlock(record_page_->block().number()+1);
@@ -118,4 +117,4 @@ namespace record {
   bool TableScan::atLastBlock() {
     return record_page_->block().number() == tx_->size(filename_) - 1;
   }
-}
+}  // namespace record

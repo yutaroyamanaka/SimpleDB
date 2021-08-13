@@ -6,23 +6,23 @@
 #include "filemanager.hpp"
 #include "logmanager.hpp"
 
-void printLogRecord(log::LogManager& log_manager, std::string msg) {
-  //std::cout << msg << std::endl;
+void printLogRecord(log::LogManager& log_manager, std::string& msg) {
+  //  std::cout << msg << std::endl;
   log::LogIterator iter = log_manager.iterator();
 
-  while(iter.hasNext()) {
+  while (iter.hasNext()) {
     auto rec = std::make_shared<std::vector<char>>(iter.next());
     file::Page page(rec);
     std::string s = page.getString(0);
     int npos = file::Page::maxLength(s.size());
     int val = page.getInt(npos);
-    //std::cout << "[" << s << ", " << val << "]" << std::endl;
+    //  std::cout << "[" << s << ", " << val << "]" << std::endl;
   }
-  //std::cout << std::endl;
+  //  std::cout << std::endl;
 }
 
 void createRecords(log::LogManager& log_manager, int start, int end) {
-  for(int i = start; i <= end; i++) {
+  for (int i = start; i <= end; i++) {
     std::string s = "record" + std::to_string(i);
 
     int npos = file::Page::maxLength(s.size());

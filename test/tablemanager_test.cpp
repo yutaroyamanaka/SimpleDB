@@ -37,9 +37,9 @@ TEST(TableManagerTest, Main) {
 
   std::cout << "MyTable has slot size " << size << std::endl;
   std::cout << "Its fields are:" << std::endl;
-  for(const auto& fldname: sch2.fields()) {
+  for (const auto& fldname : sch2.fields()) {
     std::string type;
-    if(sch2.type(fldname) == record::Schema::INTEGER) {
+    if (sch2.type(fldname) == record::Schema::INTEGER) {
       type = "int";
     } else {
       int strlen = sch2.length(fldname);

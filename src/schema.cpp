@@ -7,7 +7,7 @@ namespace record {
   }
 
   Schema& Schema::operator=(const Schema& schema) {
-    if(this != &schema) {
+    if (this != &schema) {
       fields_ = schema.fields_;
       info_ = schema.info_;
     }
@@ -34,7 +34,7 @@ namespace record {
   }
 
   void Schema::addAll(const Schema& sch) {
-    for(const auto& fldname : sch.fields()) {
+    for (const auto& fldname : sch.fields()) {
       add(fldname, sch);
     }
   }
@@ -48,7 +48,7 @@ namespace record {
   }
 
   int Schema::type(const std::string& fldname) const {
-    if(info_.find(fldname) == info_.end()) {
+    if (info_.find(fldname) == info_.end()) {
       throw std::runtime_error("filed " + fldname + " not found");
     }
 
@@ -57,7 +57,7 @@ namespace record {
   }
 
   int Schema::length(const std::string& fldname) const {
-    if(info_.find(fldname) == info_.end()) {
+    if (info_.find(fldname) == info_.end()) {
       throw std::runtime_error("filed " + fldname + " not found");
     }
     int length = info_.at(fldname).length();
@@ -65,7 +65,6 @@ namespace record {
   }
 
   Schema::FieldInfo::FieldInfo(int type, int length): type_(type), length_(length) {
-
   }
 
   int Schema::FieldInfo::type() const {
@@ -75,4 +74,4 @@ namespace record {
   int Schema::FieldInfo::length() const {
     return length_;
   }
-}
+}  // namespace record

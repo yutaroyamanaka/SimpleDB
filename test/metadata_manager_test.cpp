@@ -27,11 +27,11 @@ TEST(MetadataManagerTest, Main) {
   std::cout << "MyTable has slot size " << size << std::endl;
   std::cout << "Its fields are:" << std::endl;
 
-  for(auto& fldname: sch2.fields()) {
+  for (auto& fldname : sch2.fields()) {
     std::string type;
-    if(sch2.type(fldname) == record::Schema::INTEGER) {
+    if (sch2.type(fldname) == record::Schema::INTEGER) {
       type = "int";
-    } else if(sch2.type(fldname) == record::Schema::VARCHAR) {
+    } else if (sch2.type(fldname) == record::Schema::VARCHAR) {
       int strlen = sch2.length(fldname);
       type = "varchar(" + std::to_string(strlen) + ")";
     }
@@ -41,7 +41,7 @@ TEST(MetadataManagerTest, Main) {
   // Part 2: Statistics Metadata
   record::TableScan ts(transaction.get(), "MyTable", layout);
 
-  for(int i = 0; i < 50; i++) {
+  for (int i = 0; i < 50; i++) {
     ts.insert();
     int n = i;
     ts.setInt("A", n);
@@ -49,10 +49,10 @@ TEST(MetadataManagerTest, Main) {
   }
 
   meta::StatInfo si = mdm.getStatInfo("MyTable", layout, transaction.get());
-  std::cout << "B(MyTable) = " << si.blocksAccessed() << std::endl; 
-  std::cout << "R(MyTable) = " << si.recordOutput() << std::endl; 
-  std::cout << "V(MyTable, A) = " << si.distinctValues("A") << std::endl; 
-  std::cout << "V(MyTable, B) = " << si.distinctValues("B") << std::endl; 
+  std::cout << "B(MyTable) = " << si.blocksAccessed() << std::endl;
+  std::cout << "R(MyTable) = " << si.recordOutput() << std::endl;
+  std::cout << "V(MyTable, A) = " << si.distinctValues("A") << std::endl;
+  std::cout << "V(MyTable, B) = " << si.distinctValues("B") << std::endl;
 
   // Part 3: View Metadata
   std::string viewdef = "select B from MyTable where A = 1";
@@ -77,5 +77,4 @@ TEST(MetadataManagerTest, Main) {
   std::cout << "V(indexB, A) = " << ii.distinctValues("B") << std::endl;
   std::cout << "V(indexB, B) = " << ii.distinctValues("B") << std::endl;
   transaction->commit();
- 
 }

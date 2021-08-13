@@ -45,7 +45,7 @@ TEST(BufferManagerTest, Main) {
     std::cout << "Attempting to pin block 3..." << std::endl;
     buff[5] = buffer_manager.pin(block_id3);
   } catch (std::exception& e) {
-    std::cout << "Exception: No Available buffers" << std::endl; 
+    std::cout << "Exception: No Available buffers" << std::endl;
   }
 
   buffer_manager.unpin(buff[2]);

@@ -3,11 +3,9 @@
 
 namespace scan {
   Term::Term() {
-
   }
 
   Term::Term(const Expression& lhs, const Expression& rhs) : lhs_(lhs), rhs_(rhs) {
-
   }
 
   bool Term::isSatisfied(Scan* s) const {
@@ -27,9 +25,9 @@ namespace scan {
   }
 
   Constant Term::equatesWithConstant(const std::string& fldname) const {
-    if(lhs_.isFieldName() && lhs_.asFieldName() == fldname && !rhs_.isFieldName()) {
+    if (lhs_.isFieldName() && lhs_.asFieldName() == fldname && !rhs_.isFieldName()) {
       return rhs_.asConstant();
-    } else if(rhs_.isFieldName() && rhs_.asFieldName() == fldname && !lhs_.isFieldName()) {
+    } else if (rhs_.isFieldName() && rhs_.asFieldName() == fldname && !lhs_.isFieldName()) {
       return lhs_.asConstant();
     } else {
       Constant c;
@@ -38,9 +36,9 @@ namespace scan {
   }
 
   std::string Term::equatesWithField(const std::string& fldname) const {
-    if(lhs_.isFieldName() && lhs_.asFieldName() == fldname && rhs_.isFieldName()) {
+    if (lhs_.isFieldName() && lhs_.asFieldName() == fldname && rhs_.isFieldName()) {
       return rhs_.asFieldName();
-    } else if(rhs_.isFieldName() && rhs_.asFieldName() == fldname && lhs_.isFieldName()) {
+    } else if (rhs_.isFieldName() && rhs_.asFieldName() == fldname && lhs_.isFieldName()) {
       return lhs_.asFieldName();
     } else {
       return "";
@@ -50,4 +48,4 @@ namespace scan {
   std::string Term::toString() const {
     return lhs_.toString() + "=" + rhs_.toString();
   }
-}
+}  // namespace scan

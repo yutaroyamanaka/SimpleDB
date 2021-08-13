@@ -7,16 +7,23 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     env:
       CC: gcc-9
       CXX: g++-9
     steps:
     - uses: actions/checkout@v2
-    - name: boost
+    - name: boost library install
       run: sudo apt update && sudo apt install -yq libboost-dev
-    - name: gtest
+    - name: gtest install
       run: git clone https://github.com/google/googletest.git && cd googletest && mkdir build && cd build && sudo cmake .. && sudo make install
     - name: test run
       run: make test && ./test/main_test
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+      - run: pip install cpplint
+      - run: cpplint --linelength=160 --recursive --extensions=cpp ./src

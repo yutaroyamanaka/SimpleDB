@@ -42,4 +42,4 @@ namespace meta {
   StatInfo MetaDataManager::getStatInfo(const std::string& tblname, const record::Layout& layout, tx::Transaction* transaction) {
     return stat_manager_->getStatInfo(tblname, layout, transaction);
   }
-}
+}  // namespace meta

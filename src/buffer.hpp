@@ -13,7 +13,7 @@
 
 namespace buffer {
 class Buffer {
-  public:
+ public:
     Buffer(file::FileManager* file_manager, log::LogManager* log_manager);
     file::Page* contents() { return contents_.get(); }
     file::BlockId block() { return block_id_; }
@@ -24,7 +24,7 @@ class Buffer {
     void flush();
     void pin();
     void unpin();
-  private:
+ private:
     file::FileManager* file_manager_;
     log::LogManager* log_manager_;
     std::unique_ptr<file::Page> contents_;
@@ -33,4 +33,4 @@ class Buffer {
     int txnum_ = -1;
     int lsn_ = -1;
 };
-}
+}  // namespace buffer

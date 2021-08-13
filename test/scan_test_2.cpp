@@ -22,11 +22,10 @@ TEST(ScanTest2, Main) {
   sch1.addStringField("B", 9);
   record::Layout layout1(sch1);
   auto s1 = std::static_pointer_cast<scan::UpdateScan>(
-      std::make_shared<record::TableScan>(transaction.get(), "T1", layout1)
-      );
+      std::make_shared<record::TableScan>(transaction.get(), "T1", layout1));
   s1->beforeFirst();
 
-  for(int i = 0; i < 100; i++) {
+  for (int i = 0; i < 100; i++) {
     s1->insert();
     int n = i;
     s1->setInt("A", n);
@@ -39,11 +38,10 @@ TEST(ScanTest2, Main) {
   sch2.addStringField("D", 9);
   record::Layout layout2(sch2);
   auto s2 = std::static_pointer_cast<scan::UpdateScan>(
-      std::make_shared<record::TableScan>(transaction.get(), "T2", layout2)
-      );
+      std::make_shared<record::TableScan>(transaction.get(), "T2", layout2));
   s2->beforeFirst();
 
-  for(int i = 0; i < 100; i++) {
+  for (int i = 0; i < 100; i++) {
     s2->insert();
     int n = i;
     s2->setInt("C", 100 - n - 1);
@@ -52,28 +50,23 @@ TEST(ScanTest2, Main) {
   s2->close();
 
   auto s3 = std::static_pointer_cast<scan::Scan>(
-      std::make_shared<record::TableScan>(transaction.get(), "T1", layout1)
-      );
+      std::make_shared<record::TableScan>(transaction.get(), "T1", layout1));
   auto s4 = std::static_pointer_cast<scan::Scan>(
-      std::make_shared<record::TableScan>(transaction.get(), "T2", layout2)
-      );
+      std::make_shared<record::TableScan>(transaction.get(), "T2", layout2));
   auto s5 = std::static_pointer_cast<scan::Scan>(
-      std::make_shared<scan::ProductScan>(s3, s4)
-      );
+      std::make_shared<scan::ProductScan>(s3, s4));
 
   scan::Term t(scan::Expression("A"), scan::Expression("C"));
   scan::Predicate pred(t);
   std::cout <<"The predicate is " << pred.toString() << std::endl;
 
   auto s6 = std::static_pointer_cast<scan::Scan>(
-      std::make_shared<scan::SelectScan>(s5, pred)
-      );
+      std::make_shared<scan::SelectScan>(s5, pred));
 
   std::vector<std::string> c = {"B", "D"};
   auto s7 = std::static_pointer_cast<scan::Scan>(
-      std::make_shared<scan::ProjectScan>(s6, c)
-      );
-  while(s7->next()) {
+      std::make_shared<scan::ProjectScan>(s6, c));
+  while (s7->next()) {
     std::cout << s7->getString("B") << " " << s7->getString("D") << std::endl;
   }
   s7->close();

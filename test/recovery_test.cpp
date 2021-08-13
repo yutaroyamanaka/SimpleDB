@@ -29,7 +29,7 @@ TEST(RecoveryTest, Main) {
   tx1.pin(block_id0);
   tx2.pin(block_id1);
   int pos = 0;
-  for(int i = 0; i < 6; i++) {
+  for (int i = 0; i < 6; i++) {
       tx1.setInt(block_id0, pos, pos, true);
       tx2.setInt(block_id1, pos, pos, true);
       pos += static_cast<int>(sizeof(uint32_t));
@@ -45,7 +45,7 @@ TEST(RecoveryTest, Main) {
   tx4.pin(block_id1);
 
   pos = 0;
-  for(int i = 0; i < 6; i++) {
+  for (int i = 0; i < 6; i++) {
     int v1 = tx3.getInt(block_id0, pos);
     int v2 = tx4.getInt(block_id1, pos);
     EXPECT_EQ(pos, v1);
@@ -72,7 +72,7 @@ TEST(RecoveryTest, Main) {
   tx6.pin(block_id1);
   pos = 0;
 
-  for(int i = 0; i < 6; i++) {
+  for (int i = 0; i < 6; i++) {
     int v1 = tx6.getInt(block_id1, pos);
     EXPECT_EQ(pos, v1);
     pos += static_cast<int>(sizeof(uint32_t));

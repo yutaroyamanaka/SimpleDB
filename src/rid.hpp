@@ -3,16 +3,16 @@
 #include <string>
 
 namespace record {
-  class RID {
+class RID {
     friend bool operator==(const RID& lhs, const RID& rhs);
-    public:
-      RID(int blknum, int slot);
-      int blockNumber() const;
-      int slot() const;
-      bool equals(const RID& rid) const;
-      std::string toString() const;
-    private:
-      int blknum_;
-      int slot_;
-  };
-}
+ public:
+    RID(int blknum, int slot);
+    int blockNumber() const;
+    int slot() const;
+    bool equals(const RID& rid) const;
+    std::string toString() const;
+ private:
+    int blknum_;
+    int slot_;
+};
+}  // namespace record
