@@ -3,7 +3,7 @@
 
 namespace scan {
   bool operator==(const Constant& lhs, const Constant& rhs) {
-    return lhs.ival_ ? *(lhs.ival_) == *(rhs.ival_) : *(lhs.sval_) == *(rhs.sval_); 
+    return lhs.ival_ ? *(lhs.ival_) == *(rhs.ival_) : *(lhs.sval_) == *(rhs.sval_);
   }
 
   bool operator!=(const Constant& lhs, const Constant& rhs) {
@@ -27,14 +27,13 @@ namespace scan {
   }
 
   Constant::Constant() {
-
   }
 
   Constant::Constant(const Constant& val) {
-    if(val.ival_) {
+    if (val.ival_) {
       ival_ = std::make_unique<int>(*(val.ival_));
     }
-    if(val.sval_) {
+    if (val.sval_) {
       sval_ = std::make_unique<std::string>(*(val.sval_));
     }
   }
@@ -48,11 +47,11 @@ namespace scan {
   }
 
   Constant &Constant::operator=(const Constant& val) {
-    if(this != &val) {
-      if(val.ival_) {
+    if (this != &val) {
+      if (val.ival_) {
         ival_ = std::make_unique<int>(*(val.ival_));
       }
-      if(val.sval_) {
+      if (val.sval_) {
         sval_ = std::make_unique<std::string>(*(val.sval_));
       }
     }
@@ -76,7 +75,7 @@ namespace scan {
   }
 
   bool Constant::isNull() const {
-    if(ival_ || sval_) return false;
+    if (ival_ || sval_) return false;
     return true;
   }
-}
+}  // namespace scan

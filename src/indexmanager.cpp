@@ -2,8 +2,9 @@
 #include "indexmanager.hpp"
 
 namespace meta {
-  IndexManager::IndexManager(bool isNew, TableManager* table_manager, StatManager* stat_manager, tx::Transaction* transaction) : table_manager_(table_manager), stat_manager_(stat_manager) {
-    if(isNew) {
+  IndexManager::IndexManager(bool isNew, TableManager* table_manager, StatManager* stat_manager, tx::Transaction* transaction)
+    : table_manager_(table_manager), stat_manager_(stat_manager) {
+    if (isNew) {
       record::Schema sch;
       sch.addStringField("indexname", TableManager::MAX_NAME);
       sch.addStringField("tablename", TableManager::MAX_NAME);
@@ -26,8 +27,8 @@ namespace meta {
   std::map<std::string, IndexInfo> IndexManager::getIndexInfo(const std::string& tblname, tx::Transaction* transaction) {
     std::map<std::string, IndexInfo> result;
     record::TableScan ts(transaction, "idxcat", layout_);
-    while(ts.next()) {
-      if(ts.getString("tablename") == tblname) {
+    while (ts.next()) {
+      if (ts.getString("tablename") == tblname) {
         std::string idxname = ts.getString("indexname");
         std::string fldname = ts.getString("fieldname");
         record::Layout tbllayout = table_manager_->getLayout(tblname, transaction);
@@ -41,10 +42,10 @@ namespace meta {
   }
 
   IndexInfo::IndexInfo() {
-
   }
 
-  IndexInfo::IndexInfo(const std::string& idxname, const std::string& fldname, const record::Schema& schema, tx::Transaction* transaction, const StatInfo& si) : idxname_(idxname), fldname_(fldname), transaction_(transaction), schema_(schema), si_(si) {
+  IndexInfo::IndexInfo(const std::string& idxname, const std::string& fldname, const record::Schema& schema, tx::Transaction* transaction, const StatInfo& si)
+    : idxname_(idxname), fldname_(fldname), transaction_(transaction), schema_(schema), si_(si) {
     layout_ = createIdxLayout();
   }
 
@@ -71,7 +72,7 @@ namespace meta {
     record::Schema sch;
     sch.addIntField("block");
     sch.addIntField("id");
-    if(schema_.type(fldname_) == record::Schema::INTEGER) {
+    if (schema_.type(fldname_) == record::Schema::INTEGER) {
       sch.addIntField("dataval");
     } else {
       int fldlen = schema_.length(fldname_);
@@ -80,4 +81,4 @@ namespace meta {
     record::Layout layout(sch);
     return layout;
   }
-}
+}  // namespace meta

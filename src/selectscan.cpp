@@ -3,7 +3,6 @@
 
 namespace scan {
   SelectScan::SelectScan(std::shared_ptr<Scan>& s, const Predicate& pred) : s_(s), pred_(pred) {
-
   }
 
   void SelectScan::beforeFirst() {
@@ -11,8 +10,8 @@ namespace scan {
   }
 
   bool SelectScan::next() {
-    while(s_->next()) {
-      if(pred_.isSatisfied(s_.get())) return true;
+    while (s_->next()) {
+      if (pred_.isSatisfied(s_.get())) return true;
     }
     return false;
   }
@@ -39,7 +38,7 @@ namespace scan {
 
   void SelectScan::setInt(const std::string& fldname, int val) {
     std::shared_ptr<UpdateScan> us = std::dynamic_pointer_cast<UpdateScan>(s_);
-    if(us) {
+    if (us) {
       us->setInt(fldname, val);
     } else {
       throw std::runtime_error("class cast exception");
@@ -48,7 +47,7 @@ namespace scan {
 
   void SelectScan::setString(const std::string& fldname, const std::string& val) {
     std::shared_ptr<UpdateScan> us = std::dynamic_pointer_cast<UpdateScan>(s_);
-    if(us) {
+    if (us) {
       us->setString(fldname, val);
     } else {
       throw std::runtime_error("class cast exception");
@@ -57,7 +56,7 @@ namespace scan {
 
   void SelectScan::setVal(const std::string& fldname, const Constant& val) {
     std::shared_ptr<UpdateScan> us = std::dynamic_pointer_cast<UpdateScan>(s_);
-    if(us) {
+    if (us) {
       us->setVal(fldname, val);
     } else {
       throw std::runtime_error("class cast exception");
@@ -66,7 +65,7 @@ namespace scan {
 
   void SelectScan::remove() {
     std::shared_ptr<UpdateScan> us = std::dynamic_pointer_cast<UpdateScan>(s_);
-    if(us) {
+    if (us) {
       us->remove();
     } else {
       throw std::runtime_error("class cast exception");
@@ -75,7 +74,7 @@ namespace scan {
 
   void SelectScan::insert() {
     std::shared_ptr<UpdateScan> us = std::dynamic_pointer_cast<UpdateScan>(s_);
-    if(us) {
+    if (us) {
       us->insert();
     } else {
       throw std::runtime_error("class cast exception");
@@ -84,7 +83,7 @@ namespace scan {
 
   record::RID SelectScan::getRid() {
     std::shared_ptr<UpdateScan> us = std::dynamic_pointer_cast<UpdateScan>(s_);
-    if(us) {
+    if (us) {
       return us->getRid();
     } else {
       throw std::runtime_error("class cast exception");
@@ -93,10 +92,10 @@ namespace scan {
 
   void SelectScan::moveToRid(const record::RID& rid) {
     std::shared_ptr<UpdateScan> us = std::dynamic_pointer_cast<UpdateScan>(s_);
-    if(us) {
+    if (us) {
       return us->moveToRid(rid);
     } else {
       throw std::runtime_error("class cast exception");
     }
   }
-}
+}  // namespace scan

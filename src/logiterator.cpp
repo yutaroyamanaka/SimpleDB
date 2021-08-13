@@ -1,7 +1,6 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #include "logmanager.hpp"
 #include "logiterator.hpp"
-#include <memory>
 
 namespace log {
   LogIterator::LogIterator(file::FileManager* file_manager, file::BlockId& block_id) : file_manager_(file_manager), block_id_(block_id) {
@@ -15,7 +14,7 @@ namespace log {
   }
 
   std::vector<char> LogIterator::next() {
-    if(current_pos_ == file_manager_->blockSize()) {
+    if (current_pos_ == file_manager_->blockSize()) {
       block_id_ = file::BlockId(block_id_.fileName(), block_id_.number() - 1);
       moveToBlock(block_id_);
     }
@@ -30,4 +29,4 @@ namespace log {
     boundary = page_->getInt(0);
     current_pos_ = boundary;
   }
-}
+}  // namespace log

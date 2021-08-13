@@ -6,7 +6,7 @@
 
 namespace file {
 class Page {
-  public:
+ public:
     Page(int block_size);
     Page(std::shared_ptr<std::vector<char>>& byte_buffer);
     int getInt(int offset) const;
@@ -17,7 +17,7 @@ class Page {
     void setString(int offset, std::string s);
     static int maxLength(int strlen);
     std::shared_ptr<std::vector<char>> contents();
-  private:
+ private:
     std::shared_ptr<std::vector<char>> byte_buffer_;
 };
-}
+}  // namespace file

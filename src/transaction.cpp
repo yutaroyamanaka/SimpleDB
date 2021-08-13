@@ -25,7 +25,7 @@ namespace tx {
     my_buffers_->unpinAll();
   }
 
-  void Transaction::recover() { 
+  void Transaction::recover() {
     bm_->flushAll(txnum_);
     rm_->recover();
     cm_->release();
@@ -57,7 +57,7 @@ namespace tx {
     cm_->xLock(block_id);
     buffer::Buffer* buff = my_buffers_->getBuffer(block_id);
     int lsn = -1;
-    if(okToLog) {
+    if (okToLog) {
       lsn = rm_->setInt(buff, offset, val);
     }
 
@@ -70,7 +70,7 @@ namespace tx {
     cm_->xLock(block_id);
     buffer::Buffer* buff = my_buffers_->getBuffer(block_id);
     int lsn = -1;
-    if(okToLog) {
+    if (okToLog) {
       lsn = rm_->setString(buff, offset, val);
     }
     auto p = buff->contents();
@@ -108,4 +108,4 @@ namespace tx {
     nextTxNum_++;
     return nextTxNum_;
   }
-}
+}  // namespace tx

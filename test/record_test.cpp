@@ -28,7 +28,7 @@ TEST(RecordTest, Main) {
   sch.addStringField("B", 9);
   record::Layout layout(sch);
 
-  for(auto& fldname: layout.schema().fields()) {
+  for (auto& fldname : layout.schema().fields()) {
     int offset = layout.offset(fldname);
     std::cout << fldname + " has offset " + std::to_string(offset) << std::endl;
   }
@@ -41,7 +41,7 @@ TEST(RecordTest, Main) {
   int slot = rp.insertAfter(-1);
 
   int i = 0;
-  while(slot >= 0) {
+  while (slot >= 0) {
     int n = 23 + i;
     rp.setInt(slot, "A", n);
     rp.setString(slot, "B", "rec" + std::to_string(n));
@@ -53,10 +53,10 @@ TEST(RecordTest, Main) {
   std::cout << "Deleted these records with A-values < 25." << std::endl;
   int count = 0;
   slot = rp.nextAfter(-1);
-  while(slot >= 0) {
+  while (slot >= 0) {
     int a = rp.getInt(slot, "A");
     std::string b = rp.getString(slot, "B");
-    if(a < 25) {
+    if (a < 25) {
       count++;
       std::cout << "slot " << slot << ": {" << a << ", " << b << "}" << std::endl;
       rp.remove(slot);
@@ -68,7 +68,7 @@ TEST(RecordTest, Main) {
   std::cout << "Here are the remaining records." << std::endl;
   slot = rp.nextAfter(-1);
 
-  while(slot >= 0) {
+  while (slot >= 0) {
     int a = rp.getInt(slot, "A");
     std::string b = rp.getString(slot, "B");
     std::cout << "slot " << slot << ": {" << a << ", " << b << "}" << std::endl;

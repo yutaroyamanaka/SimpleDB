@@ -1,6 +1,6 @@
 /* Copyright 2021 Yutaro Yamanaka */
-#include "locktable.hpp"
 #include <algorithm>
+#include "locktable.hpp"
 
 namespace tx {
   LockTable::LockTable() {
@@ -10,11 +10,11 @@ namespace tx {
     std::unique_lock<std::mutex> lock(mutex_);
     auto start = std::chrono::high_resolution_clock::now();
 
-    while(hasXlock(block_id) && !waitTooLong(start)) {
+    while (hasXlock(block_id) && !waitTooLong(start)) {
       condition_var_.wait_for(lock, std::chrono::milliseconds(MAX_TIME));
     }
 
-    if(hasXlock(block_id)) {
+    if (hasXlock(block_id)) {
       throw std::runtime_error(" new slock abort exception");
     }
 
@@ -26,11 +26,11 @@ namespace tx {
     std::unique_lock<std::mutex> lock(mutex_);
     auto start = std::chrono::high_resolution_clock::now();
 
-    while(hasOtherSlocks(block_id) && !waitTooLong(start)) {
+    while (hasOtherSlocks(block_id) && !waitTooLong(start)) {
       condition_var_.wait_for(lock, std::chrono::milliseconds(MAX_TIME));
     }
 
-    if(hasOtherSlocks(block_id)) {
+    if (hasOtherSlocks(block_id)) {
       throw std::runtime_error(" new xlock abort exception");
     }
 
@@ -40,7 +40,7 @@ namespace tx {
   void LockTable::unlock(const file::BlockId& block_id) {
     std::unique_lock<std::mutex> lock(mutex_);
     int val = getLockVal(block_id);
-    if(val > 1) {
+    if (val > 1) {
       locks_[block_id] = val - 1;
     } else {
       locks_.erase(block_id);
@@ -64,7 +64,7 @@ namespace tx {
 
   int LockTable::getLockVal(const file::BlockId& block_id) {
     auto itr = locks_.find(block_id);
-    if(itr == locks_.end()) return 0;
+    if (itr == locks_.end()) return 0;
     return locks_[block_id];
   }
-}
+}  // namespace tx

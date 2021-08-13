@@ -13,26 +13,24 @@ namespace scan {
   }
 
   bool ProductScan::next() {
-    if(s2_->next()) return true;
-    else {
-      s2_->beforeFirst();
-      return s2_->next() && s1_->next();
-    }
+    if (s2_->next()) return true;
+    s2_->beforeFirst();
+    return s2_->next() && s1_->next();
   }
 
   int ProductScan::getInt(const std::string& fldname) {
-    if(s1_->hasField(fldname)) return s1_->getInt(fldname);
-    else return s2_->getInt(fldname);
+    if (s1_->hasField(fldname)) return s1_->getInt(fldname);
+    return s2_->getInt(fldname);
   }
 
   std::string ProductScan::getString(const std::string& fldname) {
-    if(s1_->hasField(fldname)) return s1_->getString(fldname);
-    else return s2_->getString(fldname);
+    if (s1_->hasField(fldname)) return s1_->getString(fldname);
+    return s2_->getString(fldname);
   }
 
   Constant ProductScan::getVal(const std::string& fldname) {
-    if(s1_->hasField(fldname)) return s1_->getVal(fldname);
-    else return s2_->getVal(fldname);
+    if (s1_->hasField(fldname)) return s1_->getVal(fldname);
+    return s2_->getVal(fldname);
   }
 
   bool ProductScan::hasField(const std::string& fldname) {
@@ -43,4 +41,4 @@ namespace scan {
     s1_->close();
     s2_->close();
   }
-}
+}  // namespace scan

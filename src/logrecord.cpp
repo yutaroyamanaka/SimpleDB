@@ -1,15 +1,13 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #include "logrecord.hpp"
 #include "page.hpp"
-#include <memory.h>
-#include <iostream>
 
 namespace tx {
   std::unique_ptr<LogRecord> LogRecord::createLogRecord(const std::vector<char>& bytes) {
     auto share_bytes = std::make_shared<std::vector<char>>(bytes);
     file::Page p(share_bytes);
 
-    switch(p.getInt(0)) {
+    switch (p.getInt(0)) {
       case CHECKPOINT:
         return std::make_unique<CheckpointRecord>();
       case START:
@@ -106,8 +104,7 @@ namespace tx {
     tx->unpin(block_id_);
   }
 
-  int SetIntRecord::writeToLog(log::LogManager* lm, int txnum, 
-      file::BlockId& block_id, int offset, int val) {
+  int SetIntRecord::writeToLog(log::LogManager* lm, int txnum, file::BlockId& block_id, int offset, int val) {
     int tpos = sizeof(uint32_t);
     int fpos = tpos + sizeof(uint32_t);
     int bpos = fpos + file::Page::maxLength(block_id.fileName().size());
@@ -145,7 +142,7 @@ namespace tx {
 
   void SetStringRecord::undo(Transaction* tx) {
     tx->pin(block_id_);
-    tx->setString(block_id_, offset_, val_, false); // don't log the undo
+    tx->setString(block_id_, offset_, val_, false);  // don't log the undo
     tx->unpin(block_id_);
   }
 
@@ -166,4 +163,4 @@ namespace tx {
     p.setString(vpos, val);
     return lm->append(*rec);
   }
-}
+}  // namespace tx
