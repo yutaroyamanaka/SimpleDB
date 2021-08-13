@@ -1,8 +1,8 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "lexer.hpp"
 
 namespace parse {
   Lexer::Lexer() {
-
   }
 
   Lexer::Lexer(const std::string& s) {
@@ -28,37 +28,37 @@ namespace parse {
   }
 
   bool Lexer::matchId() const {
-    if(tokenizer_->ttype() != StreamTokenizer::TT_WORD) return false;
+    if (tokenizer_->ttype() != StreamTokenizer::TT_WORD) return false;
     auto itr = std::find(keywords_.begin(), keywords_.end(), tokenizer_->sval());
     return itr == keywords_.end();
   }
 
   void Lexer::eatDelim(const char& d) {
-    if(!matchDelm(d)) throw std::runtime_error("bad syntax exception in eatDelim");
+    if (!matchDelm(d)) throw std::runtime_error("bad syntax exception in eatDelim");
     nextToken();
   }
 
   int Lexer::eatIntConstant() const {
-    if(!matchIntConstant()) throw std::runtime_error("bad syntax exception in EatIntConstant");
+    if (!matchIntConstant()) throw std::runtime_error("bad syntax exception in EatIntConstant");
     int i = tokenizer_->nval();
     nextToken();
     return i;
   }
 
   std::string Lexer::eatStringConstant() const {
-    if(!matchStringConstant()) throw std::runtime_error("bad syntax exceptionStringConstant");
+    if (!matchStringConstant()) throw std::runtime_error("bad syntax exceptionStringConstant");
     std::string s = tokenizer_->sval();
     nextToken();
     return s;
   }
 
   void Lexer::eatKeyword(const std::string& w) {
-    if(!matchKeyword(w)) throw std::runtime_error("bad syntax exception");
+    if (!matchKeyword(w)) throw std::runtime_error("bad syntax exception");
     nextToken();
   }
 
   std::string Lexer::eatId() const {
-    if(!matchId()) throw std::runtime_error("bad syntax exception");
+    if (!matchId()) throw std::runtime_error("bad syntax exception");
     std::string s = tokenizer_->sval();
     nextToken();
     return s;
@@ -89,4 +89,4 @@ namespace parse {
       "on"
     };
   }
-}
+}  // namespace parse

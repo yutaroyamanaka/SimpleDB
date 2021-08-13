@@ -1,9 +1,10 @@
-#include "streamtokenizer.hpp"
-#include "lexer.hpp"
+/* Copyright 2021 Yutaro Yamanaka */
 #include <gtest/gtest.h>
 #include <iostream>
 #include <string>
 #include <vector>
+#include "streamtokenizer.hpp"
+#include "lexer.hpp"
 
 TEST(LexerTest, Main) {
   std::vector<std::string> lists = {
@@ -11,12 +12,12 @@ TEST(LexerTest, Main) {
     "3 = B"
   };
 
-  for(const auto& str: lists) {
+  for (const auto& str : lists) {
     parse::Lexer lex(str);
     std::string x = "";
     int y = 0;
-    if(lex.matchId()) {
-      x = lex.eatId(); 
+    if (lex.matchId()) {
+      x = lex.eatId();
       lex.eatDelim('=');
       y = lex.eatIntConstant();
     } else {
