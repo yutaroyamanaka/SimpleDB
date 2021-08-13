@@ -2,16 +2,16 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include <string>
-#include "transaction.hpp"
-#include "schema.hpp"
-#include "layout.hpp"
-#include "tablescan.hpp"
-#include "simpledb.hpp"
-#include "metadatamanager.hpp"
+#include "tx/transaction.hpp"
+#include "record/schema.hpp"
+#include "record/layout.hpp"
+#include "record/tablescan.hpp"
+#include "app/simpledb.hpp"
+#include "meta/metadatamanager.hpp"
 
 TEST(MetadataManagerTest, Main) {
   std::string file_name = "metadatamgrtest";
-  simpledb::SimpleDB db(file_name, 400, 8);
+  app::SimpleDB db(file_name, 400, 8);
   auto transaction = db.getNewTx();
   meta::MetaDataManager mdm(true, transaction.get());
 

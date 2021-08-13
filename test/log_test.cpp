@@ -1,10 +1,10 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #include <gtest/gtest.h>
 #include <iostream>
-#include "blockid.hpp"
-#include "page.hpp"
-#include "filemanager.hpp"
-#include "logmanager.hpp"
+#include "file/blockid.hpp"
+#include "file/page.hpp"
+#include "file/filemanager.hpp"
+#include "log/logmanager.hpp"
 
 void printLogRecord(log::LogManager& log_manager, std::string& msg) {
   //  std::cout << msg << std::endl;

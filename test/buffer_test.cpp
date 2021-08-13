@@ -1,12 +1,12 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #include <gtest/gtest.h>
 #include <iostream>
-#include "blockid.hpp"
-#include "page.hpp"
-#include "filemanager.hpp"
-#include "logmanager.hpp"
-#include "buffer.hpp"
-#include "buffermanager.hpp"
+#include "file/blockid.hpp"
+#include "file/page.hpp"
+#include "file/filemanager.hpp"
+#include "log/logmanager.hpp"
+#include "buffer/buffer.hpp"
+#include "buffer/buffermanager.hpp"
 
 TEST(BufferTest, Main) {
   std::string file_name = "buffertest";
