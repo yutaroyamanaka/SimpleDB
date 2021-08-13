@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #pragma once
 
 #include <string>
@@ -11,7 +12,7 @@ class BlockId {
   friend bool operator<=(const BlockId &Lhs, const BlockId &Rhs);
   friend bool operator>=(const BlockId &Lhs, const BlockId &Rhs);
 
-  public:
+ public:
     BlockId();
     BlockId(const std::string& file_name, int block_num);
     std::string fileName();
@@ -20,8 +21,8 @@ class BlockId {
     bool isNull();
     std::string toString();
     int hashCode();
-  private:
+ private:
     std::string file_name_;
     int block_num_;
 };
-}
+}  // namespace file

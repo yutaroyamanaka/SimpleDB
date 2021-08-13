@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include <gtest/gtest.h>
 #include <iostream>
 #include <string>
@@ -34,7 +35,7 @@ TEST(CatalogTest, Main) {
   record::Layout layout = tm.getLayout("tblcat", &tx);
   record::TableScan ts(&tx, "tblcat", layout);
 
-  while(ts.next()) {
+  while (ts.next()) {
     std::string tname = ts.getString("tblname");
     int size = ts.getInt("slotsize");
     std::cout << tname << " " << size << std::endl;
@@ -45,7 +46,7 @@ TEST(CatalogTest, Main) {
   layout = tm.getLayout("fldcat", &tx);
   record::TableScan ts2(&tx, "fldcat", layout);
 
-  while(ts2.next()) {
+  while (ts2.next()) {
     std::string tname = ts2.getString("tblname");
     std::string fname = ts2.getString("fldname");
     int offset = ts2.getInt("offset");

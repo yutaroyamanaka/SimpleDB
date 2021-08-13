@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #pragma once
 #include <string>
 #include <vector>
@@ -11,13 +12,13 @@
 
 namespace log {
 class LogManager {
-  public:
+ public:
     LogManager(file::FileManager* file_manager, const std::string& logfile);
     void flush(int lsn);
     LogIterator iterator();
     int append(std::vector<char>& logrec);
     int getLastSavedLSN() { return last_saved_lsn_; }
-  private:
+ private:
     file::FileManager* file_manager_;
     std::string logfile_;
     std::unique_ptr<file::Page> logpage_;
@@ -29,4 +30,4 @@ class LogManager {
     file::BlockId appendNewBlock();
     void flush();
 };
-}
+}  // namespace log

@@ -1,7 +1,8 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "buffer.hpp"
+#include <memory>
 #include "filemanager.hpp"
 #include "logmanager.hpp"
-#include <memory>
 
 namespace buffer {
   Buffer::Buffer(file::FileManager* file_manager, log::LogManager* log_manager): file_manager_(file_manager), log_manager_(log_manager) {
@@ -10,7 +11,7 @@ namespace buffer {
 
   void Buffer::setModified(int txnum, int lsn) {
     txnum_ = txnum;
-    if(lsn >= 0) {
+    if (lsn >= 0) {
       lsn_ = lsn;
     }
   }
@@ -31,7 +32,7 @@ namespace buffer {
   }
 
   void Buffer::flush() {
-    if(txnum_ >= 0) {
+    if (txnum_ >= 0) {
       log_manager_->flush(lsn_);
       file_manager_->write(block_id_, *contents_);
       txnum_ = -1;
@@ -41,8 +42,8 @@ namespace buffer {
   void Buffer::pin() {
     pins_++;
   }
-  
+
   void Buffer::unpin() {
     pins_--;
   }
-}
+}  // namespace buffer

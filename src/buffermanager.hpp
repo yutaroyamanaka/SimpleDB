@@ -1,11 +1,15 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #pragma once
 #include <string>
 #include <vector>
 #include <map>
+#include <iostream>
 #include <memory>
 #include <mutex>
 #include <condition_variable>
 #include <chrono>
+#include <thread>
+#include <utility>
 #include "blockid.hpp"
 #include "page.hpp"
 #include "filemanager.hpp"
@@ -15,13 +19,13 @@
 
 namespace buffer {
 class BufferManager {
-  public:
+ public:
     BufferManager(file::FileManager* file_manager, log::LogManager* long_manager, int num_buffs);
     int available();
     void flushAll(int txnum);
     void unpin(Buffer* buff);
     Buffer* pin(const file::BlockId& block_id);
-  private:
+ private:
     const int MAX_TIME = 10000;
     int num_available_;
     std::vector<std::unique_ptr<buffer::Buffer>> buffer_pool_;
@@ -33,4 +37,4 @@ class BufferManager {
     Buffer* findExistingBuffer(const file::BlockId& block_id);
     Buffer* chooseUpinnedBuffer();
 };
-}
+}  // namespace buffer

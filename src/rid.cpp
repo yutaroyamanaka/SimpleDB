@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "rid.hpp"
 
 namespace record {
@@ -6,7 +7,6 @@ namespace record {
   }
 
   RID::RID(int blknum, int slot) : blknum_(blknum), slot_(slot) {
-
   }
 
   int RID::blockNumber() const {
@@ -24,4 +24,4 @@ namespace record {
   std::string RID::toString() const {
     return "[" + std::to_string(blknum_) + ", " + std::to_string(slot_) + "]";
   }
-}
+}  // namespace record

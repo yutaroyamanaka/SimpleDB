@@ -1,26 +1,24 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "logmanager.hpp"
 #include "logiterator.hpp"
-#include <string>
-#include <memory>
-#include <iostream>
 
 namespace log {
   LogManager::LogManager(file::FileManager* file_manager, const std::string& logfile) : file_manager_(file_manager), logfile_(logfile) {
-   auto buf = std::make_shared<std::vector<char>>(file_manager_->blockSize(), 0);
-   logpage_ = std::make_unique<file::Page>(buf);
+    auto buf = std::make_shared<std::vector<char>>(file_manager_->blockSize(), 0);
+    logpage_ = std::make_unique<file::Page>(buf);
 
-   int logsize = file_manager_->length(logfile);
-   if(logsize == 0) {
-     current_block_ = appendNewBlock();
-   } else {
-     current_block_ = file::BlockId(logfile_, logsize-1);
-     file_manager->read(current_block_, *logpage_);
-   }
+    int logsize = file_manager_->length(logfile);
+    if (logsize == 0) {
+      current_block_ = appendNewBlock();
+    } else {
+      current_block_ = file::BlockId(logfile_, logsize-1);
+      file_manager->read(current_block_, *logpage_);
+    }
   }
 
   void LogManager::flush(int lsn) {
     std::unique_lock<std::mutex> lock(mutex_);
-    if(lsn >= last_saved_lsn_) {
+    if (lsn >= last_saved_lsn_) {
       flush();
     }
   }
@@ -36,9 +34,9 @@ namespace log {
     int boundary = logpage_->getInt(0);
     int recsize = logrec.size();
     int bytesneeded = recsize + sizeof(uint32_t);
-    if(boundary - bytesneeded < static_cast<int>(sizeof(uint32_t))) {
+    if (boundary - bytesneeded < static_cast<int>(sizeof(uint32_t))) {
       flush();
-      current_block_ = appendNewBlock(); // the page is dirty here
+      current_block_ = appendNewBlock();  // the page is dirty here
       boundary = logpage_->getInt(0);
     }
     int recpos = boundary - bytesneeded;
@@ -60,4 +58,4 @@ namespace log {
     file_manager_->write(current_block_, *logpage_);
     last_saved_lsn_ = latest_lsn_;
   }
-}
+}  // namespace log

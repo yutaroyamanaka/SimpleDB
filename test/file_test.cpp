@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include <gtest/gtest.h>
 #include "blockid.hpp"
 #include "page.hpp"
@@ -15,7 +16,7 @@ TEST(FileTest, Main) {
 
   std::string content = "abcdefghijklm";
   page1->setString(pos1, content);
-   
+
   int size = file::Page::maxLength(content.length());
   int pos2 = pos1 + size;
   uint32_t n = 345;

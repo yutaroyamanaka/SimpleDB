@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include <gtest/gtest.h>
 #include <iostream>
 #include "blockid.hpp"
@@ -24,7 +25,7 @@ TEST(BufferTest, Main) {
 
   auto page = buff1->contents();
   int n = page->getInt(80);
-  page->setInt(80, n+1); // this modification will get written to disk.
+  page->setInt(80, n+1);  // this modification will get written to disk.
   buff1->setModified(1, 0);
 
   buffer_manager.unpin(buff1);

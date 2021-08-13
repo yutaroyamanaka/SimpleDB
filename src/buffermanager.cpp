@@ -1,17 +1,13 @@
-#include "buffer.hpp"
+/* Copyright 2021 Yutaro Yamanaka */
 #include "buffermanager.hpp"
+#include "buffer.hpp"
 #include "filemanager.hpp"
 #include "logmanager.hpp"
-#include <memory>
-#include <chrono>
-#include <thread>
-#include <iostream>
 
 namespace buffer {
   BufferManager::BufferManager(file::FileManager* file_manager, log::LogManager* log_manager, int numbuffs) {
-
     num_available_ = numbuffs;
-    for(int i = 0; i < numbuffs; i++) {
+    for (int i = 0; i < numbuffs; i++) {
       auto new_buffer = std::make_unique<Buffer>(file_manager, log_manager);
       buffer_pool_.emplace_back(std::move(new_buffer));
     }
@@ -24,8 +20,8 @@ namespace buffer {
 
   void BufferManager::flushAll(int txnum) {
     std::unique_lock<std::mutex> lock(mutex_);
-    for(auto&& buff: buffer_pool_) {
-      if(buff->modifyingTx() == txnum) {
+    for (auto&& buff : buffer_pool_) {
+      if (buff->modifyingTx() == txnum) {
         buff->flush();
       }
     }
@@ -34,7 +30,7 @@ namespace buffer {
   void BufferManager::unpin(Buffer* buff) {
     std::unique_lock<std::mutex> lock(mutex_);
     buff->unpin();
-    if(!buff->isPinned()) {
+    if (!buff->isPinned()) {
       num_available_++;
       condition_var_.notify_all();
     }
@@ -45,10 +41,10 @@ namespace buffer {
     auto start = std::chrono::high_resolution_clock::now();
 
     Buffer* buff = tryToPin(block_id);
-    while(!buff && !waitingTooLong(start)) {
+    while (!buff && !waitingTooLong(start)) {
       condition_var_.wait_for(lock, std::chrono::milliseconds(MAX_TIME));
     }
-    if(!buff) {
+    if (!buff) {
       throw std::runtime_error("buffer abort exeception");
     }
     return buff;
@@ -62,14 +58,14 @@ namespace buffer {
 
   Buffer* BufferManager::tryToPin(const file::BlockId& block_id) {
     Buffer* buff = findExistingBuffer(block_id);
-    if(!buff) {
+    if (!buff) {
       buff = chooseUpinnedBuffer();
-      if(!buff) {
+      if (!buff) {
         return nullptr;
       }
       buff->assignToBlock(block_id);
     }
-    if(!buff->isPinned()) {
+    if (!buff->isPinned()) {
       num_available_--;
     }
     buff->pin();
@@ -77,9 +73,9 @@ namespace buffer {
   }
 
   Buffer* BufferManager::findExistingBuffer(const file::BlockId& block_id) {
-    for(auto&& buff: buffer_pool_) {
+    for (auto&& buff : buffer_pool_) {
       file::BlockId b = buff->block();
-      if(!b.isNull() && b.equals(block_id)) {
+      if (!b.isNull() && b.equals(block_id)) {
         return buff.get();
       }
     }
@@ -87,11 +83,11 @@ namespace buffer {
   }
 
   Buffer* BufferManager::chooseUpinnedBuffer() {
-    for(auto&& buff: buffer_pool_) {
-      if(!buff->isPinned()) {
+    for (auto&& buff : buffer_pool_) {
+      if (!buff->isPinned()) {
         return buff.get();
       }
     }
     return nullptr;
   }
-}
+}  // namespace buffer

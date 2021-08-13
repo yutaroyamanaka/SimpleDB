@@ -1,8 +1,8 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "bufferlist.hpp"
 
 namespace tx {
   BufferList::BufferList(buffer::BufferManager* bm): bm_(bm) {
-
   }
 
   buffer::Buffer* BufferList::getBuffer(const file::BlockId& block_id) {
@@ -19,8 +19,8 @@ namespace tx {
     buffer::Buffer* buff = buffers_[block_id];
     bm_->unpin(buff);
 
-    for(auto itr = pins_.begin(); itr != pins_.end();) {
-      if(*itr == block_id) {
+    for (auto itr = pins_.begin(); itr != pins_.end();) {
+      if (*itr == block_id) {
         itr = pins_.erase(itr);
         break;
       } else {
@@ -28,14 +28,14 @@ namespace tx {
       }
     }
 
-    for(auto itr = pins_.begin(); itr != pins_.end(); itr++) {
-      if(*itr == block_id) return;
+    for (auto itr = pins_.begin(); itr != pins_.end(); itr++) {
+      if (*itr == block_id) return;
     }
     buffers_.erase(block_id);
   }
 
   void BufferList::unpinAll() {
-    for(auto& blk : pins_) {
+    for (auto& blk : pins_) {
       buffer::Buffer* buff = buffers_[blk];
       bm_->unpin(buff);
     }
@@ -43,4 +43,4 @@ namespace tx {
     buffers_.clear();
     pins_.clear();
   }
-}
+}  // namespace tx

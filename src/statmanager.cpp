@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "statmanager.hpp"
 
 namespace meta {
@@ -9,12 +10,12 @@ namespace meta {
   StatInfo StatManager::getStatInfo(const std::string& tblname, const record::Layout& layout, tx::Transaction* transaction) {
     std::unique_lock<std::recursive_mutex> lock(mutex_);
     num_calls_++;
-    if(num_calls_ > 100) {
+    if (num_calls_ > 100) {
       refreshStatistics(transaction);
     }
 
     auto itr = table_stats_.find(tblname);
-    if(itr == table_stats_.end()) {
+    if (itr == table_stats_.end()) {
       StatInfo si = calcTableStats(tblname, layout, transaction);
       table_stats_[tblname] = si;
       return si;
@@ -29,7 +30,7 @@ namespace meta {
     table_stats_.clear();
     record::Layout tcatlayout = table_manager_->getLayout("tblcat", transaction);
     record::TableScan tcat(transaction, "tblcat", tcatlayout);
-    while(tcat.next()) {
+    while (tcat.next()) {
       std::string tblname = tcat.getString("tblname");
       std::cout << tblname << std::endl;
       record::Layout layout = table_manager_->getLayout(tblname, transaction);
@@ -44,20 +45,18 @@ namespace meta {
     int num_recs = 0;
     int num_blocks = 0;
     record::TableScan ts(transaction, tblname, layout);
-    while(ts.next()) {
+    while (ts.next()) {
       num_recs++;
       num_blocks = ts.getRid().blockNumber() + 1;
     }
     ts.close();
     return StatInfo(num_blocks, num_recs);
   }
-  
-  StatInfo::StatInfo() {
 
+  StatInfo::StatInfo() {
   }
 
   StatInfo::StatInfo(int num_blocks, int num_recs) : num_blocks_(num_blocks), num_recs_(num_recs) {
-
   }
 
   int StatInfo::blocksAccessed() const {
@@ -71,4 +70,4 @@ namespace meta {
   int StatInfo::distinctValues(const std::string& fldname) const {
     return 1 + (num_recs_ / 3);
   }
-}
+}  // namespace meta

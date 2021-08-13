@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "predicate.hpp"
 
 namespace scan {
@@ -5,7 +6,6 @@ namespace scan {
   }
 
   Predicate::Predicate(const Predicate& pred): terms_(pred.terms_) {
-
   }
 
   Predicate::Predicate(const Term& t) {
@@ -13,7 +13,7 @@ namespace scan {
   }
 
   Predicate &Predicate::operator=(const Predicate& pred) {
-    if(this != &pred) {
+    if (this != &pred) {
       terms_ = pred.terms_;
     }
     return *this;
@@ -24,8 +24,8 @@ namespace scan {
   }
 
   bool Predicate::isSatisfied(Scan* s) const {
-    for(auto& t: terms_) {
-      if(!t.isSatisfied(s)) {
+    for (auto& t : terms_) {
+      if (!t.isSatisfied(s)) {
         return false;
       }
     }
@@ -38,8 +38,8 @@ namespace scan {
 
   Predicate Predicate::selectSubPred(const record::Schema& sch) const {
     Predicate result;
-    for(auto& t: terms_) {
-      if(t.appliesTo(sch)) {
+    for (auto& t : terms_) {
+      if (t.appliesTo(sch)) {
         result.terms_.emplace_back(t);
       }
     }
@@ -51,8 +51,8 @@ namespace scan {
     record::Schema newsch;
     newsch.addAll(sch1);
     newsch.addAll(sch2);
-    for(auto& t: terms_) {
-      if(!t.appliesTo(sch1) && !t.appliesTo(sch2) && t.appliesTo(newsch)) {
+    for (auto& t : terms_) {
+      if (!t.appliesTo(sch1) && !t.appliesTo(sch2) && t.appliesTo(newsch)) {
         result.terms_.emplace_back(t);
       }
     }
@@ -60,18 +60,18 @@ namespace scan {
   }
 
   Constant Predicate::equatesWithConstant(const std::string& fldname) const {
-    for(auto& t: terms_) {
+    for (auto& t : terms_) {
       Constant c = t.equatesWithConstant(fldname);
-      if(!c.isNull()) return c;
+      if (!c.isNull()) return c;
     }
     Constant n;
     return n;
   }
 
   std::string Predicate::equatesWithField(const std::string& fldname) const {
-    for(auto& t: terms_) {
+    for (auto& t : terms_) {
       std::string s = t.equatesWithField(fldname);
-      if(!s.empty()) return s;
+      if (!s.empty()) return s;
     }
     return "";
   }
@@ -79,8 +79,8 @@ namespace scan {
   std::string Predicate::toString() const {
     std::string result = "";
     int cnt = 0;
-    for(auto& t: terms_) {
-      if(cnt == 0) {
+    for (auto& t : terms_) {
+      if (cnt == 0) {
         result += t.toString();
       } else {
         result += " and " + t.toString();
@@ -89,4 +89,4 @@ namespace scan {
     }
     return result;
   }
-}
+}  // namespace scan

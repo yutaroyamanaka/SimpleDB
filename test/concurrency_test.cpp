@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include <gtest/gtest.h>
 #include <iostream>
 #include <thread>
@@ -24,7 +25,7 @@ void runA(file::FileManager& fm, log::LogManager& lm, buffer::BufferManager& bm)
     txA.getInt(blk2, 0);
     std::cout << "Tx A: receive slock 2" << std::endl;
     txA.commit();
-  } catch(std::exception& e) {
+  } catch (std::exception& e) {
     std::cout << "Transaction A";
     std::cout << e.what() << std::endl;
   }
@@ -45,7 +46,7 @@ void runB(file::FileManager& fm, log::LogManager& lm, buffer::BufferManager& bm)
     txB.getInt(blk1, 0);
     std::cout << "Tx B: receive slock 1" << std::endl;
     txB.commit();
-  } catch(std::exception& e) {
+  } catch (std::exception& e) {
     std::cout << "Transaction B";
     std::cout << e.what() << std::endl;
   }
@@ -66,8 +67,7 @@ void runC(file::FileManager& fm, log::LogManager& lm, buffer::BufferManager& bm)
     txC.getInt(blk1, 0);
     std::cout << "Tx C: receive slock 2" << std::endl;
     txC.commit();
-
-  } catch(std::exception& e) {
+  } catch (std::exception& e) {
     std::cout << "Transaction C";
     std::cout << e.what() << std::endl;
   }

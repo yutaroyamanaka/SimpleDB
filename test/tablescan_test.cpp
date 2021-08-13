@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include <gtest/gtest.h>
 #include <iostream>
 #include <string>
@@ -28,7 +29,7 @@ TEST(TableScanTest, Main) {
   sch.addStringField("B", 9);
   record::Layout layout(sch);
 
-  for(auto& fldname: layout.schema().fields()) {
+  for (auto& fldname : layout.schema().fields()) {
     int offset = layout.offset(fldname);
     std::cout << fldname << " has offset " << std::to_string(offset) << std::endl;
   }
@@ -38,7 +39,7 @@ TEST(TableScanTest, Main) {
   ts.beforeFirst();
   int i = 0;
 
-  for(int i = 0; i < 50; i++) {
+  for (int i = 0; i < 50; i++) {
     ts.insert();
     int n = i;
     ts.setInt("A", n);
@@ -51,10 +52,10 @@ TEST(TableScanTest, Main) {
   int count = 0;
   ts.beforeFirst();
 
-  while(ts.next()) {
+  while (ts.next()) {
     int a = ts.getInt("A");
     std::string b = ts.getString("B");
-    if(a < 25) {
+    if (a < 25) {
       count++;
       std::cout << "slot " << ts.getRid().toString() << ": {" << a << ", " << b << "}" << std::endl;
       ts.remove();
@@ -65,7 +66,7 @@ TEST(TableScanTest, Main) {
   std::cout << "Here are the remaining records." << std::endl;
   ts.beforeFirst();
 
-  while(ts.next()) {
+  while (ts.next()) {
     int a = ts.getInt("A");
     std::string b = ts.getString("B");
     std::cout << "slot " << ts.getRid().toString() << ": {" << a << ", " << b << "}" << std::endl;

@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "simpledb.hpp"
 
 namespace simpledb {
@@ -15,7 +16,7 @@ namespace simpledb {
   SimpleDB::SimpleDB(const std::string& filename) : SimpleDB(filename, block_size_, buffer_size_) {
     auto transaction = std::make_unique<tx::Transaction>(file_manager_.get(), log_manager_.get(), buffer_manager_.get());
     bool isNew = file_manager_->isNew();
-    if(isNew) {
+    if (isNew) {
       std::cout << "creating new database" << std::endl;
     } else {
       std::cout << "recovering existing database" << std::endl;
@@ -46,4 +47,4 @@ namespace simpledb {
     auto txptr = std::make_unique<tx::Transaction>(file_manager_.get(), log_manager_.get(), buffer_manager_.get());
     return txptr;
   }
-}
+}  // namespace simpledb

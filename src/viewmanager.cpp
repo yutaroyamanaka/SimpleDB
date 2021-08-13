@@ -1,8 +1,9 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "viewmanager.hpp"
 
 namespace meta {
   ViewManager::ViewManager(bool isNew, TableManager* table_manager, tx::Transaction* transaction) : table_manager_(table_manager) {
-    if(isNew) {
+    if (isNew) {
       record::Schema sch;
       sch.addStringField("viewname", table_manager_->MAX_NAME);
       sch.addStringField("viewdef", MAX_VIEWDEF);
@@ -23,8 +24,8 @@ namespace meta {
     std::string result;
     record::Layout layout = table_manager_->getLayout("viewcat", transaction);
     record::TableScan ts(transaction, "viewcat", layout);
-    while(ts.next()) {
-      if(ts.getString("viewname") == vname) {
+    while (ts.next()) {
+      if (ts.getString("viewname") == vname) {
         result = ts.getString("viewdef");
         break;
       }
@@ -32,4 +33,4 @@ namespace meta {
     ts.close();
     return result;
   }
-}
+}  // namespace meta

@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #pragma once
 #include <memory>
 #include <mutex>
@@ -9,15 +10,15 @@
 
 namespace tx {
 class LockTable {
-  public:
+ public:
     LockTable();
     void sLock(const file::BlockId& block_id);
     void xLock(const file::BlockId& block_id);
     void unlock(const file::BlockId& block_id);
-  private:
-    const int MAX_TIME = 10000; // 10 sec
+ private:
+    const int MAX_TIME = 10000;  // 10 sec
     std::mutex mutex_;
-    std::map<file::BlockId, int> locks_; 
+    std::map<file::BlockId, int> locks_;
     std::condition_variable condition_var_;
 
     bool hasXlock(const file::BlockId& block_id);
@@ -25,4 +26,4 @@ class LockTable {
     bool waitTooLong(std::chrono::time_point<std::chrono::high_resolution_clock> start_time);
     int getLockVal(const file::BlockId& block_id);
 };
-}
+}  // namespace tx

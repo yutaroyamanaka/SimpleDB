@@ -1,4 +1,9 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #pragma once
+#include <string>
+#include <mutex>
+#include <memory>
+#include <iostream>
 #include "concurrencymanager.hpp"
 #include "recoverymanager.hpp"
 #include "buffermanager.hpp"
@@ -6,14 +11,12 @@
 #include "bufferlist.hpp"
 #include "blockid.hpp"
 #include "page.hpp"
-#include <string>
-#include <mutex>
-#include <memory>
-#include <iostream>
 
 namespace tx {
+class RecoveryManager;
+
 class Transaction {
-  public:
+ public:
     Transaction(file::FileManager* fm, log::LogManager* lm, buffer::BufferManager* bm);
     void commit();
     void rollback();
@@ -32,7 +35,8 @@ class Transaction {
     int availableBuffs();
     int getTransactionNum() { return txnum_; }
     void forceCMClear();
-  private:
+
+ private:
     static int nextTxNum_;
     static const int END_OF_FILE = -1;
     std::unique_ptr<RecoveryManager> rm_;
@@ -45,4 +49,4 @@ class Transaction {
     static std::mutex mutex_;
     static int nextTxNumber();
 };
-}
+}  // namespace tx

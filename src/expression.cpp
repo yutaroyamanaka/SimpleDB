@@ -1,24 +1,21 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "expression.hpp"
 
 namespace scan {
   Expression::Expression() {
-
   }
 
   Expression::Expression(const Expression& e) : val_(e.val_), fldname_(e.fldname_) {
-
   }
 
   Expression::Expression(const Constant& val) : val_(val) {
-
   }
 
   Expression::Expression(const std::string& fldname) : fldname_(fldname) {
-
   }
 
   Expression &Expression::operator=(const Expression& e) {
-    if(this != &e) {
+    if (this != &e) {
       val_ = e.val_;
       fldname_ = e.fldname_;
     }
@@ -48,4 +45,4 @@ namespace scan {
   std::string Expression::toString() const {
     return val_.isNull() ? fldname_ : val_.toString();
   }
-}
+}  // namespace scan

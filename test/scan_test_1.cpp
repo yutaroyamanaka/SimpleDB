@@ -1,3 +1,4 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include <gtest/gtest.h>
 #include <iostream>
 #include <memory>
@@ -20,11 +21,10 @@ TEST(ScanTest1, Main) {
   sch.addStringField("B", 9);
   record::Layout layout(sch);
   auto s1 = std::static_pointer_cast<scan::UpdateScan>(
-      std::make_shared<record::TableScan>(transaction.get(), "T", layout)
-      );
+      std::make_shared<record::TableScan>(transaction.get(), "T", layout));
   s1->beforeFirst();
 
-  for(int i = 0; i < 100; i++) {
+  for (int i = 0; i < 100; i++) {
     s1->insert();
     int n = i;
     s1->setInt("A", n);
@@ -32,8 +32,7 @@ TEST(ScanTest1, Main) {
   }
   s1->close();
   auto s2 = std::static_pointer_cast<scan::Scan>(
-      std::make_shared<record::TableScan>(transaction.get(), "T", layout)
-      );
+      std::make_shared<record::TableScan>(transaction.get(), "T", layout));
 
   int target = 10;
   scan::Constant c(target);
@@ -42,13 +41,11 @@ TEST(ScanTest1, Main) {
 
   std::cout <<"The predicate is " << pred.toString() << std::endl;
   auto s3 = std::static_pointer_cast<scan::Scan>(
-      std::make_shared<scan::SelectScan>(s2, pred)
-      );
+      std::make_shared<scan::SelectScan>(s2, pred));
   std::vector<std::string> fields = {"B"};
   auto s4 = std::static_pointer_cast<scan::Scan>(
-      std::make_shared<scan::ProjectScan>(s3, fields)
-      );
-  while(s4->next()) {
+      std::make_shared<scan::ProjectScan>(s3, fields));
+  while (s4->next()) {
     std::cout << s4->getString("B") << std::endl;
   }
   s4->close();

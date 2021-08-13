@@ -1,8 +1,9 @@
+/* Copyright 2021 Yutaro Yamanaka */
 #include "page.hpp"
 #include <cstring>
 #include <iostream>
 
-namespace file{
+namespace file {
 Page::Page(int block_size) {
   byte_buffer_ = std::make_shared<std::vector<char>>(block_size);
 }
@@ -11,7 +12,7 @@ Page::Page(std::shared_ptr<std::vector<char>>& byte_buffer) : byte_buffer_(byte_
 }
 
 int Page::getInt(int offset) const {
-  if(offset + sizeof(uint32_t) > (*byte_buffer_).size()) {
+  if (offset + sizeof(uint32_t) > (*byte_buffer_).size()) {
     exit(1);
   }
 
@@ -21,7 +22,7 @@ int Page::getInt(int offset) const {
 }
 
 void Page::setInt(int offset, uint32_t n) {
-  if(offset + sizeof(uint32_t) > (*byte_buffer_).size()) {
+  if (offset + sizeof(uint32_t) > (*byte_buffer_).size()) {
     exit(1);
   }
   memcpy(&(*byte_buffer_)[offset], &n, sizeof(uint32_t));
@@ -30,7 +31,7 @@ void Page::setInt(int offset, uint32_t n) {
 std::vector<char> Page::getBytes(int offset) {
   int len = getInt(offset);
 
-  if(offset + sizeof(uint32_t) + len > (*byte_buffer_).size()) {
+  if (offset + sizeof(uint32_t) + len > (*byte_buffer_).size()) {
     exit(1);
   }
 
@@ -41,7 +42,7 @@ std::vector<char> Page::getBytes(int offset) {
 
 void Page::setBytes(int offset, std::vector<char>& byte_buffer) {
   uint32_t len = byte_buffer.size();
-  if(offset + sizeof(uint32_t) + len > (*byte_buffer_).size()) {
+  if (offset + sizeof(uint32_t) + len > (*byte_buffer_).size()) {
     exit(1);
   }
 
@@ -67,4 +68,4 @@ int Page::maxLength(int strlen) {
 std::shared_ptr<std::vector<char>> Page::contents() {
   return byte_buffer_;
 }
-}
+}  // namespace file
