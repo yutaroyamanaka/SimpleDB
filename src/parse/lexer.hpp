@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 #include <memory>
-#include "streamtokenizer.hpp"
+#include "parse/streamtokenizer.hpp"
 
 namespace parse {
 class Lexer {

@@ -1,5 +1,5 @@
 /* Copyright 2021 Yutaro Yamanaka */
-#include "lexer.hpp"
+#include "parse/lexer.hpp"
 
 namespace parse {
   Lexer::Lexer() {

@@ -3,8 +3,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "streamtokenizer.hpp"
-#include "lexer.hpp"
+#include "parse/streamtokenizer.hpp"
+#include "parse/lexer.hpp"
 
 TEST(LexerTest, Main) {
   std::vector<std::string> lists = {

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "streamtokenizer.hpp"
+#include "parse/streamtokenizer.hpp"
 
 void printCurrentToken(std::vector<std::string>& keywords, const parse::StreamTokenizer& tok) {
   if (tok.ttype() == parse::StreamTokenizer::TT_NUMBER) {

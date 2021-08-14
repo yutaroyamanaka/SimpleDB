@@ -1,5 +1,5 @@
 /* Copyright 2021 Yutaro Yamanaka */
-#include "streamtokenizer.hpp"
+#include "parse/streamtokenizer.hpp"
 
 namespace parse {
   const std::string StreamTokenizer::TT_EOF = "EOF";
