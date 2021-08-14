@@ -2,16 +2,16 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include <string>
-#include "blockid.hpp"
-#include "filemanager.hpp"
-#include "logmanager.hpp"
-#include "buffermanager.hpp"
-#include "transaction.hpp"
-#include "recordpage.hpp"
-#include "schema.hpp"
-#include "layout.hpp"
-#include "tablescan.hpp"
-#include "tablemanager.hpp"
+#include "file/blockid.hpp"
+#include "file/filemanager.hpp"
+#include "log/logmanager.hpp"
+#include "buffer/buffermanager.hpp"
+#include "tx/transaction.hpp"
+#include "record/recordpage.hpp"
+#include "record/schema.hpp"
+#include "record/layout.hpp"
+#include "record/tablescan.hpp"
+#include "meta/tablemanager.hpp"
 
 TEST(CatalogTest, Main) {
   std::string file_name = "catalogtest";

@@ -1,8 +1,8 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #include <gtest/gtest.h>
-#include "blockid.hpp"
-#include "page.hpp"
-#include "filemanager.hpp"
+#include "file/blockid.hpp"
+#include "file/page.hpp"
+#include "file/filemanager.hpp"
 
 TEST(FileTest, Main) {
   std::string file_name = "filetest";
