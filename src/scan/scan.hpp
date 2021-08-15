@@ -1,7 +1,7 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #pragma once
 #include <string>
-#include <scan/constant.hpp>
+#include "scan/constant.hpp"
 
 namespace scan {
 class Scan {

@@ -10,6 +10,10 @@ namespace parse {
     tokenizer_ = std::make_unique<StreamTokenizer>(s);
   }
 
+  Lexer &Lexer::operator=(const Lexer& lex) {
+    return *this;
+  }
+
   bool Lexer::matchDelm(const char& d) const {
     return d == tokenizer_->ttype()[0];
   }

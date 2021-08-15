@@ -1,10 +1,10 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #pragma once
+#include <ctype.h>
+#include <memory>
 #include <string>
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string.hpp>
-#include <memory>
-#include <ctype.h>
 
 namespace parse {
 typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
@@ -26,4 +26,4 @@ class StreamTokenizer {
     std::unique_ptr<tokenizer> tokenizer_;
     tokenizer::iterator itr_;
 };
-} // namespace parse
+}  // namespace parse
