@@ -57,29 +57,5 @@ class Parser {
     record::Schema fieldDefs() const;
     record::Schema fieldDef() const;
     record::Schema fieldType(const std::string& fldname) const;
-
-    /*
-    const char EQUAL_SIGN = '=';
-    const char COMMA = ',';
-    const char LEFT_PARENTHESIS = '(';
-    const char RIGHT_PARENTHESIS = ')';
-    const std::string AMPERSAND = "and";
-    const std::string SELECT = "select";
-    const std::string FROM = "from";
-    const std::string WHERE = "where";
-    const std::string INSERT = "insert";
-    const std::string DELETE = "delete";
-    const std::string UPDATE = "update";
-    const std::string TABLE = "table";
-    const std::string VIEW = "view";
-    const std::string INDEX = "index";
-    const std::string CREATE = "create";
-    const std::string SET = "set";
-    const std::string AS = "as";
-    const std::string ON = "on";
-    const std::string INTO = "into";
-    const std::string INT = "int";
-    const std::string VARCHAR = "varchar";
-    const std::string VALUES = "values";*/
 };
 }  // namespace parse
