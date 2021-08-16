@@ -5,6 +5,7 @@
 #include <string>
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string.hpp>
+#include "parse/word.hpp"
 
 namespace parse {
 typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
@@ -21,7 +22,6 @@ class StreamTokenizer {
     static const std::string TT_EOF;
     static const std::string TT_WORD;
     static const std::string TT_NUMBER;
-    static const char QUOTATION;
  private:
     std::unique_ptr<tokenizer> tokenizer_;
     tokenizer::iterator itr_;

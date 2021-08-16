@@ -7,12 +7,13 @@
 #include "parse/createindexdata.hpp"
 #include "parse/createtabledata.hpp"
 #include "parse/createviewdata.hpp"
-#include "parse/deletedata.hpp"
+#include "parse/deletedata.hpp" 
 #include "parse/insertdata.hpp"
 #include "parse/lexer.hpp"
 #include "parse/modifydata.hpp"
 #include "parse/object.hpp"
 #include "parse/querydata.hpp"
+#include "parse/word.hpp"
 #include "scan/constant.hpp"
 #include "scan/expression.hpp"
 #include "scan/predicate.hpp"
@@ -28,6 +29,7 @@ class Parser {
     scan::Expression expression() const;
     scan::Term term() const;
     scan::Predicate predicate() const;
+    QueryData query() const;
     Object updateCmd() const;
     Object create() const;
     // Methods for parsing delete commands
@@ -46,7 +48,6 @@ class Parser {
  private:
     std::unique_ptr<Lexer> lex_;
     // Methods for parsing queries
-    QueryData query() const;
     std::vector<std::string> selectList() const;
     std::set<std::string> tableList() const;
 
@@ -57,6 +58,7 @@ class Parser {
     record::Schema fieldDef() const;
     record::Schema fieldType(const std::string& fldname) const;
 
+    /*
     const char EQUAL_SIGN = '=';
     const char COMMA = ',';
     const char LEFT_PARENTHESIS = '(';
@@ -78,6 +80,6 @@ class Parser {
     const std::string INTO = "into";
     const std::string INT = "int";
     const std::string VARCHAR = "varchar";
-    const std::string VALUES = "values";
+    const std::string VALUES = "values";*/
 };
 }  // namespace parse

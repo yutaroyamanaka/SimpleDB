@@ -4,6 +4,6 @@
 namespace parse {
 class Object {
  public:
-    virtual ~Object();
+    virtual ~Object() = default;
 };
 }  // namespace parse

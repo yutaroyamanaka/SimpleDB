@@ -1,5 +1,6 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #include "parse/lexer.hpp"
+#include <iostream>
 
 namespace parse {
   Lexer::Lexer() {
@@ -15,6 +16,7 @@ namespace parse {
   }
 
   bool Lexer::matchDelm(const char& d) const {
+    std::cout << d << " " << tokenizer_->ttype()[0] << std::endl;
     return d == tokenizer_->ttype()[0];
   }
 
@@ -23,7 +25,7 @@ namespace parse {
   }
 
   bool Lexer::matchStringConstant() const {
-    return StreamTokenizer::QUOTATION == tokenizer_->ttype()[0];
+    return Word::QUOTATION == tokenizer_->ttype()[0];
   }
 
   bool Lexer::matchKeyword(const std::string& w) const {

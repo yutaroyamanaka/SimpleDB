@@ -5,7 +5,6 @@ namespace parse {
   const std::string StreamTokenizer::TT_EOF = "EOF";
   const std::string StreamTokenizer::TT_WORD = "WORD";
   const std::string StreamTokenizer::TT_NUMBER = "NUMBER";
-  const char StreamTokenizer::QUOTATION = '\'';
 
   StreamTokenizer::StreamTokenizer() {
   }
@@ -34,8 +33,8 @@ namespace parse {
 
     if (isNum) return TT_NUMBER;
     if (isAlNum) return TT_WORD;
-    if (str[0] == QUOTATION) {
-      std::string q(1, QUOTATION);
+    if (str[0] == Word::QUOTATION) {
+      std::string q(1, Word::QUOTATION);
       return q;
     }
     return boost::algorithm::to_lower_copy(*itr_);

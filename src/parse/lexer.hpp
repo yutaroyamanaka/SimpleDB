@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include "parse/streamtokenizer.hpp"
+#include "parse/word.hpp"
 
 namespace parse {
 class Lexer {
