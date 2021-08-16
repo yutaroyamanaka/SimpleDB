@@ -1,6 +1,5 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #include "parse/parser.hpp"
-#include <iostream>
 
 namespace parse {
   Parser::Parser(const std::string& s) {
@@ -33,7 +32,7 @@ namespace parse {
 
   scan::Term Parser::term() const {
     scan::Expression lhs = expression();
-    lex_->eatDelim(Word::Word::EQUAL_SIGN);
+    lex_->eatDelim(Word::EQUAL_SIGN);
     scan::Expression rhs = expression();
     scan::Term t(lhs, rhs);
     return t;
@@ -54,8 +53,8 @@ namespace parse {
     lex_->eatKeyword(Word::FROM);
     std::set<std::string> tables = tableList();
     scan::Predicate pred;
-    if (lex_->matchKeyword(Word::Word::WHERE)) {
-      lex_->eatKeyword(Word::Word::WHERE);
+    if (lex_->matchKeyword(Word::WHERE)) {
+      lex_->eatKeyword(Word::WHERE);
       pred = predicate();
     }
     QueryData qrydata(fields, tables, pred);
@@ -65,8 +64,8 @@ namespace parse {
   std::vector<std::string> Parser::selectList() const {
     std::vector<std::string> L;
     L.emplace_back(field());
-    if (lex_->matchDelm(Word::Word::COMMA)) {
-      lex_->eatDelim(Word::Word::COMMA);
+    if (lex_->matchDelm(Word::COMMA)) {
+      lex_->eatDelim(Word::COMMA);
       for (const auto& sl : selectList()) {
         L.emplace_back(sl);
       }
@@ -77,8 +76,8 @@ namespace parse {
   std::set<std::string> Parser::tableList() const {
     std::set<std::string> L;
     L.insert(lex_->eatId());
-    if (lex_->matchDelm(Word::Word::COMMA)) {
-      lex_->eatDelim(Word::Word::COMMA);
+    if (lex_->matchDelm(Word::COMMA)) {
+      lex_->eatDelim(Word::COMMA);
       for (const auto& name : tableList()) {
         L.insert(name);
       }
@@ -91,7 +90,7 @@ namespace parse {
       return insert();
     } else if (lex_->matchKeyword(Word::DELETE)) {
       return remove();
-    } else if (lex_->matchKeyword(Word::Word::UPDATE)) {
+    } else if (lex_->matchKeyword(Word::UPDATE)) {
       return modify();
     } else {
       return create();
@@ -114,8 +113,8 @@ namespace parse {
     lex_->eatKeyword(Word::FROM);
     std::string tblname = lex_->eatId();
     scan::Predicate pred;
-    if (lex_->matchKeyword(Word::Word::WHERE)) {
-      lex_->eatKeyword(Word::Word::WHERE);
+    if (lex_->matchKeyword(Word::WHERE)) {
+      lex_->eatKeyword(Word::WHERE);
       pred = predicate();
     }
     DeleteData dd(tblname, pred);
@@ -124,7 +123,7 @@ namespace parse {
 
   InsertData Parser::insert() const {
     lex_->eatKeyword(Word::INSERT);
-    lex_->eatKeyword(Word::Word::INTO);
+    lex_->eatKeyword(Word::INTO);
     std::string tblname = lex_->eatId();
     lex_->eatDelim(Word::LEFT_PARENTHESIS);
     std::vector<std::string> flds = fieldList();

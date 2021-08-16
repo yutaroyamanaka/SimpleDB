@@ -25,4 +25,5 @@ namespace parse {
   const std::string Word::INT = "int";
   const std::string Word::VARCHAR = "varchar";
   const std::string Word::VALUES = "values";
+  const std::string Word::SPACE = " ";
 }  // namespace parse

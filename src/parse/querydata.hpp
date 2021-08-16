@@ -3,6 +3,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include "parse/word.hpp"
 #include "scan/constant.hpp"
 #include "scan/predicate.hpp"
 

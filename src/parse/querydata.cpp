@@ -19,19 +19,19 @@ namespace parse {
   }
 
   std::string QueryData::toString() const {
-    std::string result = "select ";
+    std::string result = Word::SELECT + Word::SPACE;
     for (const auto& fldname : fields_) {
-      result += fldname + ", ";
+      result += fldname + Word::COMMA + Word::SPACE;
     }
     result = result.substr(0, result.size()-2);
-    result += " from ";
+    result += Word::SPACE + Word::FROM + Word::SPACE;
     for (const auto& tblname : tables_) {
-      result += tblname + ", ";
+      result += tblname + Word::COMMA + Word::SPACE;
     }
     result = result.substr(0, result.size()-2);
     std::string predstring = pred_.toString();
     if (predstring != "") {
-      result += " where " + predstring;
+      result += Word::SPACE + Word::WHERE + Word::SPACE + predstring;
     }
     return result;
   }
