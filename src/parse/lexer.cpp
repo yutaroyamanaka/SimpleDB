@@ -1,6 +1,5 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #include "parse/lexer.hpp"
-#include <iostream>
 
 namespace parse {
   Lexer::Lexer() {
@@ -16,7 +15,6 @@ namespace parse {
   }
 
   bool Lexer::matchDelm(const char& d) const {
-    std::cout << d << " " << tokenizer_->ttype()[0] << std::endl;
     return d == tokenizer_->ttype()[0];
   }
 
@@ -76,23 +74,23 @@ namespace parse {
 
   void Lexer::initKeywords() {
     keywords_ = std::vector<std::string>{
-      "select",
-      "from",
-      "where",
-      "and",
-      "insert",
-      "values",
-      "delete",
-      "update",
-      "set",
-      "create",
-      "table",
-      "varchar",
-      "int",
-      "view",
-      "as",
-      "index",
-      "on"
+      Word::SELECT,
+      Word::FROM,
+      Word::WHERE,
+      Word::AMPERSAND,
+      Word::INSERT,
+      Word::VALUES,
+      Word::DELETE,
+      Word::UPDATE,
+      Word::SET,
+      Word::CREATE,
+      Word::TABLE,
+      Word::VARCHAR,
+      Word::INT,
+      Word::VIEW,
+      Word::AS,
+      Word::INDEX,
+      Word::ON
     };
   }
 }  // namespace parse

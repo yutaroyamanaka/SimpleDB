@@ -28,5 +28,6 @@ class Word {
     static const std::string INT;
     static const std::string VARCHAR;
     static const std::string VALUES;
+    static const std::string SPACE;
 };
 }  // namespace parse
