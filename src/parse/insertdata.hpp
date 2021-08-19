@@ -1,4 +1,5 @@
 /* Copyright 2021 Yutaro Yamanaka */
+#pragma once
 #include <string>
 #include <vector>
 #include "parse/object.hpp"

@@ -1,4 +1,5 @@
 /* Copyright 2021 Yutaro Yamanaka */
+#pragma once
 #include <string>
 #include "parse/object.hpp"
 #include "record/schema.hpp"

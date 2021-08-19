@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include <string>
+#include "plan/plan.hpp"
 #include "scan/term.hpp"
 #include "scan/scan.hpp"
 #include "record/schema.hpp"
@@ -16,7 +17,7 @@ class Predicate {
     Predicate &operator=(const Predicate& e);
     void conjoinWith(const Predicate& pred);
     bool isSatisfied(Scan* s) const;
-    int reductionFacotr(/* const Plan::plan& p*/) const;
+    int reductionFactor(plan::Plan* p) const;
     Predicate selectSubPred(const record::Schema& sch) const;
     Predicate joinSubPred(const record::Schema& sch1, const record::Schema& sch2) const;
     Constant equatesWithConstant(const std::string& fldname) const;
