@@ -7,7 +7,7 @@
 #include "parse/createindexdata.hpp"
 #include "parse/createtabledata.hpp"
 #include "parse/createviewdata.hpp"
-#include "parse/deletedata.hpp" 
+#include "parse/deletedata.hpp"
 #include "parse/insertdata.hpp"
 #include "parse/lexer.hpp"
 #include "parse/modifydata.hpp"
@@ -30,20 +30,20 @@ class Parser {
     scan::Term term() const;
     scan::Predicate predicate() const;
     QueryData query() const;
-    Object updateCmd() const;
-    Object create() const;
+    std::shared_ptr<Object> updateCmd();
+    std::shared_ptr<Object> create();
     // Methods for parsing delete commands
-    DeleteData remove() const;
+    std::shared_ptr<DeleteData> remove();
     // Methods for parsing insert commands;
-    InsertData insert() const;
+    std::shared_ptr<InsertData> insert();
     // Methods for parsing modify commands;
-    ModifyData modify() const;
+    std::shared_ptr<ModifyData> modify();
     // Methods for parsing create table commands;
-    CreateTableData createTable() const;
+    std::shared_ptr<CreateTableData> createTable();
     // Methods for parsing create view commands;
-    CreateViewData createView() const;
+    std::shared_ptr<CreateViewData> createView();
     // Methods for parsing create index commands;
-    CreateIndexData createIndex() const;
+    std::shared_ptr<CreateIndexData> createIndex();
 
  private:
     std::unique_ptr<Lexer> lex_;

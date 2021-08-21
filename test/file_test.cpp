@@ -5,7 +5,7 @@
 #include "file/filemanager.hpp"
 
 TEST(FileTest, Main) {
-  std::string file_name = "filetest";
+  std::string file_name = "fileTest";
   int block_size = 400;
   auto path = std::filesystem::current_path() / file_name;
 

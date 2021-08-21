@@ -1,8 +1,5 @@
-filetest/*
 *.o
 *.d
-*_test
-buffertest/
-buffermanagertest/
-filetest/
-logtest/
+*Test*/
+compile_commands.json
+test/main_test

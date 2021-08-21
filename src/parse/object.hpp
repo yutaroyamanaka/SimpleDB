@@ -5,5 +5,6 @@ namespace parse {
 class Object {
  public:
     virtual ~Object() = default;
+    virtual int getID() = 0;
 };
 }  // namespace parse

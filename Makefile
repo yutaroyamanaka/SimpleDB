@@ -29,6 +29,7 @@ $(TESTEXE): $(OBJS)
 .PHONY: clean
 clean: 
 	-$(RM) $(OBJS) $(TESTOBJS) $(TESTEXE)
+	-rm -rf *Test*
 
 .PHONY: test
 test: clean $(TESTOBJS) $(TESTEXE)

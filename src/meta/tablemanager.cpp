@@ -8,7 +8,7 @@ namespace meta {
     record::Schema tcat_schema;
     tcat_schema.addStringField("tblname", MAX_NAME);
     tcat_schema.addIntField("slotsize");
-    tcat_layout_ = std::make_unique<record::Layout>(tcat_schema);
+    tcat_layout_ = record::Layout(tcat_schema);
 
     record::Schema fcat_schema;
     fcat_schema.addStringField("tblname", MAX_NAME);
@@ -16,7 +16,7 @@ namespace meta {
     fcat_schema.addIntField("type");
     fcat_schema.addIntField("length");
     fcat_schema.addIntField("offset");
-    fcat_layout_ = std::make_unique<record::Layout>(fcat_schema);
+    fcat_layout_ = record::Layout(fcat_schema);
 
     if (isNew) {
       createTable("tblcat", tcat_schema, transaction);
@@ -27,13 +27,13 @@ namespace meta {
   void TableManager::createTable(const std::string& tblname, const record::Schema& schema, tx::Transaction* transaction) {
     record::Layout layout(schema);
     // insert one record into tblcat
-    record::TableScan tcat(transaction, "tblcat", *tcat_layout_);
+    record::TableScan tcat(transaction, "tblcat", tcat_layout_);
     tcat.insert();
     tcat.setString("tblname", tblname);
     tcat.setInt("slotsize", layout.slotSize());
     tcat.close();
     // insert a record into fldcat for each field
-    record::TableScan fcat(transaction, "fldcat", *fcat_layout_);
+    record::TableScan fcat(transaction, "fldcat", fcat_layout_);
     for (const auto& fldname : schema.fields()) {
       fcat.insert();
       fcat.setString("tblname", tblname);
@@ -47,7 +47,7 @@ namespace meta {
 
   record::Layout TableManager::getLayout(const std::string& tblname, tx::Transaction* transaction) {
     int size = -1;
-    record::TableScan tcat(transaction, "tblcat", *tcat_layout_);
+    record::TableScan tcat(transaction, "tblcat", tcat_layout_);
     while (tcat.next()) {
       if (tcat.getString("tblname") == tblname) {
         size = tcat.getInt("slotsize");
@@ -57,7 +57,7 @@ namespace meta {
     tcat.close();
     record::Schema sch;
     std::map<std::string, int> offsets;
-    record::TableScan fcat(transaction, "fldcat", *fcat_layout_);
+    record::TableScan fcat(transaction, "fldcat", fcat_layout_);
 
     while (fcat.next()) {
       if (fcat.getString("tblname") == tblname) {

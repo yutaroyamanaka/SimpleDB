@@ -8,11 +8,11 @@
 namespace plan {
 class Plan {
  public:
-   virtual ~Plan() = default;
-   virtual std::shared_ptr<scan::Scan> open() = 0;
-   virtual int blocksAccessed() = 0;
-   virtual int recordsOutput() = 0;
-   virtual int distinctValues(const std::string& fldname) = 0;
-   virtual record::Schema schema() = 0;
+    virtual ~Plan() = default;
+    virtual std::shared_ptr<scan::Scan> open() = 0;
+    virtual int blocksAccessed() = 0;
+    virtual int recordsOutput() = 0;
+    virtual int distinctValues(const std::string& fldname) = 0;
+    virtual record::Schema schema() = 0;
 };
 }  // namespace plan

@@ -74,7 +74,7 @@ void runC(file::FileManager& fm, log::LogManager& lm, buffer::BufferManager& bm)
 }
 
 TEST(ConcurrencyTest, Main) {
-  std::string file_name = "concurrencytest";
+  std::string file_name = "concurrencyTest";
   std::string log_file_name = "simpledb.log";
 
   int block_size = 400;

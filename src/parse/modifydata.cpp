@@ -21,4 +21,8 @@ namespace parse {
   scan::Predicate ModifyData::pred() const {
     return pred_;
   }
+
+  int ModifyData::getID() {
+    return id_;
+  }
 }  // namespace parse

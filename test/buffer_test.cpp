@@ -9,7 +9,7 @@
 #include "buffer/buffermanager.hpp"
 
 TEST(BufferTest, Main) {
-  std::string file_name = "buffertest";
+  std::string file_name = "bufferTest";
   std::string log_file_name = "simpledb.log";
 
   int block_size = 400;

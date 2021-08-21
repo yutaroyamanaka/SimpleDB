@@ -13,7 +13,7 @@ TEST(ParserTest, Main) {
   std::string s7 = "create index I on T ( A )";
 
   parse::Parser p1(s1);
-  p1.query();   
+  p1.query();
   parse::Parser p2(s2);
   p2.updateCmd();
   parse::Parser p3(s3);

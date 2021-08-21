@@ -1,5 +1,6 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #pragma once
+#include <memory>
 #include "parse/createindexdata.hpp"
 #include "parse/createtabledata.hpp"
 #include "parse/createviewdata.hpp"
@@ -13,11 +14,11 @@ namespace plan {
 class UpdatePlanner {
  public:
     ~UpdatePlanner() = default;
-    virtual int executeInsert(const parse::InsertData& data, tx::Transaction* transaction) = 0;
-    virtual int executeDelete(const parse::DeleteData& data, tx::Transaction* transaction) = 0;
-    virtual int executeModify(const parse::ModifyData& data, tx::Transaction* transaction) = 0;
-    virtual int executeCreateTable(const parse::CreateTableData& data, tx::Transaction* transaction) = 0;
-    virtual int executeCreateView(const parse::CreateViewData& data, tx::Transaction* transaction) = 0;
-    virtual int executeCreateIndex(const parse::CreateIndexData& data, tx::Transaction* transaction) = 0;
+    virtual int executeInsert(parse::InsertData* data, tx::Transaction* transaction) = 0;
+    virtual int executeDelete(parse::DeleteData* data, tx::Transaction* transaction) = 0;
+    virtual int executeModify(parse::ModifyData* data, tx::Transaction* transaction) = 0;
+    virtual int executeCreateTable(parse::CreateTableData* data, tx::Transaction* transaction) = 0;
+    virtual int executeCreateView(parse::CreateViewData* data, tx::Transaction* transaction) = 0;
+    virtual int executeCreateIndex(parse::CreateIndexData* data, tx::Transaction* transaction) = 0;
 };
 }  // namespace plan

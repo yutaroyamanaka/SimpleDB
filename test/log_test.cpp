@@ -1,13 +1,13 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #include <gtest/gtest.h>
 #include <iostream>
+#include "app/simpledb.hpp"
 #include "file/blockid.hpp"
 #include "file/page.hpp"
 #include "file/filemanager.hpp"
 #include "log/logmanager.hpp"
 
 void printLogRecord(log::LogManager& log_manager, std::string& msg) {
-  //  std::cout << msg << std::endl;
   log::LogIterator iter = log_manager.iterator();
 
   while (iter.hasNext()) {
@@ -16,9 +16,7 @@ void printLogRecord(log::LogManager& log_manager, std::string& msg) {
     std::string s = page.getString(0);
     int npos = file::Page::maxLength(s.size());
     int val = page.getInt(npos);
-    //  std::cout << "[" << s << ", " << val << "]" << std::endl;
   }
-  //  std::cout << std::endl;
 }
 
 void createRecords(log::LogManager& log_manager, int start, int end) {
@@ -35,15 +33,10 @@ void createRecords(log::LogManager& log_manager, int start, int end) {
 }
 
 TEST(LogTest, Main) {
-  std::string file_name = "logtest";
-  std::string log_file_name = "simpledb.log";
+  std::string file_name = "logTest";
+  app::SimpleDB db(file_name, 400, 8);
 
-  int block_size = 400;
-  auto path = std::filesystem::current_path() / file_name;
-
-  file::FileManager file_manager(path, block_size);
-
-  log::LogManager lm(&file_manager, log_file_name);
+  log::LogManager &lm = db.getLogManager();
 
   createRecords(lm, 1, 35);
   EXPECT_EQ(20, lm.getLastSavedLSN());

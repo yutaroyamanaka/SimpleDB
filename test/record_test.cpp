@@ -12,7 +12,7 @@
 #include "record/layout.hpp"
 
 TEST(RecordTest, Main) {
-  std::string file_name = "recordtest";
+  std::string file_name = "recordTest";
   std::string log_file_name = "simpledb.log";
 
   int block_size = 400;

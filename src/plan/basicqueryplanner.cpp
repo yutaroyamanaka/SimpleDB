@@ -1,5 +1,6 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #include "plan/basicqueryplanner.hpp"
+#include <iostream>
 
 namespace plan {
   BasicQueryPlanner::BasicQueryPlanner(meta::MetaDataManager* mdm) : mdm_(mdm) {

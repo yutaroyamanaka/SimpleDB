@@ -85,30 +85,30 @@ namespace parse {
     return L;
   }
 
-  Object Parser::updateCmd() const {
+  std::shared_ptr<Object> Parser::updateCmd() {
     if (lex_->matchKeyword(Word::INSERT)) {
-      return insert();
+      return std::static_pointer_cast<Object>(insert());
     } else if (lex_->matchKeyword(Word::DELETE)) {
-      return remove();
+      return std::static_pointer_cast<Object>(remove());
     } else if (lex_->matchKeyword(Word::UPDATE)) {
-      return modify();
+      return std::static_pointer_cast<Object>(modify());
     } else {
-      return create();
+      return std::static_pointer_cast<Object>(create());
     }
   }
 
-  Object Parser::create() const {
+  std::shared_ptr<Object> Parser::create() {
     lex_->eatKeyword(Word::CREATE);
     if (lex_->matchKeyword(Word::TABLE)) {
-      return createTable();
+      return std::static_pointer_cast<Object>(createTable());
     } else if (lex_->matchKeyword(Word::VIEW)) {
-      return createView();
+      return std::static_pointer_cast<Object>(createView());
     } else {
-      return createIndex();
+      return std::static_pointer_cast<Object>(createIndex());
     }
   }
 
-  DeleteData Parser::remove() const {
+  std::shared_ptr<DeleteData> Parser::remove() {
     lex_->eatKeyword(Word::DELETE);
     lex_->eatKeyword(Word::FROM);
     std::string tblname = lex_->eatId();
@@ -117,11 +117,10 @@ namespace parse {
       lex_->eatKeyword(Word::WHERE);
       pred = predicate();
     }
-    DeleteData dd(tblname, pred);
-    return dd;
+    return std::make_shared<DeleteData>(tblname, pred);
   }
 
-  InsertData Parser::insert() const {
+  std::shared_ptr<InsertData> Parser::insert() {
     lex_->eatKeyword(Word::INSERT);
     lex_->eatKeyword(Word::INTO);
     std::string tblname = lex_->eatId();
@@ -132,8 +131,7 @@ namespace parse {
     lex_->eatDelim(Word::LEFT_PARENTHESIS);
     std::vector<scan::Constant> vals = constList();
     lex_->eatDelim(Word::RIGHT_PARENTHESIS);
-    InsertData id(tblname, flds, vals);
-    return id;
+    return std::make_shared<InsertData>(tblname, flds, vals);
   }
 
   std::vector<std::string> Parser::fieldList() const {
@@ -160,7 +158,7 @@ namespace parse {
     return L;
   }
 
-  ModifyData Parser::modify() const {
+  std::shared_ptr<ModifyData> Parser::modify() {
     lex_->eatKeyword(Word::UPDATE);
     std::string tblname = lex_->eatId();
     lex_->eatKeyword(Word::SET);
@@ -172,18 +170,16 @@ namespace parse {
       lex_->eatKeyword(Word::WHERE);
       pred = predicate();
     }
-    ModifyData md(tblname, fldname, newval, pred);
-    return md;
+    return std::make_shared<ModifyData>(tblname, fldname, newval, pred);
   }
 
-  CreateTableData Parser::createTable() const {
+  std::shared_ptr<CreateTableData> Parser::createTable() {
     lex_->eatKeyword(Word::TABLE);
     std::string tblname = lex_->eatId();
     lex_->eatDelim(Word::LEFT_PARENTHESIS);
     record::Schema sch = fieldDefs();
     lex_->eatDelim(Word::RIGHT_PARENTHESIS);
-    CreateTableData ctd(tblname, sch);
-    return ctd;
+    return std::make_shared<CreateTableData>(tblname, sch);
   }
 
   record::Schema Parser::fieldDefs() const {
@@ -216,16 +212,15 @@ namespace parse {
     return schema;
   }
 
-  CreateViewData Parser::createView() const {
+  std::shared_ptr<CreateViewData> Parser::createView() {
     lex_->eatKeyword(Word::VIEW);
     std::string viewname = lex_->eatId();
     lex_->eatKeyword(Word::AS);
     QueryData qd = query();
-    CreateViewData cvd(viewname, qd);
-    return cvd;
+    return std::make_shared<CreateViewData>(viewname, qd);
   }
 
-  CreateIndexData Parser::createIndex() const {
+  std::shared_ptr<CreateIndexData> Parser::createIndex() {
     lex_->eatKeyword(Word::INDEX);
     std::string idxname = lex_->eatId();
     lex_->eatKeyword(Word::ON);
@@ -233,7 +228,6 @@ namespace parse {
     lex_->eatDelim(Word::LEFT_PARENTHESIS);
     std::string fldname = field();
     lex_->eatDelim(Word::RIGHT_PARENTHESIS);
-    CreateIndexData cid(idxname, tblname, fldname);
-    return cid;
+    return std::make_shared<CreateIndexData>(idxname, tblname, fldname);
   }
 }  // namespace parse

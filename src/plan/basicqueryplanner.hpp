@@ -1,5 +1,6 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #pragma once
+#include <memory>
 #include <string>
 #include <vector>
 #include "meta/metadatamanager.hpp"
@@ -16,8 +17,8 @@
 namespace plan {
 class BasicQueryPlanner : public QueryPlanner {
  public:
-   BasicQueryPlanner(meta::MetaDataManager* mdm);
-   std::shared_ptr<Plan> createPlan(const parse::QueryData& data, tx::Transaction* transaction) override;  
+    BasicQueryPlanner(meta::MetaDataManager* mdm);
+    std::shared_ptr<Plan> createPlan(const parse::QueryData& data, tx::Transaction* transaction) override;
  private:
     meta::MetaDataManager* mdm_;
 };

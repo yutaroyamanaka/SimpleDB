@@ -9,6 +9,6 @@ namespace plan {
 class QueryPlanner {
  public:
     ~QueryPlanner() = default;
-    virtual std::shared_ptr<Plan> createPlan(const parse::QueryData& data, tx::Transaction* transaction) = 0;  
+    virtual std::shared_ptr<Plan> createPlan(const parse::QueryData& data, tx::Transaction* transaction) = 0;
 };
 }  // namespace plan

@@ -12,4 +12,8 @@ namespace parse {
   std::string CreateViewData::viewDef() const {
     return qrydata_.toString();
   }
+
+  int CreateViewData::getID() {
+    return id_;
+  }
 }  // namespace parse

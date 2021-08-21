@@ -49,7 +49,7 @@ namespace record {
 
   int Schema::type(const std::string& fldname) const {
     if (info_.find(fldname) == info_.end()) {
-      throw std::runtime_error("filed " + fldname + " not found");
+      throw std::runtime_error("file " + fldname + " not found");
     }
 
     int type = info_.at(fldname).type();
@@ -58,7 +58,7 @@ namespace record {
 
   int Schema::length(const std::string& fldname) const {
     if (info_.find(fldname) == info_.end()) {
-      throw std::runtime_error("filed " + fldname + " not found");
+      throw std::runtime_error("file " + fldname + " not found");
     }
     int length = info_.at(fldname).length();
     return length;

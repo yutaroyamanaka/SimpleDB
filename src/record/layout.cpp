@@ -51,6 +51,6 @@ namespace record {
       return file::Page::maxLength(schema_.length(fldname));
     }
 
-    throw std::runtime_error("filed type not defined");
+    throw std::runtime_error("file type not defined");
   }
 }  // namespace record

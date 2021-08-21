@@ -14,7 +14,7 @@
 #include "meta/tablemanager.hpp"
 
 TEST(TableManagerTest, Main) {
-  std::string file_name = "tablemanagertest";
+  std::string file_name = "tablemanagerTest";
   std::string log_file_name = "simpledb.log";
 
   int block_size = 400;
