@@ -17,4 +17,8 @@ namespace parse {
   std::vector<scan::Constant> InsertData::vals() const {
     return vals_;
   }
+
+  int InsertData::getID() {
+    return id_;
+  }
 }  // namespace parse

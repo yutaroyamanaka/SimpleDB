@@ -11,7 +11,7 @@
 #include "tx/transaction.hpp"
 
 TEST(RecoveryTest, Main) {
-  std::string file_name = "recoverytest";
+  std::string file_name = "recoveryTest";
   std::string log_file_name = "simpledb.log";
 
   int block_size = 400;

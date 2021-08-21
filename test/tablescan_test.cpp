@@ -13,7 +13,7 @@
 #include "record/tablescan.hpp"
 
 TEST(TableScanTest, Main) {
-  std::string file_name = "tablescantest";
+  std::string file_name = "tablescanTest";
   std::string log_file_name = "simpledb.log";
 
   int block_size = 400;

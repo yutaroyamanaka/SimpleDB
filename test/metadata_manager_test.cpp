@@ -10,7 +10,7 @@
 #include "meta/metadatamanager.hpp"
 
 TEST(MetadataManagerTest, Main) {
-  std::string file_name = "metadatamgrtest";
+  std::string file_name = "metadatamgrTest";
   app::SimpleDB db(file_name, 400, 8);
   auto transaction = db.getNewTx();
   meta::MetaDataManager mdm(true, transaction.get());

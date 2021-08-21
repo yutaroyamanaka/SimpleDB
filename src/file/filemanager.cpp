@@ -21,7 +21,7 @@ FileManager::FileManager(const std::filesystem::path db_directory, int block_siz
 
   // remove any leftover temp tables
   for (auto& p : std::filesystem::directory_iterator(db_directory)) {
-    if (p.path().filename().string().find("temp")) {
+    if (p.path().filename().string().find("temp") == 0) {
       std::filesystem::remove(p.path());
     }
   }

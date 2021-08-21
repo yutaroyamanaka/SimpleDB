@@ -17,4 +17,8 @@ namespace parse {
   std::string CreateIndexData::fieldName() const {
     return fldname_;
   }
+
+  int CreateIndexData::getID() {
+    return id_;
+  }
 }  // namespace parse

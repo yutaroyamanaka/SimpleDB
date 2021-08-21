@@ -1,6 +1,5 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #include "tx/transaction.hpp"
-#include <iostream>
 
 namespace tx {
   int Transaction::nextTxNum_ = 0;

@@ -8,6 +8,9 @@
 #include "buffer/buffermanager.hpp"
 #include "tx/transaction.hpp"
 #include "meta/metadatamanager.hpp"
+#include "plan/planner.hpp"
+#include "plan/basicqueryplanner.hpp"
+#include "plan/basicupdateplanner.hpp"
 
 namespace app {
 class SimpleDB {
@@ -18,6 +21,7 @@ class SimpleDB {
     buffer::BufferManager& getBufferManager();
     log::LogManager& getLogManager();
     meta::MetaDataManager& getMetaDataManager();
+    plan::Planner& getPlanner();
     std::unique_ptr<tx::Transaction> getNewTx();
 
     static int block_size_;
@@ -28,5 +32,6 @@ class SimpleDB {
     std::unique_ptr<buffer::BufferManager> buffer_manager_;
     std::unique_ptr<log::LogManager> log_manager_;
     std::unique_ptr<meta::MetaDataManager> meta_data_manager_;
+    std::unique_ptr<plan::Planner> planner_;
 };
 }  // namespace app

@@ -3,7 +3,6 @@
 #include <vector>
 #include <map>
 #include <string>
-#include <memory>
 #include "record/schema.hpp"
 #include "record/layout.hpp"
 #include "tx/transaction.hpp"
@@ -16,6 +15,6 @@ class TableManager {
     record::Layout getLayout(const std::string& tblname, tx::Transaction* transaction);
     const static int MAX_NAME = 16;
  private:
-    std::unique_ptr<record::Layout> tcat_layout_, fcat_layout_;
+    record::Layout tcat_layout_, fcat_layout_;
 };
 }  // namespace meta

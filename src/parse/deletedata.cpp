@@ -12,4 +12,8 @@ namespace parse {
   scan::Predicate DeleteData::pred() const {
     return pred_;
   }
+
+  int DeleteData::getID() {
+    return id_;
+  }
 }  // namespace parse

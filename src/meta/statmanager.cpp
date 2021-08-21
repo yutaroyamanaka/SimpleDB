@@ -28,11 +28,11 @@ namespace meta {
   void StatManager::refreshStatistics(tx::Transaction* transaction) {
     std::unique_lock<std::recursive_mutex> lock(mutex_);
     table_stats_.clear();
+    num_calls_ = 0;
     record::Layout tcatlayout = table_manager_->getLayout("tblcat", transaction);
     record::TableScan tcat(transaction, "tblcat", tcatlayout);
     while (tcat.next()) {
       std::string tblname = tcat.getString("tblname");
-      std::cout << tblname << std::endl;
       record::Layout layout = table_manager_->getLayout(tblname, transaction);
       StatInfo si = calcTableStats(tblname, layout, transaction);
       table_stats_[tblname] = si;

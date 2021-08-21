@@ -2,7 +2,7 @@
 #include "scan/selectscan.hpp"
 
 namespace scan {
-  SelectScan::SelectScan(std::shared_ptr<Scan>& s, const Predicate& pred) : s_(s), pred_(pred) {
+  SelectScan::SelectScan(const std::shared_ptr<Scan>& s, const Predicate& pred) : s_(s), pred_(pred) {
   }
 
   void SelectScan::beforeFirst() {

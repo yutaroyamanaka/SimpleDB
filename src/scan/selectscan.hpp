@@ -10,7 +10,7 @@
 namespace scan {
 class SelectScan: public UpdateScan {
  public:
-    SelectScan(std::shared_ptr<Scan>& s, const Predicate& pred);
+    SelectScan(const std::shared_ptr<Scan>& s, const Predicate& pred);
     void beforeFirst() override;
     bool next() override;
     int getInt(const std::string& fldname) override;

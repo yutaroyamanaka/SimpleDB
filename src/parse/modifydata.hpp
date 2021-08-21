@@ -2,6 +2,7 @@
 #pragma once
 #include <string>
 #include "parse/object.hpp"
+#include "parse/objectid.hpp"
 #include "scan/expression.hpp"
 #include "scan/predicate.hpp"
 
@@ -13,10 +14,14 @@ class ModifyData : public Object {
     std::string targetField() const;
     scan::Expression newValue() const;
     scan::Predicate pred() const;
+
+    int getID() override;
  private:
     std::string tblname_;
     std::string fldname_;
     scan::Expression newval_;
     scan::Predicate pred_;
+
+    const int id_ = ObjectID::MODIFY;
 };
 }  // namespace parse

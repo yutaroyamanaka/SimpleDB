@@ -12,4 +12,8 @@ namespace parse {
   record::Schema CreateTableData::newSchema() const {
     return sch_;
   }
+
+  int CreateTableData::getID() {
+    return id_;
+  }
 }  // namespace parse

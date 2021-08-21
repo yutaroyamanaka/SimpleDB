@@ -12,7 +12,7 @@
 #include "scan/selectscan.hpp"
 
 TEST(ScanTest1, Main) {
-  std::string file_name = "scantest1";
+  std::string file_name = "scanTest1";
   app::SimpleDB db(file_name, 400, 8);
   auto transaction = db.getNewTx();
 

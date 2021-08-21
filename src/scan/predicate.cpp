@@ -32,8 +32,12 @@ namespace scan {
     return true;
   }
 
-  int Predicate::reductionFacotr() const {
-    return -1;
+  int Predicate::reductionFactor(plan::Plan* p) const {
+    int factor = 1;
+    for (auto& t : terms_) {
+      factor *= t.reductionFactor(p);
+    }
+    return factor;
   }
 
   Predicate Predicate::selectSubPred(const record::Schema& sch) const {

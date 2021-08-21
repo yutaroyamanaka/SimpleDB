@@ -24,6 +24,9 @@ namespace app {
     }
 
     meta_data_manager_ = std::make_unique<meta::MetaDataManager>(isNew, transaction.get());
+    auto qp = std::make_unique<plan::BasicQueryPlanner>(meta_data_manager_.get());
+    auto up = std::make_unique<plan::BasicUpdatePlanner>(meta_data_manager_.get());
+    planner_ = std::make_unique<plan::Planner>(std::move(qp), std::move(up));
     transaction->commit();
   }
 
@@ -41,6 +44,10 @@ namespace app {
 
   meta::MetaDataManager& SimpleDB::getMetaDataManager() {
     return *meta_data_manager_;
+  }
+
+  plan::Planner& SimpleDB::getPlanner() {
+    return *planner_;
   }
 
   std::unique_ptr<tx::Transaction> SimpleDB::getNewTx() {
