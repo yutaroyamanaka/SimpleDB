@@ -6,9 +6,9 @@
 #include "interface/connection.hpp"
 #include "interface/driver.hpp"
 #include "interface/statement.hpp"
+#include "interface/resultset.hpp"
 
-int main(int argc, char** argv) {
-  std::string dbname = "student";
+void createDB(const std::string& dbname) {
   try {
     auto driver = std::unique_ptr<interface::Driver>();
     auto conn = driver->connect(dbname);
@@ -87,5 +87,62 @@ int main(int argc, char** argv) {
   } catch (std::exception& e) {
     std::cout << e.what() << std::endl;
   }
+}
+
+void studentMajor(const std::string& dbname) {
+  try {
+    auto driver = std::unique_ptr<interface::Driver>();
+    auto conn = driver->connect(dbname);
+    auto stmt = conn->createStatement();
+
+    std::string s = "select sname, dname from dept, student where majorid = did";
+    interface::ResultSet rs = stmt->executeQuery(s);
+    std::string t1 = "sname";
+    std::string t2 = "dname";
+
+    while (rs.next()) {
+      std::string sname = rs.getString(t1);
+      std::string dname = rs.getString(t2);
+      std::cout << t1 << ": " << sname << " " << t2 << ": " << dname << std::endl;
+    }
+    rs.close();
+  } catch (std::exception& e) {
+    std::cout << e.what() << std::endl;
+  }
+}
+
+void findMajors(const std::string& dbname, const std::string& major) {
+  try {
+    auto driver = std::unique_ptr<interface::Driver>();
+    auto conn = driver->connect(dbname);
+    auto stmt = conn->createStatement();
+
+    std::string s = "select sname, gradyear, dname from student, dept where majorid = did and dname = '" + major + "'";
+    interface::ResultSet rs = stmt->executeQuery(s);
+    std::string t1 = "sname";
+    std::string t2 = "gradyear";
+    std::string t3 = "dname";
+
+    while (rs.next()) {
+      std::string sname = rs.getString(t1);
+      int gradyear = rs.getInt(t2);
+      std::string dname = rs.getString(t3);
+      std::cout << t1 << ": " << sname << " " << t2 << ": " << gradyear << " " << t3 << ": " << dname << std::endl;
+    }
+    rs.close();
+  } catch (std::exception& e) {
+    std::cout << e.what() << std::endl;
+  }
+}
+
+int main(int argc, char** argv) {
+  std::string dbname = "student";
+  createDB(dbname);
+  studentMajor(dbname);
+
+  std::cout << "Enter a department name: ";
+  std::string major;
+  std::cin >> major;
+  findMajors(dbname, major);
   return 0;
 }
