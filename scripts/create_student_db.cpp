@@ -96,16 +96,20 @@ void studentMajor(const std::string& dbname) {
     auto stmt = conn->createStatement();
 
     std::string s = "select sname, dname from dept, student where majorid = did";
+    std::cout << std::endl << s << std::endl;
     interface::ResultSet rs = stmt->executeQuery(s);
     std::string t1 = "sname";
     std::string t2 = "dname";
 
+    std::cout << std::endl;
+    std::cout << "| " << t1 << " | " << t2 << " |" << std::endl;
     while (rs.next()) {
       std::string sname = rs.getString(t1);
       std::string dname = rs.getString(t2);
-      std::cout << t1 << ": " << sname << " " << t2 << ": " << dname << std::endl;
+      std::cout << "| " << sname << " | " << dname  << " |" << std::endl;
     }
     rs.close();
+    std::cout << std::endl;
   } catch (std::exception& e) {
     std::cout << e.what() << std::endl;
   }
@@ -117,18 +121,20 @@ void findMajors(const std::string& dbname, const std::string& major) {
     auto conn = driver->connect(dbname);
     auto stmt = conn->createStatement();
 
-    std::string s = "select sname, gradyear, dname from student, dept where majorid = did and dname = '" + major + "'";
+    std::string s = "select sname, gradyear from student, dept where majorid = did and dname = '" + major + "'";
+    std::cout << std::endl << s << std::endl;
     interface::ResultSet rs = stmt->executeQuery(s);
     std::string t1 = "sname";
     std::string t2 = "gradyear";
-    std::string t3 = "dname";
 
+    std::cout << std::endl;
+    std::cout << "| " << t1 << " | " << t2 << " |" << std::endl;
     while (rs.next()) {
       std::string sname = rs.getString(t1);
       int gradyear = rs.getInt(t2);
-      std::string dname = rs.getString(t3);
-      std::cout << t1 << ": " << sname << " " << t2 << ": " << gradyear << " " << t3 << ": " << dname << std::endl;
+      std::cout << "| " << sname << " | " << gradyear  << " |" << std::endl;
     }
+    std::cout << std::endl;
     rs.close();
   } catch (std::exception& e) {
     std::cout << e.what() << std::endl;
@@ -138,11 +144,13 @@ void findMajors(const std::string& dbname, const std::string& major) {
 int main(int argc, char** argv) {
   std::string dbname = "student";
   createDB(dbname);
-  studentMajor(dbname);
+  std::cout << std::endl;
 
   std::cout << "Enter a department name: ";
   std::string major;
   std::cin >> major;
+
+  studentMajor(dbname);
   findMajors(dbname, major);
   return 0;
 }
