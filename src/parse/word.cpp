@@ -7,7 +7,7 @@ namespace parse {
   const char Word::LEFT_PARENTHESIS = '(';
   const char Word::RIGHT_PARENTHESIS = ')';
   const char Word::QUOTATION = '\'';
-  const std::string Word::AMPERSAND = "&";
+  const std::string Word::AMPERSAND = "and";
   const std::string Word::SELECT = "select";
   const std::string Word::FROM = "from";
   const std::string Word::WHERE = "where";

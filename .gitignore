@@ -3,3 +3,4 @@
 *Test*/
 compile_commands.json
 test/main_test
+scripts/create_student_db
