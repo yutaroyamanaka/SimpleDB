@@ -29,6 +29,8 @@ class BTPage {
     void insertLeaf(int slot, const scan::Constant& val, const record::RID& rid);
     void remove(int slot);
     int getNumRecs();
+    bool isNull();
+
  private:
     tx::Transaction* transaction_;
     file::BlockId currentblk_;

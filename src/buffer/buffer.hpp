@@ -8,13 +8,13 @@
 #include "file/blockid.hpp"
 #include "file/page.hpp"
 #include "file/filemanager.hpp"
-#include "log/logmanager.hpp"
-#include "log/logiterator.hpp"
+#include "logging/logmanager.hpp"
+#include "logging/logiterator.hpp"
 
 namespace buffer {
 class Buffer {
  public:
-    Buffer(file::FileManager* file_manager, log::LogManager* log_manager);
+    Buffer(file::FileManager* file_manager, logging::LogManager* log_manager);
     file::Page* contents() { return contents_.get(); }
     file::BlockId block() { return block_id_; }
     void setModified(int txnum, int lsn);
@@ -26,7 +26,7 @@ class Buffer {
     void unpin();
  private:
     file::FileManager* file_manager_;
-    log::LogManager* log_manager_;
+    logging::LogManager* log_manager_;
     std::unique_ptr<file::Page> contents_;
     file::BlockId block_id_;
     int pins_ = 0;

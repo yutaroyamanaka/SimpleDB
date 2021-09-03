@@ -2,6 +2,9 @@
 #include "index/btreeleaf.hpp"
 
 namespace index {
+  BTreeLeaf::BTreeLeaf() {
+  }
+
   BTreeLeaf::BTreeLeaf(tx::Transaction* transaction, file::BlockId& blk, const record::Layout& layout, const scan::Constant& searchkey)
     : transaction_(transaction), layout_(layout), searchkey_(searchkey) {
       contents_ = BTPage(transaction_, blk, layout_);
@@ -93,5 +96,9 @@ namespace index {
     contents_ = BTPage(transaction_, nextblk, layout_);
     currentslot_ = 0;
     return true;
+  }
+
+  bool BTreeLeaf::isNull() {
+    return contents_.isNull();
   }
 }  // namespace index

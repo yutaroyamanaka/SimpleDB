@@ -4,7 +4,7 @@
 #include "file/blockid.hpp"
 #include "file/page.hpp"
 #include "file/filemanager.hpp"
-#include "log/logmanager.hpp"
+#include "logging/logmanager.hpp"
 #include "buffer/buffermanager.hpp"
 #include "tx/transaction.hpp"
 
@@ -16,7 +16,7 @@ TEST(TxTest, Main) {
   auto path = std::filesystem::current_path() / file_name;
 
   file::FileManager file_manager(path, block_size);
-  log::LogManager lm(&file_manager, log_file_name);
+  logging::LogManager lm(&file_manager, log_file_name);
   buffer::BufferManager bm(&file_manager, &lm, 8);
 
   tx::Transaction tx1(&file_manager, &lm, &bm);

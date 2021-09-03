@@ -9,7 +9,7 @@ namespace app {
   SimpleDB::SimpleDB(const std::string& filename, int block_size, int buffr_size) {
     auto path = std::filesystem::current_path() / filename;
     file_manager_ = std::make_unique<file::FileManager>(path, block_size_);
-    log_manager_ = std::make_unique<log::LogManager>(file_manager_.get(), log_file_name_);
+    log_manager_ = std::make_unique<logging::LogManager>(file_manager_.get(), log_file_name_);
     buffer_manager_ = std::make_unique<buffer::BufferManager>(file_manager_.get(), log_manager_.get(), buffer_size_);
   }
 
@@ -34,7 +34,7 @@ namespace app {
     return *file_manager_;
   }
 
-  log::LogManager& SimpleDB::getLogManager() {
+  logging::LogManager& SimpleDB::getLogManager() {
     return *log_manager_;
   }
 

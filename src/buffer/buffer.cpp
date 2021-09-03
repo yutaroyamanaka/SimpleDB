@@ -1,11 +1,8 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #include "buffer/buffer.hpp"
-#include <memory>
-#include "file/filemanager.hpp"
-#include "log/logmanager.hpp"
 
 namespace buffer {
-  Buffer::Buffer(file::FileManager* file_manager, log::LogManager* log_manager): file_manager_(file_manager), log_manager_(log_manager) {
+  Buffer::Buffer(file::FileManager* file_manager, logging::LogManager* log_manager): file_manager_(file_manager), log_manager_(log_manager) {
     contents_ = std::make_unique<file::Page>(file_manager_->blockSize());
   }
 

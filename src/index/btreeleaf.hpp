@@ -13,12 +13,14 @@
 namespace index {
 class BTreeLeaf {
  public:
+    BTreeLeaf();
     BTreeLeaf(tx::Transaction* transaction, file::BlockId& blk, const record::Layout& layout, const scan::Constant& searchkey);
     void close();
     bool next();
     record::RID getDataRid();
     void remove(const record::RID& datarid);
     DirEntry insert(const record::RID& datarid);
+    bool isNull();
  private:
     tx::Transaction* transaction_;
     record::Layout layout_;

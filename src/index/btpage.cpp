@@ -193,4 +193,8 @@ namespace index {
     int slotsize = layout_.slotSize();
     return sizeof(uint32_t) + sizeof(uint32_t) + (slot * slotsize);
   }
+
+  bool BTPage::isNull() {
+    return transaction_ == nullptr;
+  }
 }  // namespace index

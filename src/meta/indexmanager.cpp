@@ -46,18 +46,18 @@ namespace meta {
 
   IndexInfo::IndexInfo(const std::string& idxname, const std::string& fldname, const record::Schema& schema, tx::Transaction* transaction, const StatInfo& si)
     : idxname_(idxname), fldname_(fldname), transaction_(transaction), schema_(schema), si_(si) {
-    layout_ = createIdxLayout();
+    idxLayout_ = createIdxLayout();
   }
 
-  void IndexInfo::open() {
+  std::shared_ptr<index::Index> IndexInfo::open() {
     record::Schema sch;
-    return;
+    return std::make_shared<index::BTreeIndex>(transaction_, idxname_, idxLayout_);
   }
 
   int IndexInfo::blocksAccessed() {
-    int rpb = transaction_->blockSize() / layout_.slotSize();
+    int rpb = transaction_->blockSize() / idxLayout_.slotSize();
     int num_blocks = si_.recordOutput() / rpb;
-    return 0;
+    return index::BTreeIndex::searchCost(num_blocks, rpb);
   }
 
   int IndexInfo::recordOutput() {

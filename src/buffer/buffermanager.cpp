@@ -1,11 +1,8 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #include "buffer/buffermanager.hpp"
-#include "buffer/buffer.hpp"
-#include "file/filemanager.hpp"
-#include "log/logmanager.hpp"
 
 namespace buffer {
-  BufferManager::BufferManager(file::FileManager* file_manager, log::LogManager* log_manager, int numbuffs) {
+  BufferManager::BufferManager(file::FileManager* file_manager, logging::LogManager* log_manager, int numbuffs) {
     num_available_ = numbuffs;
     for (int i = 0; i < numbuffs; i++) {
       auto new_buffer = std::make_unique<Buffer>(file_manager, log_manager);

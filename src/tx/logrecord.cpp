@@ -1,6 +1,5 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #include "tx/logrecord.hpp"
-#include "file/page.hpp"
 
 namespace tx {
   std::unique_ptr<LogRecord> LogRecord::createLogRecord(const std::vector<char>& bytes) {
@@ -28,7 +27,7 @@ namespace tx {
   CheckpointRecord::CheckpointRecord() {
   }
 
-  int CheckpointRecord::writeToLog(log::LogManager* lm) {
+  int CheckpointRecord::writeToLog(logging::LogManager* lm) {
     auto bytes = std::make_shared<std::vector<char>>(sizeof(uint32_t), 0);
     file::Page p(bytes);
     p.setInt(0, CHECKPOINT);
@@ -40,7 +39,7 @@ namespace tx {
     txnum_ = page->getInt(tpos);
   }
 
-  int StartRecord::writeToLog(log::LogManager* lm, int txnum) {
+  int StartRecord::writeToLog(logging::LogManager* lm, int txnum) {
     int tpos = sizeof(uint32_t);
     int reclen = tpos + sizeof(uint32_t);
     auto bytes = std::make_shared<std::vector<char>>(reclen, 0);
@@ -55,7 +54,7 @@ namespace tx {
     txnum_ = page->getInt(tpos);
   }
 
-  int CommitRecord::writeToLog(log::LogManager* lm, int txnum) {
+  int CommitRecord::writeToLog(logging::LogManager* lm, int txnum) {
     int tpos = sizeof(uint32_t);
     int reclen = tpos + sizeof(uint32_t);
     auto bytes = std::make_shared<std::vector<char>>(reclen, 0);
@@ -70,7 +69,7 @@ namespace tx {
     txnum_ = p->getInt(pos);
   }
 
-  int RollbackRecord::writeToLog(log::LogManager* lm, int txnum) {
+  int RollbackRecord::writeToLog(logging::LogManager* lm, int txnum) {
     int tpos = sizeof(uint32_t);
     int reclen = tpos + sizeof(uint32_t);
     auto bytes = std::make_shared<std::vector<char>>(reclen, 0);
@@ -104,7 +103,7 @@ namespace tx {
     tx->unpin(block_id_);
   }
 
-  int SetIntRecord::writeToLog(log::LogManager* lm, int txnum, file::BlockId& block_id, int offset, int val) {
+  int SetIntRecord::writeToLog(logging::LogManager* lm, int txnum, file::BlockId& block_id, int offset, int val) {
     int tpos = sizeof(uint32_t);
     int fpos = tpos + sizeof(uint32_t);
     int bpos = fpos + file::Page::maxLength(block_id.fileName().size());
@@ -146,7 +145,7 @@ namespace tx {
     tx->unpin(block_id_);
   }
 
-  int SetStringRecord::writeToLog(log::LogManager* lm, int txnum, file::BlockId& block_id, int offset, std::string val) {
+  int SetStringRecord::writeToLog(logging::LogManager* lm, int txnum, file::BlockId& block_id, int offset, std::string val) {
     int tpos = sizeof(uint32_t);
     int fpos = tpos + sizeof(uint32_t);
     int bpos = fpos + file::Page::maxLength(block_id.fileName().size());

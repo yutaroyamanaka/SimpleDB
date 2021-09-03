@@ -1,8 +1,8 @@
 /* Copyright 2021 Yutaro Yamanaka */
-#include "log/logmanager.hpp"
-#include "log/logiterator.hpp"
+#include "logging/logmanager.hpp"
+#include "logging/logiterator.hpp"
 
-namespace log {
+namespace logging {
   LogIterator::LogIterator(file::FileManager* file_manager, file::BlockId& block_id) : file_manager_(file_manager), block_id_(block_id) {
     auto buf = std::make_shared<std::vector<char>>(file_manager_->blockSize(), 0);
     page_ = std::make_unique<file::Page>(buf);
@@ -29,4 +29,4 @@ namespace log {
     boundary = page_->getInt(0);
     current_pos_ = boundary;
   }
-}  // namespace log
+}  // namespace logging

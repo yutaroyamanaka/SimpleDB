@@ -7,7 +7,7 @@
 #include "file/blockid.hpp"
 #include "file/page.hpp"
 #include "file/filemanager.hpp"
-#include "log/logmanager.hpp"
+#include "logging/logmanager.hpp"
 #include "buffer/buffermanager.hpp"
 #include "buffer/buffer.hpp"
 #include "tx/transaction.hpp"
@@ -33,7 +33,7 @@ class CheckpointRecord : public LogRecord {
     int txNumber() override { return -1; }
     std::string toString() override { return "<CHECKPOINT>"; }
     void undo(Transaction* trx) override { return; }
-    static int writeToLog(log::LogManager* lm);
+    static int writeToLog(logging::LogManager* lm);
 };
 
 class StartRecord : public LogRecord {
@@ -43,7 +43,7 @@ class StartRecord : public LogRecord {
     int txNumber() override { return txnum_; }
     std::string toString() override { return "<START, " + std::to_string(txnum_) + ">"; }
     void undo(Transaction* trx) override { return; }
-    static int writeToLog(log::LogManager* lm, int txnum);
+    static int writeToLog(logging::LogManager* lm, int txnum);
  private:
     int txnum_;
 };
@@ -55,7 +55,7 @@ class CommitRecord : public LogRecord {
     int txNumber() override { return txnum_; }
     std::string toString() override { return "<COMMIT, " + std::to_string(txnum_) +  ">"; }
     void undo(Transaction* trx) override { return; }
-    static int writeToLog(log::LogManager* lm, int txnum);
+    static int writeToLog(logging::LogManager* lm, int txnum);
  private:
     int txnum_;
 };
@@ -67,7 +67,7 @@ class RollbackRecord : public LogRecord {
     int txNumber() override { return txnum_; }
     std::string toString() override { return "<COMMIT, " + std::to_string(txnum_) + ">"; }
     void undo(Transaction* trx) override { return; }
-    static int writeToLog(log::LogManager* lm, int txnum);
+    static int writeToLog(logging::LogManager* lm, int txnum);
  private:
     int txnum_;
 };
@@ -79,7 +79,7 @@ class SetIntRecord : public LogRecord {
     int txNumber() override { return txnum_; }
     std::string toString() override;
     void undo(Transaction* trx) override;
-    static int writeToLog(log::LogManager* lm, int txnum, file::BlockId& blk, int offset, int val);
+    static int writeToLog(logging::LogManager* lm, int txnum, file::BlockId& blk, int offset, int val);
  private:
     int txnum_;
     int val_;
@@ -94,7 +94,7 @@ class SetStringRecord : public LogRecord {
     int txNumber() override { return txnum_; }
     std::string toString() override;
     void undo(Transaction* trx) override;
-    static int writeToLog(log::LogManager* lm, int txnum, file::BlockId& blk, int offset, std::string val);
+    static int writeToLog(logging::LogManager* lm, int txnum, file::BlockId& blk, int offset, std::string val);
  private:
     int txnum_;
     int offset_;

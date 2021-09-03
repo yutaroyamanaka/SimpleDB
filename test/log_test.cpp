@@ -5,10 +5,10 @@
 #include "file/blockid.hpp"
 #include "file/page.hpp"
 #include "file/filemanager.hpp"
-#include "log/logmanager.hpp"
+#include "logging/logmanager.hpp"
 
-void printLogRecord(log::LogManager& log_manager, std::string& msg) {
-  log::LogIterator iter = log_manager.iterator();
+void printLogRecord(logging::LogManager& log_manager, std::string& msg) {
+  logging::LogIterator iter = log_manager.iterator();
 
   while (iter.hasNext()) {
     auto rec = std::make_shared<std::vector<char>>(iter.next());
@@ -19,7 +19,7 @@ void printLogRecord(log::LogManager& log_manager, std::string& msg) {
   }
 }
 
-void createRecords(log::LogManager& log_manager, int start, int end) {
+void createRecords(logging::LogManager& log_manager, int start, int end) {
   for (int i = start; i <= end; i++) {
     std::string s = "record" + std::to_string(i);
 
@@ -36,7 +36,7 @@ TEST(LogTest, Main) {
   std::string file_name = "logTest";
   app::SimpleDB db(file_name, 400, 8);
 
-  log::LogManager &lm = db.getLogManager();
+  logging::LogManager &lm = db.getLogManager();
 
   createRecords(lm, 1, 35);
   EXPECT_EQ(20, lm.getLastSavedLSN());
