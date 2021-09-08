@@ -8,9 +8,9 @@
 #include "file/blockid.hpp"
 #include "file/page.hpp"
 #include "file/filemanager.hpp"
-#include "log/logiterator.hpp"
+#include "logging/logiterator.hpp"
 
-namespace log {
+namespace logging {
 class LogManager {
  public:
     LogManager(file::FileManager* file_manager, const std::string& logfile);
@@ -30,4 +30,4 @@ class LogManager {
     file::BlockId appendNewBlock();
     void flush();
 };
-}  // namespace log
+}  // namespace logging

@@ -9,7 +9,7 @@ namespace app {
   SimpleDB::SimpleDB(const std::string& filename, int block_size, int buffr_size) {
     auto path = std::filesystem::current_path() / filename;
     file_manager_ = std::make_unique<file::FileManager>(path, block_size_);
-    log_manager_ = std::make_unique<log::LogManager>(file_manager_.get(), log_file_name_);
+    log_manager_ = std::make_unique<logging::LogManager>(file_manager_.get(), log_file_name_);
     buffer_manager_ = std::make_unique<buffer::BufferManager>(file_manager_.get(), log_manager_.get(), buffer_size_);
   }
 
@@ -25,7 +25,7 @@ namespace app {
 
     meta_data_manager_ = std::make_unique<meta::MetaDataManager>(isNew, transaction.get());
     auto qp = std::make_unique<plan::BasicQueryPlanner>(meta_data_manager_.get());
-    auto up = std::make_unique<plan::BasicUpdatePlanner>(meta_data_manager_.get());
+    auto up = std::make_unique<indexing::IndexUpdatePlanner>(meta_data_manager_.get());
     planner_ = std::make_unique<plan::Planner>(std::move(qp), std::move(up));
     transaction->commit();
   }
@@ -34,7 +34,7 @@ namespace app {
     return *file_manager_;
   }
 
-  log::LogManager& SimpleDB::getLogManager() {
+  logging::LogManager& SimpleDB::getLogManager() {
     return *log_manager_;
   }
 

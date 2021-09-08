@@ -5,7 +5,7 @@ namespace tx {
   int Transaction::nextTxNum_ = 0;
   std::mutex Transaction::mutex_;
 
-  Transaction::Transaction(file::FileManager* fm, log::LogManager* lm, buffer::BufferManager* bm) : fm_(fm), lm_(lm), bm_(bm) {
+  Transaction::Transaction(file::FileManager* fm, logging::LogManager* lm, buffer::BufferManager* bm) : fm_(fm), lm_(lm), bm_(bm) {
     txnum_ = nextTxNumber();
     rm_ = std::make_unique<RecoveryManager>(this, txnum_, lm_, bm_);
     cm_ = std::make_unique<ConcurrencyManager>();

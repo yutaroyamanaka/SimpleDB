@@ -6,7 +6,7 @@
 #include "file/page.hpp"
 #include "file/filemanager.hpp"
 
-namespace log {
+namespace logging {
 class LogIterator {
  public:
     LogIterator(file::FileManager* file_manager, file::BlockId& block_id);
@@ -20,4 +20,4 @@ class LogIterator {
     int boundary;
     void moveToBlock(file::BlockId& block_id);
 };
-}  // namespace log
+}  // namespace logging

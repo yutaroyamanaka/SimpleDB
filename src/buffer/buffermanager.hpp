@@ -13,14 +13,14 @@
 #include "file/blockid.hpp"
 #include "file/page.hpp"
 #include "file/filemanager.hpp"
-#include "log/logmanager.hpp"
-#include "log/logiterator.hpp"
+#include "logging/logmanager.hpp"
+#include "logging/logiterator.hpp"
 #include "buffer/buffer.hpp"
 
 namespace buffer {
 class BufferManager {
  public:
-    BufferManager(file::FileManager* file_manager, log::LogManager* long_manager, int num_buffs);
+    BufferManager(file::FileManager* file_manager, logging::LogManager* long_manager, int num_buffs);
     int available();
     void flushAll(int txnum);
     void unpin(Buffer* buff);

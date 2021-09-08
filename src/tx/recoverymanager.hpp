@@ -7,7 +7,7 @@
 #include "file/blockid.hpp"
 #include "file/page.hpp"
 #include "file/filemanager.hpp"
-#include "log/logmanager.hpp"
+#include "logging/logmanager.hpp"
 #include "buffer/buffermanager.hpp"
 #include "buffer/buffer.hpp"
 #include "tx/logrecord.hpp"
@@ -17,14 +17,14 @@ class Transaction;
 
 class RecoveryManager {
  public:
-    RecoveryManager(Transaction* trx, int txnum, log::LogManager* lm, buffer::BufferManager* bm);
+    RecoveryManager(Transaction* trx, int txnum, logging::LogManager* lm, buffer::BufferManager* bm);
     void commit();
     void rollback();
     void recover();
     int setInt(buffer::Buffer* buff, int offset, int newval);
     int setString(buffer::Buffer* buff, int offset, const std::string& newval);
  private:
-    log::LogManager* lm_;
+    logging::LogManager* lm_;
     buffer::BufferManager* bm_;
     Transaction* tx_;
     int txnum_;

@@ -1,8 +1,8 @@
 /* Copyright 2021 Yutaro Yamanaka */
-#include "log/logmanager.hpp"
-#include "log/logiterator.hpp"
+#include "logging/logmanager.hpp"
+#include "logging/logiterator.hpp"
 
-namespace log {
+namespace logging {
   LogManager::LogManager(file::FileManager* file_manager, const std::string& logfile) : file_manager_(file_manager), logfile_(logfile) {
     auto buf = std::make_shared<std::vector<char>>(file_manager_->blockSize(), 0);
     logpage_ = std::make_unique<file::Page>(buf);
@@ -58,4 +58,4 @@ namespace log {
     file_manager_->write(current_block_, *logpage_);
     last_saved_lsn_ = latest_lsn_;
   }
-}  // namespace log
+}  // namespace logging

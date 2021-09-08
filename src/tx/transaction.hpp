@@ -17,7 +17,7 @@ class RecoveryManager;
 
 class Transaction {
  public:
-    Transaction(file::FileManager* fm, log::LogManager* lm, buffer::BufferManager* bm);
+    Transaction(file::FileManager* fm, logging::LogManager* lm, buffer::BufferManager* bm);
     void commit();
     void rollback();
     void recover();
@@ -42,7 +42,7 @@ class Transaction {
     std::unique_ptr<RecoveryManager> rm_;
     std::unique_ptr<ConcurrencyManager> cm_;
     buffer::BufferManager* bm_;
-    log::LogManager* lm_;
+    logging::LogManager* lm_;
     file::FileManager* fm_;
     int txnum_;
     std::unique_ptr<BufferList> my_buffers_;

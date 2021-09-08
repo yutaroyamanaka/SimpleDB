@@ -6,11 +6,11 @@
 #include "file/blockid.hpp"
 #include "file/page.hpp"
 #include "file/filemanager.hpp"
-#include "log/logmanager.hpp"
+#include "logging/logmanager.hpp"
 #include "buffer/buffermanager.hpp"
 #include "tx/transaction.hpp"
 
-void runA(file::FileManager& fm, log::LogManager& lm, buffer::BufferManager& bm) {
+void runA(file::FileManager& fm, logging::LogManager& lm, buffer::BufferManager& bm) {
   try {
     tx::Transaction txA(&fm, &lm, &bm);
     file::BlockId blk1("testfile", 1);
@@ -31,7 +31,7 @@ void runA(file::FileManager& fm, log::LogManager& lm, buffer::BufferManager& bm)
   }
 }
 
-void runB(file::FileManager& fm, log::LogManager& lm, buffer::BufferManager& bm) {
+void runB(file::FileManager& fm, logging::LogManager& lm, buffer::BufferManager& bm) {
   try {
     tx::Transaction txB(&fm, &lm, &bm);
     file::BlockId blk1("testfile", 1);
@@ -52,7 +52,7 @@ void runB(file::FileManager& fm, log::LogManager& lm, buffer::BufferManager& bm)
   }
 }
 
-void runC(file::FileManager& fm, log::LogManager& lm, buffer::BufferManager& bm) {
+void runC(file::FileManager& fm, logging::LogManager& lm, buffer::BufferManager& bm) {
   try {
     tx::Transaction txC(&fm, &lm, &bm);
     file::BlockId blk1("testfile", 1);
@@ -81,7 +81,7 @@ TEST(ConcurrencyTest, Main) {
   auto path = std::filesystem::current_path() / file_name;
 
   file::FileManager file_manager(path, block_size);
-  log::LogManager lm(&file_manager, log_file_name);
+  logging::LogManager lm(&file_manager, log_file_name);
   buffer::BufferManager bm(&file_manager, &lm, 8);
 
   std::thread A(runA, std::ref(file_manager), std::ref(lm), std::ref(bm));

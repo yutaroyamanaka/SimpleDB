@@ -2,6 +2,9 @@
 #pragma once
 #include <string>
 #include <map>
+#include <memory>
+#include "indexing/btreeindex.hpp"
+#include "indexing/index.hpp"
 #include "tx/transaction.hpp"
 #include "record/schema.hpp"
 #include "record/layout.hpp"
@@ -12,16 +15,16 @@ class IndexInfo {
  public:
     IndexInfo();
     IndexInfo(const std::string& idxname, const std::string& fldname, const record::Schema& schema, tx::Transaction* transaction, const StatInfo& si);
-    // Index open();
-    void open();
+    std::shared_ptr<indexing::Index> open();
     int blocksAccessed();
     int recordOutput();
     int distinctValues(const std::string& fname);
+    bool isNull();
  private:
     std::string idxname_, fldname_;
     tx::Transaction* transaction_;
     record::Schema schema_;
-    record::Layout layout_;
+    record::Layout idxLayout_;
     StatInfo si_;
     record::Layout createIdxLayout();
 };

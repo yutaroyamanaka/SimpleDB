@@ -4,13 +4,14 @@
 #include <iostream>
 #include <memory>
 #include "file/filemanager.hpp"
-#include "log/logmanager.hpp"
+#include "indexing/indexupdateplanner.hpp"
+#include "logging/logmanager.hpp"
 #include "buffer/buffermanager.hpp"
 #include "tx/transaction.hpp"
 #include "meta/metadatamanager.hpp"
 #include "plan/planner.hpp"
 #include "plan/basicqueryplanner.hpp"
-#include "plan/basicupdateplanner.hpp"
+//#include "plan/basicupdateplanner.hpp"
 
 namespace app {
 class SimpleDB {
@@ -19,7 +20,7 @@ class SimpleDB {
     SimpleDB(const std::string& filename);
     file::FileManager& getFileManager();
     buffer::BufferManager& getBufferManager();
-    log::LogManager& getLogManager();
+    logging::LogManager& getLogManager();
     meta::MetaDataManager& getMetaDataManager();
     plan::Planner& getPlanner();
     std::unique_ptr<tx::Transaction> getNewTx();
@@ -30,7 +31,7 @@ class SimpleDB {
  private:
     std::unique_ptr<file::FileManager> file_manager_;
     std::unique_ptr<buffer::BufferManager> buffer_manager_;
-    std::unique_ptr<log::LogManager> log_manager_;
+    std::unique_ptr<logging::LogManager> log_manager_;
     std::unique_ptr<meta::MetaDataManager> meta_data_manager_;
     std::unique_ptr<plan::Planner> planner_;
 };

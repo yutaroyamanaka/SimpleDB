@@ -2,7 +2,8 @@
 #include "tx/recoverymanager.hpp"
 
 namespace tx {
-  RecoveryManager::RecoveryManager(Transaction* trx, int txnum, log::LogManager* lm, buffer::BufferManager* bm) : tx_(trx), txnum_(txnum), lm_(lm), bm_(bm) {
+  RecoveryManager::RecoveryManager(Transaction* trx, int txnum,
+      logging::LogManager* lm, buffer::BufferManager* bm) : tx_(trx), txnum_(txnum), lm_(lm), bm_(bm) {
     StartRecord::writeToLog(lm, txnum_);
   }
 

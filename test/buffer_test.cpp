@@ -4,7 +4,7 @@
 #include "file/blockid.hpp"
 #include "file/page.hpp"
 #include "file/filemanager.hpp"
-#include "log/logmanager.hpp"
+#include "logging/logmanager.hpp"
 #include "buffer/buffer.hpp"
 #include "buffer/buffermanager.hpp"
 
@@ -17,7 +17,7 @@ TEST(BufferTest, Main) {
   int buffer_size = 3;
 
   file::FileManager file_manager(path, block_size);
-  log::LogManager log_manager(&file_manager, log_file_name);
+  logging::LogManager log_manager(&file_manager, log_file_name);
   buffer::BufferManager buffer_manager(&file_manager, &log_manager, buffer_size);
 
   file::BlockId block_id1("testfile", 1);
