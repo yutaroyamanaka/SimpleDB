@@ -2,13 +2,13 @@
 #pragma once
 #include <string>
 #include "file/blockid.hpp"
-#include "index/btpage.hpp"
-#include "index/direntry.hpp"
+#include "indexing/btpage.hpp"
+#include "indexing/direntry.hpp"
 #include "record/layout.hpp"
 #include "scan/constant.hpp"
 #include "tx/transaction.hpp"
 
-namespace index {
+namespace indexing {
 class BTreeDir {
  public:
     BTreeDir(tx::Transaction* transaction, file::BlockId& blk, const record::Layout& layout);
@@ -25,4 +25,4 @@ class BTreeDir {
     DirEntry insertEntry(const DirEntry& e);
     file::BlockId findChildBlock(const scan::Constant& searchkey);
 };
-}  // namespace index
+}  // namespace indexing

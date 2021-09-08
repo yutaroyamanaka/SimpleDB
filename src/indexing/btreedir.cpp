@@ -1,7 +1,7 @@
 /* Copyright 2021 Yutaro Yamanaka */
-#include "index/btreedir.hpp"
+#include "indexing/btreedir.hpp"
 
-namespace index {
+namespace indexing {
   BTreeDir::BTreeDir(tx::Transaction* transaction, file::BlockId& blk, const record::Layout& layout)
     : transaction_(transaction), layout_(layout) {
       contents_ = BTPage(transaction_, blk, layout_);
@@ -26,7 +26,7 @@ namespace index {
     scan::Constant firstval = contents_.getDataVal(0);
     int level = contents_.getFlag();
     file::BlockId newblk = contents_.split(0, level);  // ie, transfter all the recs
-    DirEntry oldroot = DirEntry(firstval, newblk.number());
+    DirEntry oldroot(firstval, newblk.number());
     insertEntry(oldroot);
     insertEntry(e);
     contents_.setFlag(level + 1);
@@ -65,8 +65,8 @@ namespace index {
     if (contents_.getDataVal(slot+1) == searchkey) {  // searchkey is included in slot+1 block
       slot++;
     }
-    int blknum = contents_.getChildNum(slot);
+    int blknum = contents_.getChildNum(slot);  // first byte in the page is a block number
     file::BlockId blk(filename_, blknum);
     return blk;
   }
-}  // namespace index
+}  // namespace indexing

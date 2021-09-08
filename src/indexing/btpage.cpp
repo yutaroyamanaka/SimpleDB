@@ -1,7 +1,7 @@
 /* Copyright 2021 Yutaro Yamanaka */
-#include "index/btpage.hpp"
+#include "indexing/btpage.hpp"
 
-namespace index {
+namespace indexing {
   BTPage::BTPage() {
   }
 
@@ -33,7 +33,7 @@ namespace index {
     file::BlockId newblk = appendNew(flag);
     BTPage newpage(transaction_, newblk, layout_);
     transferRecs(splitpos, newpage);
-    newpage.setFlag(flag);
+    newpage.setFlag(flag);  // set layer number
     newpage.close();
     return newblk;
   }
@@ -58,7 +58,7 @@ namespace index {
   }
 
   void BTPage::format(const file::BlockId& blk, int flag) {
-    transaction_->setInt(blk, 0, flag, false);
+    transaction_->setInt(blk, 0, flag, false);  // layer number
     transaction_->setInt(blk, sizeof(uint32_t), 0, false);  // #records = 0
     int recsize = layout_.slotSize();
     for (int pos = 2 * sizeof(uint32_t); pos+recsize <= transaction_->blockSize(); pos += recsize) {
@@ -85,7 +85,7 @@ namespace index {
   void BTPage::insertDir(int slot, const scan::Constant& val, int blknum) {
     insert(slot);
     setVal(slot, "dataval", val);
-    setInt(slot, "id", blknum);
+    setInt(slot, "block", blknum);
   }
 
   // Method called only by BTreeLeaf
@@ -174,7 +174,7 @@ namespace index {
   void BTPage::transferRecs(int slot, BTPage& dest) {
     int destslot = 0;
     while (slot < getNumRecs()) {
-      dest.insert(destslot);
+      dest.insert(destslot);  // only call setNumRecs ?
       record::Schema sch = layout_.schema();
       for (const auto& fldname : sch.fields()) {
         dest.setVal(destslot, fldname, getVal(slot, fldname));
@@ -197,4 +197,4 @@ namespace index {
   bool BTPage::isNull() {
     return transaction_ == nullptr;
   }
-}  // namespace index
+}  // namespace indexing

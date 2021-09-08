@@ -3,7 +3,7 @@
 #include "scan/constant.hpp"
 #include "record/rid.hpp"
 
-namespace index {
+namespace indexing {
 class Index {
  public:
     virtual ~Index() = default;
@@ -14,4 +14,4 @@ class Index {
     virtual void remove(const scan::Constant& dataval, const record::RID& datarid) = 0;
     virtual void close() = 0;
 };
-}  // namespace index
+}  // namespace indexing

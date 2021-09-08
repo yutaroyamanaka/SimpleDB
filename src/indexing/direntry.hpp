@@ -4,7 +4,7 @@
 #include <string>
 #include "scan/constant.hpp"
 
-namespace index {
+namespace indexing {
 class DirEntry {
  public:
     DirEntry();
@@ -16,4 +16,4 @@ class DirEntry {
     scan::Constant dataval_;
     int blocknum_;
 };
-}  // namespace index
+}  // namespace indexing

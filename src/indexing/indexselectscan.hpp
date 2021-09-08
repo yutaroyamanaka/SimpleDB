@@ -2,15 +2,15 @@
 #pragma once
 #include <memory>
 #include <string>
-#include "index/index.hpp"
+#include "indexing/index.hpp"
 #include "scan/constant.hpp"
 #include "scan/scan.hpp"
 #include "record/tablescan.hpp"
 
-namespace index {
+namespace indexing {
 class IndexSelectScan : public scan::Scan {
  public:
-    IndexSelectScan(const std::shared_ptr<record::TableScan>& ts, const std::shared_ptr<index::Index>& idx, const scan::Constant& val);
+    IndexSelectScan(const std::shared_ptr<record::TableScan>& ts, const std::shared_ptr<Index>& idx, const scan::Constant& val);
     void beforeFirst() override;
     bool next() override;
     int getInt(const std::string& fldname) override;
@@ -20,7 +20,7 @@ class IndexSelectScan : public scan::Scan {
     void close() override;
  private:
     std::shared_ptr<record::TableScan> ts_;
-    std::shared_ptr<index::Index> idx_;
+    std::shared_ptr<Index> idx_;
     scan::Constant val_;
 };
-}  // namespace index
+}  // namespace indexing

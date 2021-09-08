@@ -8,7 +8,7 @@
 #include "scan/constant.hpp"
 #include "tx/transaction.hpp"
 
-namespace index {
+namespace indexing {
 class BTPage {
  public:
     BTPage();
@@ -49,4 +49,4 @@ class BTPage {
     int fldpos(int slot, const std::string& fldname);
     int slotpos(int slot);
 };
-}  // namespace index
+}  // namespace indexing

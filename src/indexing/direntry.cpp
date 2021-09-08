@@ -1,7 +1,7 @@
 /* Copyright 2021 Yutaro Yamanaka */
-#include "index/direntry.hpp"
+#include "indexing/direntry.hpp"
 
-namespace index {
+namespace indexing {
   DirEntry::DirEntry() {
   }
 
@@ -19,4 +19,4 @@ namespace index {
   bool DirEntry::isNull() const {
     return dataval_.isNull();
   }
-}  // namespace index
+}  // namespace indexing

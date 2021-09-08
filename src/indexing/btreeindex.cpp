@@ -1,7 +1,7 @@
 /* Copyright 2021 Yutaro Yamanaka */
-#include "index/btreeindex.hpp"
+#include "indexing/btreeindex.hpp"
 
-namespace index {
+namespace indexing {
   BTreeIndex::BTreeIndex(tx::Transaction* transaction, const std::string& idxname, const record::Layout& leafLayout)
     : transaction_(transaction), leafLayout_(leafLayout) {
       // deal with the leaves
@@ -25,7 +25,7 @@ namespace index {
         node.format(rootblk_, 0);
         // insert initial directory entry
         int fldtype = dirsch.type("dataval");
-        scan::Constant minval = (fldtype == record::Schema::INTEGER) ? scan::Constant(INT_MIN) : scan::Constant("");
+        scan::Constant minval = (fldtype == record::Schema::INTEGER) ? scan::Constant(INT32_MIN) : scan::Constant("");
         node.insertDir(0, minval, 0);
         node.close();
       }
@@ -78,4 +78,4 @@ namespace index {
   int BTreeIndex::searchCost(int numblocks, int rgb) {
     return 1 + std::round(log(numblocks) / log(rgb));
   }
-}  // namespace index
+}  // namespace indexing

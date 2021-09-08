@@ -3,14 +3,14 @@
 #include <memory>
 #include <string>
 #include "file/blockid.hpp"
-#include "index/btpage.hpp"
-#include "index/direntry.hpp"
+#include "indexing/btpage.hpp"
+#include "indexing/direntry.hpp"
 #include "record/layout.hpp"
 #include "record/rid.hpp"
 #include "scan/constant.hpp"
 #include "tx/transaction.hpp"
 
-namespace index {
+namespace indexing {
 class BTreeLeaf {
  public:
     BTreeLeaf();
@@ -31,4 +31,4 @@ class BTreeLeaf {
 
     bool tryOverflow();
 };
-}  // namespace index
+}  // namespace indexing

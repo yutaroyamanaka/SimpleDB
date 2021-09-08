@@ -49,15 +49,14 @@ namespace meta {
     idxLayout_ = createIdxLayout();
   }
 
-  std::shared_ptr<index::Index> IndexInfo::open() {
-    record::Schema sch;
-    return std::make_shared<index::BTreeIndex>(transaction_, idxname_, idxLayout_);
+  std::shared_ptr<indexing::Index> IndexInfo::open() {
+    return std::static_pointer_cast<indexing::Index>(std::make_shared<indexing::BTreeIndex>(transaction_, idxname_, idxLayout_));
   }
 
   int IndexInfo::blocksAccessed() {
     int rpb = transaction_->blockSize() / idxLayout_.slotSize();
     int num_blocks = si_.recordOutput() / rpb;
-    return index::BTreeIndex::searchCost(num_blocks, rpb);
+    return indexing::BTreeIndex::searchCost(num_blocks, rpb);
   }
 
   int IndexInfo::recordOutput() {
@@ -80,5 +79,9 @@ namespace meta {
     }
     record::Layout layout(sch);
     return layout;
+  }
+
+  bool IndexInfo::isNull() {
+    return idxname_.empty() || fldname_.empty();
   }
 }  // namespace meta

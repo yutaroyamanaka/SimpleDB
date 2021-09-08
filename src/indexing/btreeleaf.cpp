@@ -1,7 +1,7 @@
 /* Copyright 2021 Yutaro Yamanaka */
-#include "index/btreeleaf.hpp"
+#include "indexing/btreeleaf.hpp"
 
-namespace index {
+namespace indexing {
   BTreeLeaf::BTreeLeaf() {
   }
 
@@ -41,6 +41,7 @@ namespace index {
 
   DirEntry BTreeLeaf::insert(const record::RID& datarid) {
     if (contents_.getFlag() >= 0 && contents_.getDataVal(0) > searchkey_) {
+      // page is stil empty
       scan::Constant firstval = contents_.getDataVal(0);
       file::BlockId newblk = contents_.split(0, contents_.getFlag());
       currentslot_ = 0;
@@ -92,7 +93,7 @@ namespace index {
       return false;
     }
     contents_.close();
-    file::BlockId nextblk = file::BlockId(filename_, flag);
+    file::BlockId nextblk(filename_, flag);
     contents_ = BTPage(transaction_, nextblk, layout_);
     currentslot_ = 0;
     return true;
@@ -101,4 +102,4 @@ namespace index {
   bool BTreeLeaf::isNull() {
     return contents_.isNull();
   }
-}  // namespace index
+}  // namespace indexing

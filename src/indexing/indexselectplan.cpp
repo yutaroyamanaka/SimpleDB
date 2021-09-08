@@ -1,7 +1,7 @@
 /* Copyright 2021 Yutaro Yamanaka */
-#include "index/indexselectplan.hpp"
+#include "indexing/indexselectplan.hpp"
 
-namespace index {
+namespace indexing {
   IndexSelectPlan::IndexSelectPlan(const std::shared_ptr<Plan>& p, const meta::IndexInfo& ii, const scan::Constant& val) : p_(p), ii_(ii), val_(val) {
   }
 
@@ -27,4 +27,4 @@ namespace index {
   record::Schema IndexSelectPlan::schema() {
     return p_->schema();
   }
-}  // namespace index
+}  // namespace indexing

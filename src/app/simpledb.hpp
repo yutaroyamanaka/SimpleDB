@@ -4,13 +4,14 @@
 #include <iostream>
 #include <memory>
 #include "file/filemanager.hpp"
+#include "indexing/indexupdateplanner.hpp"
 #include "logging/logmanager.hpp"
 #include "buffer/buffermanager.hpp"
 #include "tx/transaction.hpp"
 #include "meta/metadatamanager.hpp"
 #include "plan/planner.hpp"
 #include "plan/basicqueryplanner.hpp"
-#include "plan/basicupdateplanner.hpp"
+//#include "plan/basicupdateplanner.hpp"
 
 namespace app {
 class SimpleDB {

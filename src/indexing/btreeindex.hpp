@@ -4,16 +4,16 @@
 #include <cmath>
 #include <string>
 #include "file/blockid.hpp"
-#include "index/btreeleaf.hpp"
-#include "index/btreedir.hpp"
-#include "index/btpage.hpp"
-#include "index/index.hpp"
+#include "indexing/btreeleaf.hpp"
+#include "indexing/btreedir.hpp"
+#include "indexing/btpage.hpp"
+#include "indexing/index.hpp"
 #include "scan/constant.hpp"
 #include "tx/transaction.hpp"
 #include "record/layout.hpp"
 #include "record/schema.hpp"
 
-namespace index {
+namespace indexing {
 class BTreeIndex : public Index {
  public:
     BTreeIndex(tx::Transaction* transaction, const std::string& idxname, const record::Layout& leafLayout);
@@ -31,4 +31,4 @@ class BTreeIndex : public Index {
     BTreeLeaf leaf_;
     file::BlockId rootblk_;
 };
-}  // namespace index
+}  // namespace indexing

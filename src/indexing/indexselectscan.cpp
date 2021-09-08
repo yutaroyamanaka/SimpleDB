@@ -1,8 +1,8 @@
 /* Copyright 2021 Yutaro Yamanaka */
-#include "index/indexselectscan.hpp"
+#include "indexing/indexselectscan.hpp"
 
-namespace index {
-  IndexSelectScan::IndexSelectScan(const std::shared_ptr<record::TableScan>& ts, const std::shared_ptr<index::Index>& idx, const scan::Constant& val):
+namespace indexing {
+  IndexSelectScan::IndexSelectScan(const std::shared_ptr<record::TableScan>& ts, const std::shared_ptr<Index>& idx, const scan::Constant& val):
     ts_(ts), idx_(idx), val_(val) {
       beforeFirst();
     }
@@ -40,4 +40,4 @@ namespace index {
     idx_->close();
     ts_->close();
   }
-}  // namespace index
+}  // namespace indexing
