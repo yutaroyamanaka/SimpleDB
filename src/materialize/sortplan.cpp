@@ -2,7 +2,8 @@
 #include "materialize/sortplan.hpp"
 
 namespace materialize {
-  SortPlan::SortPlan(std::shared_ptr<plan::Plan>& p, const std::vector<std::string>& sortFields, tx::Transaction* transaction) : p_(p), transaction_(transaction), comp_(RecordComparator(sortFields)) {
+  SortPlan::SortPlan(const std::shared_ptr<plan::Plan>& p, const std::vector<std::string>& sortFields, tx::Transaction* transaction)
+    : p_(p), transaction_(transaction), comp_(RecordComparator(sortFields)) {
     sch_ = p->schema();
   }
 
@@ -72,7 +73,6 @@ namespace materialize {
     return result;
   }
 
-  
   std::shared_ptr<TempTable> SortPlan::mergeTwoRuns(TempTable* p1, TempTable* p2) {
     auto src1 = p1->open();
     auto src2 = p2->open();

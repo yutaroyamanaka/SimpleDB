@@ -1,4 +1,5 @@
 /* Copyright 2021 Yutaro Yamanaka */
+#pragma once
 #include <cmath>
 #include <memory>
 #include "materialize/temptable.hpp"

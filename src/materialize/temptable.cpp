@@ -3,6 +3,7 @@
 
 namespace materialize {
   int TempTable::nextTableNum_ = 0;
+  std::mutex TempTable::mutex_;
 
   TempTable::TempTable(tx::Transaction* transaction, const record::Schema& sch) : transaction_(transaction) {
     tblname_ = nextTableName();

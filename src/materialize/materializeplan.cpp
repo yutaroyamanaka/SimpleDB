@@ -12,7 +12,7 @@ namespace materialize {
     auto dest = temp->open();
     while (src->next()) {
       dest->insert();
-      for (const auto& fldname: sch.fields()) {
+      for (const auto& fldname : sch.fields()) {
         dest->setVal(fldname, src->getVal(fldname));
       }
     }

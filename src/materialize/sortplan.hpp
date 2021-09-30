@@ -3,8 +3,10 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "materialize/temptable.hpp"
+#include "materialize/materializeplan.hpp"
 #include "materialize/recordcomparator.hpp"
+#include "materialize/sortscan.hpp"
+#include "materialize/temptable.hpp"
 #include "plan/plan.hpp"
 #include "record/schema.hpp"
 #include "record/tablescan.hpp"
@@ -13,14 +15,14 @@
 #include "scan/updatescan.hpp"
 
 namespace materialize {
-class SortPlan {
+class SortPlan : public plan::Plan {
  public:
-   SortPlan(std::shared_ptr<plan::Plan>& p, const std::vector<std::string>& sortFields, tx::Transaction* transaction);
-   std::shared_ptr<scan::Scan> open();
-   int blocksAccessed();
-   int recordsOutput();
-   int distinctValues(const std::string& fldname);
-   record::Schema schema();
+   SortPlan(const std::shared_ptr<plan::Plan>& p, const std::vector<std::string>& sortFields, tx::Transaction* transaction);
+   std::shared_ptr<scan::Scan> open() override;
+   int blocksAccessed() override;
+   int recordsOutput() override;
+   int distinctValues(const std::string& fldname) override;
+   record::Schema schema() override;
  private:
     tx::Transaction* transaction_;
     std::shared_ptr<plan::Plan> p_;

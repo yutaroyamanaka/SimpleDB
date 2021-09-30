@@ -10,14 +10,14 @@ namespace materialize {
       hasmore2_ = s2_->next();
     }
   }
-   
+
   void SortScan::beforeFirst() {
     s1_->beforeFirst();
-    hasmore1_= s1_->next();
+    hasmore1_ = s1_->next();
     if (s2_) {
       s2_->beforeFirst();
       hasmore2_ = s2_->next();
-    } 
+    }
   }
 
   bool SortScan::next() {
@@ -27,8 +27,9 @@ namespace materialize {
       hasmore2_ = s2_->next();
     }
 
-    if (!hasmore1_ && !hasmore2_) return false;
-    else if (hasmore1_ && hasmore2_) {
+    if (!hasmore1_ && !hasmore2_) {
+      return false;
+    } else if (hasmore1_ && hasmore2_) {
       if (comp_.compare(s1_.get(), s2_.get()) < 0) {
         currentScan_ = s1_;
       } else {
