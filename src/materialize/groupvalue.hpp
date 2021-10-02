@@ -12,10 +12,10 @@ class GroupValue {
   friend bool operator!=(const GroupValue& lhs, const GroupValue& rhs);
 
  public:
-   GroupValue(scan::Scan* s, const std::vector<std::string>& fields);
-   scan::Constant getVal(const std::string& fldname);
-   int hashCode();
+    GroupValue(scan::Scan* s, const std::vector<std::string>& fields);
+    scan::Constant getVal(const std::string& fldname);
+    int hashCode();
  private:
-   std::map<std::string, scan::Constant> vals_;
+    std::map<std::string, scan::Constant> vals_;
 };
 }  // namespace materialize

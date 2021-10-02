@@ -2,7 +2,8 @@
 #include "materialize/groupbyscan.hpp"
 
 namespace materialize {
-  GroupByScan::GroupByScan(const std::shared_ptr<scan::Scan>& s, const std::vector<std::string>& groupFields, const std::vector<std::shared_ptr<AggregationFn>>& aggfns) :
+  GroupByScan::GroupByScan(const std::shared_ptr<scan::Scan>& s, const std::vector<std::string>& groupFields,
+      const std::vector<std::shared_ptr<AggregationFn>>& aggfns) :
     s_(s), groupFields_(groupFields), aggfns_(aggfns) {
       beforeFirst();
     }
@@ -49,8 +50,7 @@ namespace materialize {
   }
 
   bool GroupByScan::hasField(const std::string& fldname) {
-    if (std::find(groupFields_.begin(), groupFields_.end(), fldname) != 
-        groupFields_.end()) {
+    if (std::find(groupFields_.begin(), groupFields_.end(), fldname) != groupFields_.end()) {
       return true;
     }
     for (const auto& fn : aggfns_) {

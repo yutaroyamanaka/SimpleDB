@@ -1,5 +1,6 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #pragma once
+#include <algorithm>
 #include <memory>
 #include <string>
 #include <vector>
@@ -17,12 +18,12 @@
 namespace materialize {
 class SortPlan : public plan::Plan {
  public:
-   SortPlan(const std::shared_ptr<plan::Plan>& p, const std::vector<std::string>& sortFields, tx::Transaction* transaction);
-   std::shared_ptr<scan::Scan> open() override;
-   int blocksAccessed() override;
-   int recordsOutput() override;
-   int distinctValues(const std::string& fldname) override;
-   record::Schema schema() override;
+    SortPlan(const std::shared_ptr<plan::Plan>& p, const std::vector<std::string>& sortFields, tx::Transaction* transaction);
+    std::shared_ptr<scan::Scan> open() override;
+    int blocksAccessed() override;
+    int recordsOutput() override;
+    int distinctValues(const std::string& fldname) override;
+    record::Schema schema() override;
  private:
     tx::Transaction* transaction_;
     std::shared_ptr<plan::Plan> p_;

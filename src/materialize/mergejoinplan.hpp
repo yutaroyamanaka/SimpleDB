@@ -2,6 +2,7 @@
 #pragma once
 #include <cmath>
 #include <string>
+#include <memory>
 #include <vector>
 #include "materialize/mergejoinscan.hpp"
 #include "materialize/sortplan.hpp"
@@ -12,7 +13,8 @@
 namespace materialize {
 class MergeJoinPlan : public plan::Plan {
  public:
-    MergeJoinPlan(tx::Transaction* transaction, const std::shared_ptr<plan::Plan>& p1, const std::shared_ptr<plan::Plan>& p2, const std::string& fldname1, const std::string& fldname2);
+    MergeJoinPlan(tx::Transaction* transaction, const std::shared_ptr<plan::Plan>& p1, const std::shared_ptr<plan::Plan>& p2,
+        const std::string& fldname1, const std::string& fldname2);
     std::shared_ptr<scan::Scan> open() override;
     int blocksAccessed() override;
     int recordsOutput() override;

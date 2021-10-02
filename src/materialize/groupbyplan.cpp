@@ -2,7 +2,8 @@
 #include "materialize/groupbyplan.hpp"
 
 namespace materialize {
-  GroupByPlan::GroupByPlan(tx::Transaction* transaction, const std::shared_ptr<plan::Plan>& p, const std::vector<std::string>& groupFields, const std::vector<std::shared_ptr<AggregationFn>>& aggfns) :
+  GroupByPlan::GroupByPlan(tx::Transaction* transaction, const std::shared_ptr<plan::Plan>& p,
+      const std::vector<std::string>& groupFields, const std::vector<std::shared_ptr<AggregationFn>>& aggfns) :
     p_(p), groupFields_(groupFields), aggfns_(aggfns) {
       for (const auto& fldname : groupFields_) {
         sch_.add(fldname, p_->schema());

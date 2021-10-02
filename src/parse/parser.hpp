@@ -3,6 +3,7 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 #include "parse/createindexdata.hpp"
 #include "parse/createtabledata.hpp"
@@ -13,6 +14,7 @@
 #include "parse/modifydata.hpp"
 #include "parse/object.hpp"
 #include "parse/querydata.hpp"
+#include "parse/tabledata.hpp"
 #include "parse/word.hpp"
 #include "scan/constant.hpp"
 #include "scan/expression.hpp"
@@ -49,7 +51,8 @@ class Parser {
     std::unique_ptr<Lexer> lex_;
     // Methods for parsing queries
     std::vector<std::string> selectList() const;
-    std::set<std::string> tableList() const;
+    //std::set<std::string> tableList() const;
+    TableData tableList() const;
 
     std::vector<std::string> fieldList() const;
     std::vector<scan::Constant> constList() const;

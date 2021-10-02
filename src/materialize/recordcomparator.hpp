@@ -8,9 +8,9 @@
 namespace materialize {
 class RecordComparator {
  public:
-   RecordComparator(const std::vector<std::string>& fields);
-   int compare(scan::Scan* s1, scan::Scan* s2);
+    RecordComparator(const std::vector<std::string>& fields);
+    int compare(scan::Scan* s1, scan::Scan* s2);
  private:
-   std::vector<std::string> fields_;
+    std::vector<std::string> fields_;
 };
 }  // namespace materialize

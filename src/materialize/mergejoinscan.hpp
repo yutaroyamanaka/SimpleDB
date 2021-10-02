@@ -18,7 +18,7 @@ class MergeJoinScan : public scan::Scan {
     scan::Constant getVal(const std::string& fldname) override;
     bool hasField(const std::string& fldname) override;
  private:
-    std::shared_ptr<scan::Scan> s1_; 
+    std::shared_ptr<scan::Scan> s1_;
     std::shared_ptr<SortScan> s2_;
     std::string fldname1_, fldname2_;
     scan::Constant joinval_;

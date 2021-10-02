@@ -50,14 +50,20 @@ namespace parse {
   QueryData Parser::query() const {
     lex_->eatKeyword(Word::SELECT);
     std::vector<std::string> fields = selectList();
+
     lex_->eatKeyword(Word::FROM);
-    std::set<std::string> tables = tableList();
+    TableData tableData = tableList();
+
     scan::Predicate pred;
     if (lex_->matchKeyword(Word::WHERE)) {
       lex_->eatKeyword(Word::WHERE);
       pred = predicate();
     }
-    QueryData qrydata(fields, tables, pred);
+
+    QueryData qrydata(fields, tableData.getTableNames(), pred);
+    for (const auto& qd : tableData.getQueryDataList()) {
+      qrydata.addQueryData(qd);
+    }
     return qrydata;
   }
 
@@ -73,16 +79,29 @@ namespace parse {
     return L;
   }
 
-  std::set<std::string> Parser::tableList() const {
-    std::set<std::string> L;
-    L.insert(lex_->eatId());
-    if (lex_->matchDelm(Word::COMMA)) {
+  TableData Parser::tableList() const {
+    TableData td;
+    if (lex_->matchDelm(Word::LEFT_PARENTHESIS)) {
+      lex_->eatDelim(Word::LEFT_PARENTHESIS);
+      QueryData qd = query();
+      td.addQueryData(qd);
+      lex_->eatDelim(Word::RIGHT_PARENTHESIS);
+    } else {
+      td.addTableName(lex_->eatId());
+    }
+
+    while (lex_->matchDelm(Word::COMMA)) {
       lex_->eatDelim(Word::COMMA);
-      for (const auto& name : tableList()) {
-        L.insert(name);
+      if (lex_->matchDelm(Word::LEFT_PARENTHESIS)) {
+        lex_->eatDelim(Word::LEFT_PARENTHESIS);
+        QueryData qd = query();
+        td.addQueryData(qd);
+        lex_->eatDelim(Word::RIGHT_PARENTHESIS);
+      } else {
+        td.addTableName(lex_->eatId());
       }
     }
-    return L;
+    return td;
   }
 
   std::shared_ptr<Object> Parser::updateCmd() {

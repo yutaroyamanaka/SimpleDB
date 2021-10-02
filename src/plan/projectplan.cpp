@@ -26,6 +26,6 @@ namespace plan {
   }
 
   record::Schema ProjectPlan::schema() {
-    return p_->schema();
+    return schema_;
   }
 }  // namespace plan

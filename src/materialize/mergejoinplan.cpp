@@ -2,8 +2,8 @@
 #include "materialize/mergejoinplan.hpp"
 
 namespace materialize {
-  MergeJoinPlan::MergeJoinPlan(tx::Transaction* transaction, const std::shared_ptr<plan::Plan>& p1, const std::shared_ptr<plan::Plan>& p2, const std::string& fldname1, const std::string& fldname2) :
-    fldname1_(fldname1), fldname2_(fldname2) {
+  MergeJoinPlan::MergeJoinPlan(tx::Transaction* transaction, const std::shared_ptr<plan::Plan>& p1,
+      const std::shared_ptr<plan::Plan>& p2, const std::string& fldname1, const std::string& fldname2) : fldname1_(fldname1), fldname2_(fldname2) {
       std::vector<std::string> sortlist1 = {fldname1_};
       p1_ = std::static_pointer_cast<plan::Plan>(std::make_shared<SortPlan>(p1, sortlist1, transaction));
       std::vector<std::string> sortlist2 = {fldname2_};

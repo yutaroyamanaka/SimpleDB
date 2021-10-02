@@ -12,11 +12,11 @@
 namespace materialize {
 class TempTable {
  public:
-   TempTable(tx::Transaction* transaction, const record::Schema& sch);
-   std::shared_ptr<scan::UpdateScan> open();
-   std::string tableName();
-   record::Layout getLayout();
-   static std::string nextTableName();
+    TempTable(tx::Transaction* transaction, const record::Schema& sch);
+    std::shared_ptr<scan::UpdateScan> open();
+    std::string tableName();
+    record::Layout getLayout();
+    static std::string nextTableName();
  private:
     static std::mutex mutex_;
     static int nextTableNum_;

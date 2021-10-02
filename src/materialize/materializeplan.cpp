@@ -13,12 +13,13 @@ namespace materialize {
     while (src->next()) {
       dest->insert();
       for (const auto& fldname : sch.fields()) {
+        auto c = src->getVal(fldname);
         dest->setVal(fldname, src->getVal(fldname));
       }
     }
     src->close();
     dest->beforeFirst();
-    return dest;
+    return std::static_pointer_cast<scan::Scan>(dest);
   }
 
   int MaterializePlan::blocksAccessed() {

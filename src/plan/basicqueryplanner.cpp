@@ -1,6 +1,5 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #include "plan/basicqueryplanner.hpp"
-#include <iostream>
 
 namespace plan {
   BasicQueryPlanner::BasicQueryPlanner(meta::MetaDataManager* mdm) : mdm_(mdm) {
@@ -16,8 +15,14 @@ namespace plan {
         plans.emplace_back(createPlan(viewdata, transaction));
       } else {
         auto tp = std::make_shared<TablePlan>(transaction, tblname, mdm_);
-        plans.emplace_back(tp);
+        plans.emplace_back(std::static_pointer_cast<Plan>(tp));
       }
+    }
+
+    for (const auto& subdata : data.queryTables()) {
+      auto srcplan = createPlan(subdata, transaction);
+      auto mp = std::make_shared<materialize::MaterializePlan>(transaction, srcplan);
+      plans.emplace_back(std::static_pointer_cast<Plan>(mp));
     }
 
     auto p = plans[0];
