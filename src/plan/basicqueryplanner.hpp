@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include "materialize/materializeplan.hpp"
 #include "meta/metadatamanager.hpp"
 #include "parse/parser.hpp"
 #include "parse/querydata.hpp"

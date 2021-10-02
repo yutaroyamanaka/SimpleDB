@@ -14,6 +14,14 @@ namespace parse {
     return tables_;
   }
 
+  std::vector<QueryData> QueryData::queryTables() const {
+    return queryTables_;
+  }
+
+  void QueryData::addQueryData(const QueryData& qd) {
+    queryTables_.emplace_back(qd);
+  }
+
   scan::Predicate QueryData::pred() const {
     return pred_;
   }
@@ -27,6 +35,11 @@ namespace parse {
     result += Word::SPACE + Word::FROM + Word::SPACE;
     for (const auto& tblname : tables_) {
       result += tblname + Word::COMMA + Word::SPACE;
+    }
+    for (const auto& qt : queryTables_) {
+      result += Word::LEFT_PARENTHESIS + Word::SPACE;
+      result += qt.toString();
+      result += Word::SPACE + Word::RIGHT_PARENTHESIS + Word::COMMA + Word::SPACE;
     }
     result = result.substr(0, result.size()-2);
     std::string predstring = pred_.toString();
