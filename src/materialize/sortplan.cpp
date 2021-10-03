@@ -106,10 +106,8 @@ namespace materialize {
   bool SortPlan::copy(scan::Scan* src, scan::UpdateScan* dest) {
     dest->insert();
     for (const auto& fldname : sch_.fields()) {
-      std::cout << fldname << " "  << src->getVal(fldname).toString() << " ";
       dest->setVal(fldname, src->getVal(fldname));
     }
-    std::cout << std::endl;
     return src->next();
   }
 }  // namespace materialize
