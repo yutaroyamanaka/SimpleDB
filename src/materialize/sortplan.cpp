@@ -3,7 +3,7 @@
 
 namespace materialize {
   SortPlan::SortPlan(const std::shared_ptr<plan::Plan>& p, const std::vector<std::string>& sortFields, tx::Transaction* transaction)
-    : p_(p), transaction_(transaction), comp_(RecordComparator(sortFields)) {
+    : p_(p), transaction_(transaction), comp_(sortFields) {
     sch_ = p->schema();
   }
 
@@ -51,7 +51,7 @@ namespace materialize {
         currentScan->close();
         currentTemp = std::make_shared<TempTable>(transaction_, sch_);
         temps.emplace_back(currentTemp);
-        currentScan = currentTemp->open();
+        currentScan = std::static_pointer_cast<scan::UpdateScan>(currentTemp->open());
       }
     }
     currentScan->close();
@@ -60,15 +60,13 @@ namespace materialize {
 
   std::vector<std::shared_ptr<TempTable>> SortPlan::doAMergeIteration(const std::vector<std::shared_ptr<TempTable>>& runs) {
     std::vector<std::shared_ptr<TempTable>> result;
-    int i = 0;
-    while (runs.size() > i + 1) {
+    for (int i = 0; i + 2 <= runs.size(); i+=2) {
       auto p1 = runs[i];
       auto p2 = runs[i+1];
-      i += 2;
       result.emplace_back(mergeTwoRuns(p1.get(), p2.get()));
     }
-    if (runs.size() == i+1) {
-      result.emplace_back(runs[i]);
+    if (runs.size() % 2 == 1) {
+      result.emplace_back(runs.back());
     }
     return result;
   }
@@ -108,8 +106,10 @@ namespace materialize {
   bool SortPlan::copy(scan::Scan* src, scan::UpdateScan* dest) {
     dest->insert();
     for (const auto& fldname : sch_.fields()) {
+      std::cout << fldname << " "  << src->getVal(fldname).toString() << " ";
       dest->setVal(fldname, src->getVal(fldname));
     }
+    std::cout << std::endl;
     return src->next();
   }
 }  // namespace materialize

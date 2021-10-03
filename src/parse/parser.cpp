@@ -60,10 +60,13 @@ namespace parse {
       pred = predicate();
     }
 
-    QueryData qrydata(fields, tableData.getTableNames(), pred);
+    std::vector<std::string> sortFields = sortFieldList();
+
+    QueryData qrydata(fields, tableData.getTableNames(), pred, sortFields);
     for (const auto& qd : tableData.getQueryDataList()) {
       qrydata.addQueryData(qd);
     }
+
     return qrydata;
   }
 
@@ -160,6 +163,20 @@ namespace parse {
       lex_->eatDelim(Word::COMMA);
       for (const auto& fld : fieldList()) {
         L.emplace_back(fld);
+      }
+    }
+    return L;
+  }
+
+  std::vector<std::string> Parser::sortFieldList() const {
+    std::vector<std::string> L;
+    if (lex_->matchKeyword(Word::ORDER)) {
+      lex_->eatKeyword(Word::ORDER);
+      if (lex_->matchKeyword(Word::BY)) {
+        lex_->eatKeyword(Word::BY);
+        for (const auto& fld : fieldList()) {
+          L.emplace_back(fld);
+        }
       }
     }
     return L;

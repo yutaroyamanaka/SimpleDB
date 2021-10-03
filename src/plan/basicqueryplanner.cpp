@@ -32,6 +32,11 @@ namespace plan {
     }
 
     p = std::static_pointer_cast<Plan>(std::make_shared<SelectPlan>(p, data.pred()));
-    return std::static_pointer_cast<Plan>(std::make_shared<ProjectPlan>(p, data.fields()));
+    p = std::static_pointer_cast<Plan>(std::make_shared<ProjectPlan>(p, data.fields()));
+
+    if (data.sortFields().size() > 0) {
+      p = std::static_pointer_cast<Plan>(std::make_shared<materialize::SortPlan>(p, data.sortFields(), transaction));
+    }
+    return p;
   }
 }  // namespace plan

@@ -16,7 +16,7 @@
 #include "scan/scan.hpp"
 #include "tx/transaction.hpp"
 
-void createDB4(const std::string& dbname) {
+void createDB5(const std::string& dbname) {
   try {
     auto driver = std::unique_ptr<interface::Driver>();
     auto conn = driver->connect(dbname);
@@ -101,35 +101,19 @@ void createDB4(const std::string& dbname) {
   }
 }
 
-TEST(MaterializeTest, Main) {
-  std::string file_name = "materializeTest";
-  createDB4(file_name);
+TEST(SortTest, Main) {
+  std::string file_name = "sortTest";
+  createDB5(file_name);
     
   app::SimpleDB db(file_name);
   auto transaction = db.getNewTx();
   plan::Planner& planner = db.getPlanner();
 
-  std::string qry = "select sname from ( select sid, sname from student where gradyear = 2020 )";
+  std::string qry = "select sid, sname, gradyear from student order by gradyear, sname";
   auto p = planner.createQueryPlan(qry, transaction.get());
   auto s = p->open();
   while (s->next()) {
-    std::cout << s->getString("sname") << std::endl;
-  }
-  s->close();
-
-  qry = "select studentid, grade from ( select studentid, grade from enroll where grade = 'A' )";
-  p = planner.createQueryPlan(qry, transaction.get());
-  s = p->open();
-  while (s->next()) {
-    std::cout << s->getInt("studentid") << " " << s->getString("grade") << std::endl;
-  }
-  s->close();
-
-  qry = "select sname from ( select sid, sname from student where gradyear = 2020 ) , ( select studentid from enroll where grade = 'A' ) where sid = studentid";
-  p = planner.createQueryPlan(qry, transaction.get());
-  s = p->open();
-  while (s->next()) {
-    std::cout << s->getString("sname") << std::endl;
+    std::cout << s->getInt("sid") << " " << s->getString("sname") << " " << s->getInt("gradyear") << std::endl;
   }
   s->close();
   transaction->commit();

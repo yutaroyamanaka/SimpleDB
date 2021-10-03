@@ -30,7 +30,7 @@ namespace scan {
 
   bool ProjectScan::hasField(const std::string& fldname) {
     auto itr = std::find(field_list_.begin(), field_list_.end(), fldname);
-    if (itr == field_list_.end()) false;
+    if (itr == field_list_.end()) return false;
     return true;
   }
 

@@ -17,7 +17,7 @@
 namespace materialize {
 class SortScan : public scan::Scan {
  public:
-    SortScan(const std::vector<std::shared_ptr<TempTable>>& runs, const RecordComparator&comp);
+    SortScan(const std::vector<std::shared_ptr<TempTable>>& runs, const RecordComparator& comp);
     void beforeFirst();
     bool next();
     void close();

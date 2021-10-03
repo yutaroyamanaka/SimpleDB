@@ -2,11 +2,11 @@
 #include "materialize/sortscan.hpp"
 
 namespace materialize {
-  SortScan::SortScan(const std::vector<std::shared_ptr<TempTable>>& runs, const RecordComparator&comp) : comp_(comp) {
-    s1_ = runs[0]->open();
+  SortScan::SortScan(const std::vector<std::shared_ptr<TempTable>>& runs, const RecordComparator& comp) : comp_(comp) {
+    s1_ = std::static_pointer_cast<scan::UpdateScan>(runs[0]->open());
     hasmore1_ = s1_->next();
     if (runs.size() > 1) {
-      s2_ = runs[1]->open();
+      s2_ = std::static_pointer_cast<scan::UpdateScan>(runs[1]->open());
       hasmore2_ = s2_->next();
     }
   }
@@ -21,10 +21,12 @@ namespace materialize {
   }
 
   bool SortScan::next() {
-    if (currentScan_ == s1_) {
-      hasmore1_ = s1_->next();
-    } else if (currentScan_ == s2_) {
-      hasmore2_ = s2_->next();
+    if (currentScan_) {
+      if (currentScan_ == s1_) {
+        hasmore1_ = s1_->next();
+      } else if (currentScan_ == s2_) {
+        hasmore2_ = s2_->next();
+      }
     }
 
     if (!hasmore1_ && !hasmore2_) {
@@ -70,14 +72,13 @@ namespace materialize {
   void SortScan::savePosition() {
     record::RID rid1 = s1_->getRid();
     record::RID rid2 = s2_->getRid();
-    savedPosition_.emplace_back(rid1);
-    savedPosition_.emplace_back(rid2);
+    savedPosition_ = std::vector<record::RID>{rid1, rid2};
   }
 
   void SortScan::restorePosition() {
-    record::RID rid1 = s1_->getRid();
-    record::RID rid2 = s2_->getRid();
-    savedPosition_.emplace_back(rid1);
-    savedPosition_.emplace_back(rid2);
+    record::RID rid1 = savedPosition_[0];
+    record::RID rid2 = savedPosition_[1];
+    s1_->moveToRid(rid1);
+    s2_->moveToRid(rid2);
   }
 }  // namespace materialize

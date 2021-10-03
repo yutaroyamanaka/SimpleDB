@@ -90,7 +90,9 @@ namespace parse {
       Word::VIEW,
       Word::AS,
       Word::INDEX,
-      Word::ON
+      Word::ON,
+      Word::ORDER,
+      Word::BY
     };
   }
 }  // namespace parse
