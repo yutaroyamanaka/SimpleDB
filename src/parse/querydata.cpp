@@ -2,8 +2,9 @@
 #include "parse/querydata.hpp"
 
 namespace parse {
-  QueryData::QueryData(const std::vector<std::string>& fields, const std::set<std::string>& tables, const scan::Predicate& pred)
-    : fields_(fields), tables_(tables), pred_(pred) {
+  QueryData::QueryData(const std::vector<std::string>& fields, const std::set<std::string>& tables,
+      const scan::Predicate& pred, const std::vector<std::string>& sortFields)
+    : fields_(fields), tables_(tables), pred_(pred), sortFields_(sortFields) {
   }
 
   std::vector<std::string> QueryData::fields() const {
@@ -26,6 +27,10 @@ namespace parse {
     return pred_;
   }
 
+  std::vector<std::string> QueryData::sortFields() const {
+    return sortFields_;
+  }
+
   std::string QueryData::toString() const {
     std::string result = Word::SELECT + Word::SPACE;
     for (const auto& fldname : fields_) {
@@ -45,6 +50,14 @@ namespace parse {
     std::string predstring = pred_.toString();
     if (predstring != "") {
       result += Word::SPACE + Word::WHERE + Word::SPACE + predstring;
+    }
+
+    if (sortFields_.size() > 0) {
+      result += Word::SPACE + Word::ORDER + Word::SPACE + Word::BY + Word::SPACE;
+      for (const auto& fldname : sortFields_) {
+        result += fldname + Word::COMMA + Word::SPACE;
+      }
+      result = result.substr(0, result.size()-2);
     }
     return result;
   }

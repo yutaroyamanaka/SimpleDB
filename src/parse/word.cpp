@@ -22,6 +22,8 @@ namespace parse {
   const std::string Word::AS = "as";
   const std::string Word::ON = "on";
   const std::string Word::INTO = "into";
+  const std::string Word::ORDER = "order";
+  const std::string Word::BY = "by";
   const std::string Word::INT = "int";
   const std::string Word::VARCHAR = "varchar";
   const std::string Word::VALUES = "values";

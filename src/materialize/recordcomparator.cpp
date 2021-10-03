@@ -9,8 +9,8 @@ namespace materialize {
     for (const auto& fldname : fields_) {
       scan::Constant val1 = s1->getVal(fldname);
       scan::Constant val2 = s2->getVal(fldname);
-      int result = val1 == val2;
-      if (result != 0) return result;
+      if (val1 < val2) return -1;
+      if (val2 < val1) return 1;
     }
     return 0;
   }

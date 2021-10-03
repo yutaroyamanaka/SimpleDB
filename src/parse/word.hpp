@@ -25,6 +25,8 @@ class Word {
     static const std::string AS;
     static const std::string ON;
     static const std::string INTO;
+    static const std::string ORDER;
+    static const std::string BY;
     static const std::string INT;
     static const std::string VARCHAR;
     static const std::string VALUES;

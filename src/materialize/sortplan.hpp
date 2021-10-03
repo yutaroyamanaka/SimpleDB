@@ -9,6 +9,7 @@
 #include "materialize/sortscan.hpp"
 #include "materialize/temptable.hpp"
 #include "plan/plan.hpp"
+#include "scan/updatescan.hpp"
 #include "record/schema.hpp"
 #include "record/tablescan.hpp"
 #include "tx/transaction.hpp"

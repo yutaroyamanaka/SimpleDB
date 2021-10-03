@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "materialize/materializeplan.hpp"
+#include "materialize/sortplan.hpp"
 #include "meta/metadatamanager.hpp"
 #include "parse/parser.hpp"
 #include "parse/querydata.hpp"
