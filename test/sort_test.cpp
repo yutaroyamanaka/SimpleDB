@@ -111,8 +111,10 @@ TEST(SortTest, Main) {
   auto rs = stmt->executeQuery(qry);
 
   std::string t1 = "sid";
-  std::string t2 = "sname";    
-  std::string t3 = "gradyear";    
+  std::string t2 = "sname";
+  std::string t3 = "gradyear";
+  std::cout << std::endl;
+  std::cout << "| " << t1 << " | " << t2 << " | " << t3 << " |" << std::endl;
   while (rs.next()) {
     std::cout << "| " << rs.getInt(t1) << " | " << rs.getString(t2) << " | " << rs.getInt(t3)  << " |" << std::endl;
   }

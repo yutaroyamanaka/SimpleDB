@@ -27,6 +27,9 @@ namespace parse {
   const std::string Word::GROUP = "group";
   const std::string Word::BY = "by";
   const std::string Word::MAX = "max";
+  const std::string Word::MIN = "min";
+  const std::string Word::COUNT = "count";
+  const std::string Word::SUM = "sum";
   const std::string Word::INT = "int";
   const std::string Word::VARCHAR = "varchar";
   const std::string Word::VALUES = "values";

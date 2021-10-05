@@ -18,8 +18,13 @@ namespace plan {
       } else {
         auto tp = std::make_shared<TablePlan>(transaction, tblname, mdm_);
         plans.emplace_back(std::static_pointer_cast<Plan>(tp));
+
+        if (data.groupFields().size() == 0) continue;  // not add aggregation functions
+
         for (const auto& fldname : schema.fields()) {
           aggfns_.emplace_back(std::static_pointer_cast<materialize::AggregationFn>(std::make_shared<materialize::MaxFn>(fldname)));
+          aggfns_.emplace_back(std::static_pointer_cast<materialize::AggregationFn>(std::make_shared<materialize::MinFn>(fldname)));
+          aggfns_.emplace_back(std::static_pointer_cast<materialize::AggregationFn>(std::make_shared<materialize::SumFn>(fldname)));
         }
       }
     }
@@ -38,6 +43,7 @@ namespace plan {
 
     p = std::static_pointer_cast<Plan>(std::make_shared<SelectPlan>(p, data.pred()));
     if (data.groupFields().size() > 0) {
+      aggfns_.emplace_back(std::static_pointer_cast<materialize::AggregationFn>(std::make_shared<materialize::CountFn>()));
       p = std::static_pointer_cast<Plan>(std::make_shared<materialize::GroupByPlan>(transaction, p, data.groupFields(), aggfns_));
     }
     p = std::static_pointer_cast<Plan>(std::make_shared<ProjectPlan>(p, data.fields()));

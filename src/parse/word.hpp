@@ -30,6 +30,9 @@ class Word {
     static const std::string GROUP;
     static const std::string BY;
     static const std::string MAX;
+    static const std::string MIN;
+    static const std::string COUNT;
+    static const std::string SUM;
     static const std::string INT;
     static const std::string VARCHAR;
     static const std::string VALUES;

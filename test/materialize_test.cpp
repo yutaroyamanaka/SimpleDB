@@ -114,22 +114,31 @@ TEST(MaterializeTest, Main) {
   std::string t2 = "studentid";
   std::string t3 = "grade";
 
+  std::cout << std::endl;
+  std::cout << "| " << t1 << " |" << std::endl;
   while (rs.next()) {
     std::cout << "| " << rs.getInt(t1) << " |" << std::endl;
   }
+  std::cout << std::endl;
   rs.close();
 
   qry = "select studentid, grade from ( select studentid, grade from enroll where grade = 'A' )";
   rs = stmt->executeQuery(qry);
+  std::cout << std::endl;
+  std::cout << "| " << t2 << " | " << t3 << " |" << std::endl;
   while (rs.next()) {
     std::cout << "| " << rs.getInt(t2) << " | " << rs.getString(t3) << " |" << std::endl;
   }
+  std::cout << std::endl;
   rs.close();
 
   qry = "select sname from ( select sid, sname from student where gradyear = 2020 ) , ( select studentid from enroll where grade = 'A' ) where sid = studentid";
   rs = stmt->executeQuery(qry);
+  std::cout << std::endl;
+  std::cout << "| " << t1 << " |" << std::endl;
   while (rs.next()) {
     std::cout << "| " << rs.getString(t1) << " |" << std::endl;
   }
+  std::cout << std::endl;
   rs.close();
 }

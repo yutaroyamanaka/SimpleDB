@@ -26,6 +26,10 @@ namespace scan {
     return !(lhs < rhs);
   }
 
+  void operator+=(const Constant& lhs, const Constant& rhs) {
+    if (lhs.ival_) *(lhs.ival_) += *(rhs.ival_);
+  }
+
   Constant::Constant() {
   }
 

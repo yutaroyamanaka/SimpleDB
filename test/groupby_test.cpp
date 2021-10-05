@@ -107,13 +107,20 @@ TEST(GroupByTest, Main) {
   auto driver = std::unique_ptr<interface::Driver>();
   auto conn = driver->connect(file_name);
   auto stmt = conn->createStatement();
-  std::string qry = "select maxmajorid, gradyear from student group by gradyear";
+  std::string qry = "select count, maxmajorid, minmajorid, summajorid, gradyear from student group by gradyear";
   auto rs = stmt->executeQuery(qry);
 
-  std::string t1 = "maxmajorid";
-  std::string t2 = "gradyear";    
+  std::string t1 = "count";
+  std::string t2 = "maxmajorid";
+  std::string t3 = "minmajorid";
+  std::string t4 = "summajorid";
+  std::string t5 = "gradyear";
+
+  std::cout << std::endl;
+  std::cout << "| " << t1 << " | " << t2 << " | " << t3 << " | " << t4 << " | " << t5 << " |" << std::endl;
   while (rs.next()) {
-    std::cout << "| " << rs.getInt(t1) << " | " << rs.getInt(t2)  << " |" << std::endl;
+    std::cout << "| " << rs.getInt(t1) << " | " << rs.getInt(t2) << " | "
+      << rs.getInt(t3) << " | " << rs.getInt(t4) << " | " << rs.getInt(t5)  << " |" << std::endl;
   }
   std::cout << std::endl;
   rs.close();

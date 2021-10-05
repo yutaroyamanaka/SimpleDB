@@ -4,7 +4,10 @@
 #include <string>
 #include <vector>
 #include "materialize/aggregationfn.hpp"
+#include "materialize/countfn.hpp"
 #include "materialize/maxfn.hpp"
+#include "materialize/minfn.hpp"
+#include "materialize/sumfn.hpp"
 #include "materialize/groupbyplan.hpp"
 #include "materialize/materializeplan.hpp"
 #include "materialize/sortplan.hpp"
