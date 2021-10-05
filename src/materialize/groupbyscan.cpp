@@ -17,7 +17,7 @@ namespace materialize {
     if (!moreGroups_) return false;
     for (const auto& ptr : aggfns_) ptr->processFirst(s_.get());
     groupVal_ = std::make_unique<GroupValue>(s_.get(), groupFields_);
-    while (moreGroups_ == s_->next()) {
+    while ((moreGroups_ = s_->next())) {
       auto gv = std::make_unique<GroupValue>(s_.get(), groupFields_);
       if (*groupVal_ != *gv) break;
       for (const auto& fn : aggfns_) {

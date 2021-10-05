@@ -17,7 +17,7 @@ namespace materialize {
   }
 
   std::string MaxFn::fieldName() {
-    return "maxof" + fldname_;
+    return parse::Word::MAX + fldname_;
   }
 
   scan::Constant MaxFn::value() {

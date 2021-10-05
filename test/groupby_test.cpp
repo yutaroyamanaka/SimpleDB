@@ -16,7 +16,7 @@
 #include "scan/scan.hpp"
 #include "tx/transaction.hpp"
 
-void createDB5(const std::string& dbname) {
+void createDB6(const std::string& dbname) {
   try {
     auto driver = std::unique_ptr<interface::Driver>();
     auto conn = driver->connect(dbname);
@@ -101,20 +101,19 @@ void createDB5(const std::string& dbname) {
   }
 }
 
-TEST(SortTest, Main) {
-  std::string file_name = "sortTest";
-  createDB5(file_name);
+TEST(GroupByTest, Main) {
+  std::string file_name = "groupbyTest";
+  createDB6(file_name);
   auto driver = std::unique_ptr<interface::Driver>();
   auto conn = driver->connect(file_name);
   auto stmt = conn->createStatement();
-  std::string qry = "select sid, sname, gradyear from student order by gradyear, sname";
+  std::string qry = "select maxmajorid, gradyear from student group by gradyear";
   auto rs = stmt->executeQuery(qry);
 
-  std::string t1 = "sid";
-  std::string t2 = "sname";    
-  std::string t3 = "gradyear";    
+  std::string t1 = "maxmajorid";
+  std::string t2 = "gradyear";    
   while (rs.next()) {
-    std::cout << "| " << rs.getInt(t1) << " | " << rs.getString(t2) << " | " << rs.getInt(t3)  << " |" << std::endl;
+    std::cout << "| " << rs.getInt(t1) << " | " << rs.getInt(t2)  << " |" << std::endl;
   }
   std::cout << std::endl;
   rs.close();

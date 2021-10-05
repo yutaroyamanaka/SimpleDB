@@ -11,12 +11,13 @@ namespace parse {
 class QueryData {
  public:
     QueryData(const std::vector<std::string>& fields, const std::set<std::string>& tables, 
-        const scan::Predicate& pred, const std::vector<std::string>& sortFields);
+        const scan::Predicate& pred, const std::vector<std::string>& groupFields, const std::vector<std::string>& sortFields);
     std::vector<std::string> fields() const;
     std::set<std::string> tables() const;
     std::vector<QueryData> queryTables() const;
     void addQueryData(const QueryData& qd);
     scan::Predicate pred() const;
+    std::vector<std::string> groupFields() const;
     std::vector<std::string> sortFields() const;
     std::string toString() const;
  private:
@@ -25,5 +26,6 @@ class QueryData {
     std::vector<QueryData> queryTables_;
     scan::Predicate pred_;
     std::vector<std::string> sortFields_;
+    std::vector<std::string> groupFields_;
 };
 }  // namespace parse

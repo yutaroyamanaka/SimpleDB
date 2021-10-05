@@ -104,33 +104,32 @@ void createDB4(const std::string& dbname) {
 TEST(MaterializeTest, Main) {
   std::string file_name = "materializeTest";
   createDB4(file_name);
-    
-  app::SimpleDB db(file_name);
-  auto transaction = db.getNewTx();
-  plan::Planner& planner = db.getPlanner();
-
+  auto driver = std::unique_ptr<interface::Driver>();
+  auto conn = driver->connect(file_name);
+  auto stmt = conn->createStatement();
   std::string qry = "select sname from ( select sid, sname from student where gradyear = 2020 )";
-  auto p = planner.createQueryPlan(qry, transaction.get());
-  auto s = p->open();
-  while (s->next()) {
-    std::cout << s->getString("sname") << std::endl;
+  auto rs = stmt->executeQuery(qry);
+
+  std::string t1 = "sname";
+  std::string t2 = "studentid";
+  std::string t3 = "grade";
+
+  while (rs.next()) {
+    std::cout << "| " << rs.getInt(t1) << " |" << std::endl;
   }
-  s->close();
+  rs.close();
 
   qry = "select studentid, grade from ( select studentid, grade from enroll where grade = 'A' )";
-  p = planner.createQueryPlan(qry, transaction.get());
-  s = p->open();
-  while (s->next()) {
-    std::cout << s->getInt("studentid") << " " << s->getString("grade") << std::endl;
+  rs = stmt->executeQuery(qry);
+  while (rs.next()) {
+    std::cout << "| " << rs.getInt(t2) << " | " << rs.getString(t3) << " |" << std::endl;
   }
-  s->close();
+  rs.close();
 
   qry = "select sname from ( select sid, sname from student where gradyear = 2020 ) , ( select studentid from enroll where grade = 'A' ) where sid = studentid";
-  p = planner.createQueryPlan(qry, transaction.get());
-  s = p->open();
-  while (s->next()) {
-    std::cout << s->getString("sname") << std::endl;
+  rs = stmt->executeQuery(qry);
+  while (rs.next()) {
+    std::cout << "| " << rs.getString(t1) << " |" << std::endl;
   }
-  s->close();
-  transaction->commit();
+  rs.close();
 }

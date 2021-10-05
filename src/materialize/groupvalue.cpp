@@ -4,7 +4,7 @@
 namespace materialize {
   bool operator==(const GroupValue& lhs, const GroupValue& rhs) {
     for (const auto& [fldname, val] : lhs.vals_) {
-      if (lhs.vals_.find(fldname) == lhs.vals_.end() || lhs.vals_.at(fldname) != val) {
+      if (rhs.vals_.find(fldname) == rhs.vals_.end() || rhs.vals_.at(fldname) != val) {
         return false;
       }
     }

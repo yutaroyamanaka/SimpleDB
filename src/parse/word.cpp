@@ -7,6 +7,7 @@ namespace parse {
   const char Word::LEFT_PARENTHESIS = '(';
   const char Word::RIGHT_PARENTHESIS = ')';
   const char Word::QUOTATION = '\'';
+  const char Word::UNDERSCORE = '_';
   const std::string Word::AMPERSAND = "and";
   const std::string Word::SELECT = "select";
   const std::string Word::FROM = "from";
@@ -23,7 +24,9 @@ namespace parse {
   const std::string Word::ON = "on";
   const std::string Word::INTO = "into";
   const std::string Word::ORDER = "order";
+  const std::string Word::GROUP = "group";
   const std::string Word::BY = "by";
+  const std::string Word::MAX = "max";
   const std::string Word::INT = "int";
   const std::string Word::VARCHAR = "varchar";
   const std::string Word::VALUES = "values";

@@ -9,6 +9,8 @@ namespace plan {
     std::vector<std::shared_ptr<Plan>> plans;
     for (const auto& tblname : data.tables()) {
       std::string viewdef = mdm_->getViewDef(tblname, transaction);
+      record::Schema schema = mdm_->getLayout(tblname, transaction).schema();
+
       if (!viewdef.empty()) {  // recursively plan the view
         parse::Parser parser(viewdef);
         parse::QueryData viewdata = parser.query();
@@ -16,6 +18,9 @@ namespace plan {
       } else {
         auto tp = std::make_shared<TablePlan>(transaction, tblname, mdm_);
         plans.emplace_back(std::static_pointer_cast<Plan>(tp));
+        for (const auto& fldname : schema.fields()) {
+          aggfns_.emplace_back(std::static_pointer_cast<materialize::AggregationFn>(std::make_shared<materialize::MaxFn>(fldname)));
+        }
       }
     }
 
@@ -32,6 +37,9 @@ namespace plan {
     }
 
     p = std::static_pointer_cast<Plan>(std::make_shared<SelectPlan>(p, data.pred()));
+    if (data.groupFields().size() > 0) {
+      p = std::static_pointer_cast<Plan>(std::make_shared<materialize::GroupByPlan>(transaction, p, data.groupFields(), aggfns_));
+    }
     p = std::static_pointer_cast<Plan>(std::make_shared<ProjectPlan>(p, data.fields()));
 
     if (data.sortFields().size() > 0) {

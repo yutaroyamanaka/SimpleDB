@@ -3,8 +3,8 @@
 
 namespace parse {
   QueryData::QueryData(const std::vector<std::string>& fields, const std::set<std::string>& tables,
-      const scan::Predicate& pred, const std::vector<std::string>& sortFields)
-    : fields_(fields), tables_(tables), pred_(pred), sortFields_(sortFields) {
+      const scan::Predicate& pred, const std::vector<std::string>& groupFields, const std::vector<std::string>& sortFields)
+    : fields_(fields), tables_(tables), pred_(pred), groupFields_(groupFields), sortFields_(sortFields) {
   }
 
   std::vector<std::string> QueryData::fields() const {
@@ -25,6 +25,10 @@ namespace parse {
 
   scan::Predicate QueryData::pred() const {
     return pred_;
+  }
+
+  std::vector<std::string> QueryData::groupFields() const {
+    return groupFields_;
   }
 
   std::vector<std::string> QueryData::sortFields() const {
@@ -50,6 +54,14 @@ namespace parse {
     std::string predstring = pred_.toString();
     if (predstring != "") {
       result += Word::SPACE + Word::WHERE + Word::SPACE + predstring;
+    }
+
+    if (groupFields_.size() > 0) {
+      result += Word::SPACE + Word::GROUP + Word::SPACE + Word::BY + Word::SPACE;
+      for (const auto& fldname : groupFields_) {
+        result += fldname + Word::COMMA + Word::SPACE;
+      }
+      result = result.substr(0, result.size()-2);
     }
 
     if (sortFields_.size() > 0) {

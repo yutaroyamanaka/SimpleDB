@@ -4,7 +4,8 @@
 namespace materialize {
   GroupByPlan::GroupByPlan(tx::Transaction* transaction, const std::shared_ptr<plan::Plan>& p,
       const std::vector<std::string>& groupFields, const std::vector<std::shared_ptr<AggregationFn>>& aggfns) :
-    p_(p), groupFields_(groupFields), aggfns_(aggfns) {
+    groupFields_(groupFields), aggfns_(aggfns) {
+      p_ = std::static_pointer_cast<plan::Plan>(std::make_shared<SortPlan>(p, groupFields_, transaction));
       for (const auto& fldname : groupFields_) {
         sch_.add(fldname, p_->schema());
       }

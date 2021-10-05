@@ -2,6 +2,7 @@
 #pragma once
 #include <string>
 #include "materialize/aggregationfn.hpp"
+#include "parse/word.hpp"
 #include "scan/constant.hpp"
 #include "scan/scan.hpp"
 
