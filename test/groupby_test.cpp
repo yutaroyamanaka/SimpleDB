@@ -124,4 +124,16 @@ TEST(GroupByTest, Main) {
   }
   std::cout << std::endl;
   rs.close();
+
+  qry = "select count, maxmajorid, minmajorid, summajorid, gradyear from student group by gradyear order by count";
+  rs = stmt->executeQuery(qry);
+
+  std::cout << std::endl;
+  std::cout << "| " << t1 << " | " << t2 << " | " << t3 << " | " << t4 << " | " << t5 << " |" << std::endl;
+  while (rs.next()) {
+    std::cout << "| " << rs.getInt(t1) << " | " << rs.getInt(t2) << " | "
+      << rs.getInt(t3) << " | " << rs.getInt(t4) << " | " << rs.getInt(t5)  << " |" << std::endl;
+  }
+  std::cout << std::endl;
+  rs.close();
 }

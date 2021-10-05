@@ -49,6 +49,9 @@ namespace plan {
     p = std::static_pointer_cast<Plan>(std::make_shared<ProjectPlan>(p, data.fields()));
 
     if (data.sortFields().size() > 0) {
+      if (data.groupFields().size() > 0) {
+        p = std::static_pointer_cast<Plan>(std::make_shared<materialize::MaterializePlan>(transaction, p));
+      }
       p = std::static_pointer_cast<Plan>(std::make_shared<materialize::SortPlan>(p, data.sortFields(), transaction));
     }
     return p;
