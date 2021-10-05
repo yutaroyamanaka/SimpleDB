@@ -10,6 +10,7 @@ class Word {
     static const char LEFT_PARENTHESIS;
     static const char RIGHT_PARENTHESIS;
     static const char QUOTATION;
+    static const char UNDERSCORE;
     static const std::string AMPERSAND;
     static const std::string SELECT;
     static const std::string FROM;
@@ -26,7 +27,12 @@ class Word {
     static const std::string ON;
     static const std::string INTO;
     static const std::string ORDER;
+    static const std::string GROUP;
     static const std::string BY;
+    static const std::string MAX;
+    static const std::string MIN;
+    static const std::string COUNT;
+    static const std::string SUM;
     static const std::string INT;
     static const std::string VARCHAR;
     static const std::string VALUES;

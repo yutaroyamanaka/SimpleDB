@@ -3,6 +3,12 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include "materialize/aggregationfn.hpp"
+#include "materialize/countfn.hpp"
+#include "materialize/maxfn.hpp"
+#include "materialize/minfn.hpp"
+#include "materialize/sumfn.hpp"
+#include "materialize/groupbyplan.hpp"
 #include "materialize/materializeplan.hpp"
 #include "materialize/sortplan.hpp"
 #include "meta/metadatamanager.hpp"
@@ -23,5 +29,6 @@ class BasicQueryPlanner : public QueryPlanner {
     std::shared_ptr<Plan> createPlan(const parse::QueryData& data, tx::Transaction* transaction) override;
  private:
     meta::MetaDataManager* mdm_;
+    std::vector<std::shared_ptr<materialize::AggregationFn>> aggfns_;
 };
 }  // namespace plan

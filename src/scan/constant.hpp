@@ -12,6 +12,7 @@ class Constant {
     friend bool operator>(const Constant& lhs, const Constant& rhs);
     friend bool operator<=(const Constant& lhs, const Constant& rhs);
     friend bool operator>=(const Constant& lhs, const Constant& rhs);
+    friend void operator+=(const Constant& lhs, const Constant& rhs);
 
  public:
     Constant();

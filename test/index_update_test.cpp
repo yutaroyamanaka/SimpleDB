@@ -115,10 +115,10 @@ TEST(IndexUpdateTest, Main) {
   // create a map containing all indexes for student
   std::map<std::string, std::shared_ptr<indexing::Index>> indexes;
   std::map<std::string, meta::IndexInfo> idxinfo = mdm.getIndexInfo("student", transaction.get());
-  for (const auto& [fldname, ii]: idxinfo) {
+  for (const auto& [fldname, ii] : idxinfo) {
     indexes[fldname] = idxinfo[fldname].open();
   }
-  
+
   // Task 1: Insert a new STUDENT recorrd for sam
   studentscan->insert();
   studentscan->setInt("sid", 11);
@@ -157,7 +157,7 @@ TEST(IndexUpdateTest, Main) {
     std::cout << "sname: " << studentscan->getString("sname") << " sid: " << studentscan->getInt("sid") << std::endl;
   }
   studentscan->close();
-  for (const auto& [_, idx]: indexes) {
+  for (const auto& [_, idx] : indexes) {
     idx->close();
   }
   transaction->commit();

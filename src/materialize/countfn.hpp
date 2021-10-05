@@ -7,15 +7,15 @@
 #include "scan/scan.hpp"
 
 namespace materialize {
-class MaxFn : public AggregationFn {
+class CountFn : public AggregationFn {
  public:
-    MaxFn(const std::string& fldname);
+    CountFn();
     void processFirst(scan::Scan* s) override;
     void processNext(scan::Scan* s) override;
     std::string fieldName() override;
     scan::Constant value() override;
  private:
-    std::string fldname_;
     scan::Constant val_;
+    int cnt_;
 };
 }  // namespace materialize

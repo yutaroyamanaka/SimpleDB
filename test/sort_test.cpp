@@ -104,17 +104,20 @@ void createDB5(const std::string& dbname) {
 TEST(SortTest, Main) {
   std::string file_name = "sortTest";
   createDB5(file_name);
-    
-  app::SimpleDB db(file_name);
-  auto transaction = db.getNewTx();
-  plan::Planner& planner = db.getPlanner();
-
+  auto driver = std::unique_ptr<interface::Driver>();
+  auto conn = driver->connect(file_name);
+  auto stmt = conn->createStatement();
   std::string qry = "select sid, sname, gradyear from student order by gradyear, sname";
-  auto p = planner.createQueryPlan(qry, transaction.get());
-  auto s = p->open();
-  while (s->next()) {
-    std::cout << s->getInt("sid") << " " << s->getString("sname") << " " << s->getInt("gradyear") << std::endl;
+  auto rs = stmt->executeQuery(qry);
+
+  std::string t1 = "sid";
+  std::string t2 = "sname";
+  std::string t3 = "gradyear";
+  std::cout << std::endl;
+  std::cout << "| " << t1 << " | " << t2 << " | " << t3 << " |" << std::endl;
+  while (rs.next()) {
+    std::cout << "| " << rs.getInt(t1) << " | " << rs.getString(t2) << " | " << rs.getInt(t3)  << " |" << std::endl;
   }
-  s->close();
-  transaction->commit();
+  std::cout << std::endl;
+  rs.close();
 }

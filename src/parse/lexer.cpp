@@ -92,6 +92,7 @@ namespace parse {
       Word::INDEX,
       Word::ON,
       Word::ORDER,
+      Word::GROUP,
       Word::BY
     };
   }

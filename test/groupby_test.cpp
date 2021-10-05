@@ -16,7 +16,7 @@
 #include "scan/scan.hpp"
 #include "tx/transaction.hpp"
 
-void createDB4(const std::string& dbname) {
+void createDB6(const std::string& dbname) {
   try {
     auto driver = std::unique_ptr<interface::Driver>();
     auto conn = driver->connect(dbname);
@@ -101,43 +101,38 @@ void createDB4(const std::string& dbname) {
   }
 }
 
-TEST(MaterializeTest, Main) {
-  std::string file_name = "materializeTest";
-  createDB4(file_name);
+TEST(GroupByTest, Main) {
+  std::string file_name = "groupbyTest";
+  createDB6(file_name);
   auto driver = std::unique_ptr<interface::Driver>();
   auto conn = driver->connect(file_name);
   auto stmt = conn->createStatement();
-  std::string qry = "select sname from ( select sid, sname from student where gradyear = 2020 )";
+  std::string qry = "select count, maxmajorid, minmajorid, summajorid, gradyear from student group by gradyear";
   auto rs = stmt->executeQuery(qry);
 
-  std::string t1 = "sname";
-  std::string t2 = "studentid";
-  std::string t3 = "grade";
+  std::string t1 = "count";
+  std::string t2 = "maxmajorid";
+  std::string t3 = "minmajorid";
+  std::string t4 = "summajorid";
+  std::string t5 = "gradyear";
 
   std::cout << std::endl;
-  std::cout << "| " << t1 << " |" << std::endl;
+  std::cout << "| " << t1 << " | " << t2 << " | " << t3 << " | " << t4 << " | " << t5 << " |" << std::endl;
   while (rs.next()) {
-    std::cout << "| " << rs.getInt(t1) << " |" << std::endl;
+    std::cout << "| " << rs.getInt(t1) << " | " << rs.getInt(t2) << " | "
+      << rs.getInt(t3) << " | " << rs.getInt(t4) << " | " << rs.getInt(t5)  << " |" << std::endl;
   }
   std::cout << std::endl;
   rs.close();
 
-  qry = "select studentid, grade from ( select studentid, grade from enroll where grade = 'A' )";
+  qry = "select count, maxmajorid, minmajorid, summajorid, gradyear from student group by gradyear order by count";
   rs = stmt->executeQuery(qry);
-  std::cout << std::endl;
-  std::cout << "| " << t2 << " | " << t3 << " |" << std::endl;
-  while (rs.next()) {
-    std::cout << "| " << rs.getInt(t2) << " | " << rs.getString(t3) << " |" << std::endl;
-  }
-  std::cout << std::endl;
-  rs.close();
 
-  qry = "select sname from ( select sid, sname from student where gradyear = 2020 ) , ( select studentid from enroll where grade = 'A' ) where sid = studentid";
-  rs = stmt->executeQuery(qry);
   std::cout << std::endl;
-  std::cout << "| " << t1 << " |" << std::endl;
+  std::cout << "| " << t1 << " | " << t2 << " | " << t3 << " | " << t4 << " | " << t5 << " |" << std::endl;
   while (rs.next()) {
-    std::cout << "| " << rs.getString(t1) << " |" << std::endl;
+    std::cout << "| " << rs.getInt(t1) << " | " << rs.getInt(t2) << " | "
+      << rs.getInt(t3) << " | " << rs.getInt(t4) << " | " << rs.getInt(t5)  << " |" << std::endl;
   }
   std::cout << std::endl;
   rs.close();

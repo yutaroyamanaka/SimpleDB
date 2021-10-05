@@ -7,9 +7,9 @@
 #include "scan/scan.hpp"
 
 namespace materialize {
-class MaxFn : public AggregationFn {
+class MinFn : public AggregationFn {
  public:
-    MaxFn(const std::string& fldname);
+    MinFn(const std::string& fldname);
     void processFirst(scan::Scan* s) override;
     void processNext(scan::Scan* s) override;
     std::string fieldName() override;

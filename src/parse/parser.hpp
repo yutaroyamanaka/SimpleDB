@@ -57,6 +57,7 @@ class Parser {
     std::vector<std::string> fieldList() const;
     std::vector<scan::Constant> constList() const;
     std::vector<std::string> sortFieldList() const;
+    std::vector<std::string> groupFieldList() const;
 
     record::Schema fieldDefs() const;
     record::Schema fieldDef() const;

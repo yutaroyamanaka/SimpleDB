@@ -5,6 +5,7 @@
 #include <vector>
 #include "materialize/aggregationfn.hpp"
 #include "materialize/groupbyscan.hpp"
+#include "materialize/sortplan.hpp"
 #include "plan/plan.hpp"
 #include "record/schema.hpp"
 #include "scan/scan.hpp"

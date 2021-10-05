@@ -117,9 +117,9 @@ TEST(IndexSelectTest, Main) {
 
   // open an scan on the data table
   auto studentplan = std::static_pointer_cast<plan::Plan>(std::make_shared<plan::TablePlan>(transaction.get(), "student", &mdm));
-  auto idxplan = std::static_pointer_cast<plan::Plan>(std::make_shared<indexing::IndexSelectPlan>(studentplan, ii, c)); 
+  auto idxplan = std::static_pointer_cast<plan::Plan>(std::make_shared<indexing::IndexSelectPlan>(studentplan, ii, c));
   auto s = idxplan->open();
-  
+
   // retrieve all index records having a dataval of 20.
   while (s->next()) {
     std::cout << s->getString("sname") << std::endl;

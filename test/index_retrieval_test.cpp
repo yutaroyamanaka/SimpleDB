@@ -116,7 +116,7 @@ TEST(IndexRetrievalTest, Main) {
   std::map<std::string, meta::IndexInfo> indexes = mdm.getIndexInfo("student", transaction.get());
   meta::IndexInfo ii = indexes["majorid"];
   auto idx = ii.open();
-  
+
   // retrieve all index records having a dataval of 20.
   scan::Constant c(20);
   idx->beforeFirst(c);
