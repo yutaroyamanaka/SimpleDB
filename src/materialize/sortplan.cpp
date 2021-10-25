@@ -42,6 +42,15 @@ namespace materialize {
       return temps;
     }
 
+    /*
+    int size = blocksAccessed();
+    int available = transaction_->availableBuffs();
+    int numbuffs = multibutffer::BufferNeeds.bestRoot(available, size);
+    */
+
+    /* Input: [2, 6, 20, 4, 1, 16, 19, 18]
+     * Runs: [2, 6, 20], [4], [1, 16, 19], [18] */
+
     auto currentTemp = std::make_shared<TempTable>(transaction_, sch_);
     temps.emplace_back(currentTemp);
     auto currentScan = currentTemp->open();

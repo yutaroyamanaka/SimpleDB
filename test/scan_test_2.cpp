@@ -14,7 +14,8 @@
 
 TEST(ScanTest2, Main) {
   std::string file_name = "scanTest2";
-  app::SimpleDB db(file_name, 400, 8);
+  app::SimpleDB db;
+  db.tinySetup(file_name, 400, 8);
   auto transaction = db.getNewTx();
 
   record::Schema sch1;

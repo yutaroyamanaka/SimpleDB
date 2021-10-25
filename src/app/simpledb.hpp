@@ -16,8 +16,11 @@
 namespace app {
 class SimpleDB {
  public:
-    SimpleDB(const std::string& filename, int block_size, int buffr_size);
+    SimpleDB();
+    SimpleDB(const std::string& filename, int block_size, int buffer_size);
     SimpleDB(const std::string& filename);
+    void tinySetup(const std::string& filename, int block_size, int buffer_size);
+
     file::FileManager& getFileManager();
     buffer::BufferManager& getBufferManager();
     logging::LogManager& getLogManager();

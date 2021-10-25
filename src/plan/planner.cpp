@@ -10,6 +10,7 @@ namespace plan {
   std::shared_ptr<Plan> Planner::createQueryPlan(const std::string& cmd, tx::Transaction* transaction) {
     parse::Parser parser(cmd);
     parse::QueryData data = parser.query();
+    std::cout << data.toString() << std::endl;
     return std::static_pointer_cast<Plan>(qplanner_->createPlan(data, transaction));
   }
 
