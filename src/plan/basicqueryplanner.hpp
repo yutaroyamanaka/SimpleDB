@@ -12,6 +12,7 @@
 #include "materialize/materializeplan.hpp"
 #include "materialize/sortplan.hpp"
 #include "meta/metadatamanager.hpp"
+#include "multibuffer/multibuffersortplan.hpp"
 #include "parse/parser.hpp"
 #include "parse/querydata.hpp"
 #include "plan/selectplan.hpp"

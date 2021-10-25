@@ -14,4 +14,14 @@ namespace materialize {
     }
     return 0;
   }
+
+  int RecordComparator::minIndex(const std::vector<std::shared_ptr<scan::Scan>>& scans) {
+    int index = 0;
+    for (int i = 1; i < scans.size(); i++) {
+      if (compare(scans[index].get(), scans[i].get()) > 0) {
+        index = i;
+      }
+    }
+    return index;
+  }
 }  // namespace materialize

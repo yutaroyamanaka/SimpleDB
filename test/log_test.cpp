@@ -34,7 +34,8 @@ void createRecords(logging::LogManager& log_manager, int start, int end) {
 
 TEST(LogTest, Main) {
   std::string file_name = "logTest";
-  app::SimpleDB db(file_name, 400, 8);
+  app::SimpleDB db;
+  db.tinySetup(file_name, 400, 8);
 
   logging::LogManager &lm = db.getLogManager();
 
