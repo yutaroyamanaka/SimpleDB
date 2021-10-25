@@ -32,21 +32,6 @@ namespace app {
   }
 
   SimpleDB::SimpleDB(const std::string& filename) : SimpleDB(filename, block_size_, buffer_size_) {
-    /*
-    auto transaction = std::make_unique<tx::Transaction>(file_manager_.get(), log_manager_.get(), buffer_manager_.get());
-    bool isNew = file_manager_->isNew();
-    if (isNew) {
-      std::cout << "creating new database" << std::endl;
-    } else {
-      std::cout << "recovering existing database" << std::endl;
-      transaction->recover();
-    }
-
-    meta_data_manager_ = std::make_unique<meta::MetaDataManager>(isNew, transaction.get());
-    auto qp = std::make_unique<plan::BasicQueryPlanner>(meta_data_manager_.get());
-    auto up = std::make_unique<indexing::IndexUpdatePlanner>(meta_data_manager_.get());
-    planner_ = std::make_unique<plan::Planner>(std::move(qp), std::move(up));
-    transaction->commit();*/
   }
 
   void SimpleDB::tinySetup(const std::string& filename, int block_size, int buffer_size) {
