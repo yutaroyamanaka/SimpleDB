@@ -1,5 +1,6 @@
 /* Copyright 2021 Yutaro Yamanaka */
 #pragma once
+#include <algorithm>
 #include <memory>
 #include <string>
 #include <vector>
