@@ -23,6 +23,7 @@ class Predicate {
     Constant equatesWithConstant(const std::string& fldname) const;
     std::string equatesWithField(const std::string& fldname) const;
     std::string toString() const;
+    bool isNull() const;
  private:
     std::vector<Term> terms_;
 };

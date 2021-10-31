@@ -93,4 +93,8 @@ namespace scan {
     }
     return result;
   }
+
+  bool Predicate::isNull() const {
+    return terms_.size() == 0;
+  }
 }  // namespace scan
